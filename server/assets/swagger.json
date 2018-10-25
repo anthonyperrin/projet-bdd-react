@@ -1,0 +1,70 @@
+{
+  "info": {
+    "title": "Theory API Documentation",
+    "version": "1.0.0",
+    "license": {
+      "name": "ISC"
+    },
+    "description": "[Specification JSON](/api-spec)"
+  },
+  "paths": {
+    "/api/members": {
+      "get": {
+        "summary": "/api/members",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": []
+      },
+      "post": {
+        "summary": "/api/members",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": []
+      }
+    },
+    "/api/members/{id}": {
+      "get": {
+        "summary": "/api/members/{id}",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ]
+      },
+      "put": {
+        "summary": "/api/members/{id}",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ]
+      },
+      "delete": {
+        "summary": "/api/members/{id}",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ]
+      }
+    }
+  },
+  "swagger": "2.0"
+}
