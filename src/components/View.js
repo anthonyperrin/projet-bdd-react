@@ -9,6 +9,8 @@ class View extends Component {
             <Switch>
                 <Route exact path={"/"} component={ListeOffres}/>
                 <Route path={"/offres"} component={ListeOffres}/>
+                <Route path={"/mes_disques"} component={ListeOffres}/>
+
             </Switch>
         );
     }
