@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {Switch, Route} from 'react-router-dom';
 //components
 import ListeOffres from './ListeOffres';
+import ListDiscs from './listDiscs';
 
 class View extends Component {
     render() {
@@ -11,6 +12,7 @@ class View extends Component {
                 <Route path={"/offres"} component={ListeOffres}/>
                 <Route path={"/mes_disques"} component={ListeOffres}/>
 
+                <Route path={"/discs"} component={ListDiscs} />
             </Switch>
         );
     }
