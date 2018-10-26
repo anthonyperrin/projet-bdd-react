@@ -9,9 +9,10 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
-const styles = {
+const styles = theme => ({
     card: {
         maxWidth: 275,
+        marginTop: theme.spacing.unit * 3
     },
     bullet: {
         display: 'inline-block',
@@ -30,7 +31,7 @@ const styles = {
     media: {
         height: 120
     }
-};
+});
 
 function ListDiscs(props) {
     const {classes} = props;
