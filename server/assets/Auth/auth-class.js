@@ -74,7 +74,7 @@ let Auth = class {
                         if (!res) next(new Error('No user found.'));
                         next(res)
                     })
-                    .catch(err => next(err.message()))
+                    .catch(err => next(err.message))
             })
         });
     }

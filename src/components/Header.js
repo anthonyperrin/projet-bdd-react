@@ -36,6 +36,7 @@ function Header(props) {
                     </Typography>
                     <Button color="inherit" component={Link} to={"/login"}>Login</Button>
                     <Button color="secondary" component={Link} to={"/offres"} variant="contained">Register</Button>
+                    <Button color="inherit" component={Link} to={"/discs"} variant="contained">Tous les disques</Button>
                 </Toolbar>
             </AppBar>
         </div>
