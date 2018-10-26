@@ -10,7 +10,7 @@ const Artist = sequelize.define('artist', {
         FirstName: {
             type: Sequelize.STRING
         },
-        Lastname: {
+        LastName: {
             type: Sequelize.STRING
         }
     },
