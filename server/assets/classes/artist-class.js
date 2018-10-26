@@ -1,9 +1,9 @@
-const users = require('../../models/User');
+const artists = require('../../models/Artist');
 
-let User = class {
+let Artist = class {
     static getById(id) {
         return new Promise((next) => {
-            users.findById(id)
+            artists.findById(id)
                 .then(result => next(result))
                 .catch(err => next(err.message))
         });
@@ -12,7 +12,7 @@ let User = class {
     static getAll(max) {
         return new Promise((next) => {
             if (max && max > 0) {
-                users.findAll({
+                artists.findAll({
                     limit: parseInt(max)
                 })
                     .then(result => next(result))
@@ -22,41 +22,59 @@ let User = class {
                 next(new Error('Wrong max value.'));
             }
             else {
-                users.findAll()
+                artists.findAll()
                     .then(result => next(result))
                     .catch(err => next(err.message))
             }
         });
     }
 
-    static update(user) {
+    static add(artist) {
         return new Promise((next) => {
-            if (user.Id) {
-                if (user) {
-                    user.findById(user.Id)
+            if (artist) {
+                artists.findOne({
+                    where: {
+                        FirstName: artist.FirstName,
+                        LastName: artist.LastName
+                    }
+                })
+                    .then((result) => {
+                        if (!result)
+                            artists.create({
+                                FirstName: artist.FirstName,
+                                LastName: artist.LastName
+                            })
+                                .then((result) => next(result))
+                                .catch((err) => next(err.message));
+                        else
+                            next(new Error("Artist already created."))
+                    })
+                    .catch((err) => next(err.message))
+            } else {
+                next(new Error('Artist undefined.'));
+            }
+        });
+
+    }
+
+    static update(id, artist) {
+        return new Promise((next) => {
+            if (id) {
+                if (artist) {
+                    artists.findById(id)
                         .then((result) => {
                             if (!result)
-                                next(new Error('User not found.'));
+                                next(new Error('Artist not found.'));
                             else
-                                users.update({
+                                artists.update({
                                     where: {
-                                        Id: user.Id,
-                                        FirstName: user.FirstName,
-                                        Lastname: user.Lastname,
-                                        Rank: user.Rank,
-                                        Address1: user.Address1,
-                                        Address2: user.Address2,
-                                        Pseudo: user.Pseudo,
-                                        Mobile: user.Mobile,
-                                        Email: user.Email,
-                                        City: user.City,
-                                        Zipcode: user.Zipcode,
-                                        Password: user.Password,
-                                        Coins: user.Coins
+                                        Id: id,
+                                        FirstName: artist.FirstName,
+                                        LastName: artist.LastName
                                     }
                                 })
                                     .then(() => {
-                                        user.findById(user.Id)
+                                        artists.findById(id)
                                             .then((result) => next(result))
                                             .catch((err) => next(err.message))
                                     })
@@ -64,7 +82,7 @@ let User = class {
                         })
                         .catch((err) => next(err.message))
                 } else {
-                    next(new Error('This user is undefined.'));
+                    next(new Error('New artist is undefined.'));
                 }
             } else {
                 next(new Error('Id is undefined.'));
@@ -76,16 +94,16 @@ let User = class {
     static delete(id) {
         return new Promise((next) => {
             if (id) {
-                users.findById(id)
+                artists.findById(id)
                     .then((result) => {
-                        if (!result) next(new Error('No user found.'));
+                        if (!result) next(new Error('No artist found.'));
                         else
-                            users.destroy({
+                            artists.destroy({
                                 where: {
                                     Id: id
                                 }
                             })
-                                .then(() => next('User successfully deleted.'))
+                                .then(() => next('Artist successfully deleted.'))
                                 .catch((err) => next(err.message))
 
                     })
@@ -96,5 +114,5 @@ let User = class {
         });
     }
 };
+module.exports = Artist;
 
-module.exports = User;

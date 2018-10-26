@@ -43,7 +43,7 @@ let Genre = class {
                                 Name: name
                             })
                                 .then((result) => next(result))
-                                .catch((err) => next(err.message))
+                                .catch((err) => next(err.message));
                         else
                             next(new Error("Name already used."))
                     })

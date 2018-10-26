@@ -26,11 +26,13 @@ sequelize
         let AuthRouter = express.Router();
         let GenreRouter = express.Router();
         let UserRouter = express.Router();
+        let ArtistRouter = express.Router();
 
         // SERVICES
         let Auth = require('./assets/Auth/auth-class');
         let Genre = require('./assets/classes/genre-class');
         let User = require('./assets/classes/user-class');
+        let Artist = require('./assets/classes/artist-class');
 
         const VerifyToken  = require('./assets/Auth/VerifyToken');
 
@@ -109,10 +111,39 @@ sequelize
                 res.json(checkAndChange(result));
             });
 
+        ArtistRouter.route('/')
+            .get(async (req, res,) => {
+                let artists = await Artist.getAll(req.query.max);
+                res.json(checkAndChange(artists));
+            })
+
+            .post(async (req, res) => {
+                let artist = await Artist.add(req.body);
+                res.json(checkAndChange(artist));
+            });
+        ArtistRouter.route('/:id')
+        //Get member by index
+            .get(async (req, res) => {
+                let artist = await Artist.getById(req.params.id);
+                res.json(checkAndChange(artist));
+            })
+
+            //Update member with index
+            .put(async (req, res) => {
+                let artist = await Artist.update(req.params.id, req.body);
+                res.json(checkAndChange(artist));
+            })
+
+            //Delete member with index
+            .delete(async (req, res) => {
+                let result = await Artist.delete(req.params.id);
+                res.json(checkAndChange(result));
+            });
 
         app.use(config.rootApi + 'auth/', AuthRouter);
         app.use(config.rootApi + 'genre/', GenreRouter);
         app.use(config.rootApi + 'user/', UserRouter);
+        app.use(config.rootApi + 'artist/', ArtistRouter);
 
         app.listen(config.port, () => {
             console.log('Started on port ' + config.port)
