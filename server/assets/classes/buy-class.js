@@ -1,9 +1,12 @@
-const users = require('../../models/User');
+const Buy = require('../../models/Buy');
+const User = require('../../models/User');
 
-let User = class {
+Buy.belongsTo(User);
+
+let Buy = class {
     static getById(id) {
         return new Promise((next) => {
-            users.findById(id)
+            Buy.findById(id, {include: [User]})
                 .then(result => next(result))
                 .catch(err => next(err.message))
         });
@@ -12,8 +15,9 @@ let User = class {
     static getAll(max) {
         return new Promise((next) => {
             if (max && max > 0) {
-                users.findAll({
-                    limit: parseInt(max)
+                Buy.findAll({
+                    limit: parseInt(max),
+                    include: [User]
                 })
                     .then(result => next(result))
                     .catch(err => next(err.message))
@@ -22,41 +26,60 @@ let User = class {
                 next(new Error('Wrong max value.'));
             }
             else {
-                users.findAll()
+                Buy.findAll()
                     .then(result => next(result))
                     .catch(err => next(err.message))
             }
         });
     }
 
-    static update(user) {
+    static add(buy) {
         return new Promise((next) => {
-            if (user.Id) {
-                if (user) {
-                    user.findById(user.Id)
+            if (buy) {
+                Buy.findOne({
+                    where: {
+                        Id_User: buy.Id_User,
+                        Status: buy.Status,
+                        CoinLocked: buy.CoinLocked
+                    }
+                })
+                    .then((result) => {
+                        if (!result)
+                            Buy.create({
+                                Id_User: buy.Id_User,
+                                Status: buy.Status,
+                                CoinLocked: buy.CoinLocked
+                            })
+                                .then((result) => next(result))
+                                .catch((err) => next(err.message));
+                        else
+                            next(new Error("Name already used."))
+                    })
+                    .catch((err) => next(err.message))
+            } else {
+                next(new Error('Name undefined.'));
+            }
+        });
+
+    }
+
+    static update(id, name) {
+        return new Promise((next) => {
+            if (id) {
+                if (name) {
+                    Buy.findById(id)
                         .then((result) => {
                             if (!result)
                                 next(new Error('User not found.'));
                             else
-                                users.update({
+                                Buy.update({
                                     where: {
-                                        Id: user.Id,
-                                        FirstName: user.FirstName,
-                                        Lastname: user.Lastname,
-                                        Rank: user.Rank,
-                                        Address1: user.Address1,
-                                        Address2: user.Address2,
-                                        Pseudo: user.Pseudo,
-                                        Mobile: user.Mobile,
-                                        Email: user.Email,
-                                        City: user.City,
-                                        Zipcode: user.Zipcode,
-                                        Password: user.Password,
-                                        Coins: user.Coins
+                                        Id: id,
+                                        Name: name
                                     }
                                 })
                                     .then(() => {
-                                        user.findById(user.Id)
+                                        Buy.findById(id)
                                             .then((result) => next(result))
                                             .catch((err) => next(err.message))
                                     })
@@ -64,26 +87,28 @@ let User = class {
                         })
                         .catch((err) => next(err.message))
                 } else {
-                    next(new Error('This user is undefined.'));
+                    next(new Error('New name is undefined.'));
                 }
             } else {
                 next(new Error('Id is undefined.'));
             }
         });
+
     }
-    static delete(id){
+
+    static delete(id) {
         return new Promise((next) => {
             if (id) {
-                users.findById(id)
+                Buy.findById(id)
                     .then((result) => {
-                        if (!result) next(new Error('No user found.'));
+                        if (!result) next(new Error('No genre found.'));
                         else
-                            users.destroy({
+                            Buy.destroy({
                                 where: {
                                     Id: id
                                 }
                             })
-                                .then(() => next('User successfully deleted.'))
+                                .then(() => next('Genre successfully deleted.'))
                                 .catch((err) => next(err.message))
 
                     })
@@ -94,5 +119,5 @@ let User = class {
         });
     }
 };
+module.exports = Buy;
 
-module.exports = User;
