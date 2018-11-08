@@ -45,8 +45,20 @@ const styles = theme => ({
     },
 });
 
-function Login(props) {
-    const {classes} = props;
+class Login extends React.Component {
+    test = (email, password) => {
+        fetch('http://127.0.0.1:8081/api/auth/login', {
+            method: 'POST',
+            body: {
+                email: email,
+                password: password
+            }
+        })
+            .then(res => console.log(res))
+    };
+
+    render() {
+        const {classes} = this.props;
 
     return (
         <React.Fragment>
