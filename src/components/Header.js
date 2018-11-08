@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React from 'react'
 import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -36,6 +36,7 @@ function Header(props) {
                     </Typography>
                     <Button color="inherit" component={Link} to={"/login"}>Login</Button>
                     <Button color="secondary" component={Link} to={"/offres"} variant="contained">Register</Button>
+                    <Button color="inherit" component={Link} to={"/discs"} variant="contained">Tous les disques</Button>
                 </Toolbar>
             </AppBar>
         </div>
