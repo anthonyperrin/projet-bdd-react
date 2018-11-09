@@ -28,7 +28,7 @@ const styles = theme => ({
         flexGrow: 1
     },
     card: {
-        minWidth: 0,
+        minWidth: 200,
     },
     bullet: {
         display: 'inline-block',
@@ -55,21 +55,19 @@ class ListeOffres extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            listOffers: [
-                {
-                    name: "oui"
-                },
-                {
-                    name: "allo?"
-                },
-                {
-                    name: "Pierre?"
-                },
-                {
-                    name: "Bonjour?"
-                }]
+            listGenre: []
         };
 
+    }
+
+    componentWillMount() {
+        fetch('http://127.0.0.1:8081/api/genre')
+            .then(res => res.json())
+            .then(json => this.setState(
+                {
+                    listGenre: json.result
+                }
+            ))
     }
 
     render() {
@@ -77,7 +75,7 @@ class ListeOffres extends React.Component {
         const {classes} = this.props;
 
         return (
-            <Grid container justify="center">
+            <Grid container align="center" justify={"center"}>
                 <Grid item xs={10}  className={classes.root}>
                     <Paper>
                         <Input
@@ -92,9 +90,7 @@ class ListeOffres extends React.Component {
                                 value={this.state.age}
                                 onChange={this.handleChange}
                                 name="age"
-                                displayEmpty
-                                className={classes.selectEmpty}
-                            >
+                                className={classes.selectEmpty}>
                                 <MenuItem value="" disabled>
                                     Sort by
                                 </MenuItem>
@@ -107,13 +103,13 @@ class ListeOffres extends React.Component {
                 </Grid>
                 <Grid xs={10} alignItems="center" className={classes.root && classes.spacing}>
                     {
-                        this.state.listOffers.map(offer => {
+                        this.state.listGenre.map(genre => {
                             return (
-                                <Grid item className={classes.root} container spacing={24}>
-                                    <Card className={classes.card}>
+                                <Grid item className={classes.root} container xs={4}>
+                                    <Card className={classes.card} style={{ alignSelf: 'center' }}>
                                         <CardContent>
                                             <Typography className={classes.title} color="textSecondary" gutterBottom>
-                                                {offer.name}
+                                                {genre.Name}
                                             </Typography>
                                             <Typography variant="h5" component="h2">
                                                 be
@@ -130,7 +126,7 @@ class ListeOffres extends React.Component {
                                             </Typography>
                                         </CardContent>
                                         <CardActions>
-                                            <Button size="small">Learn More</Button>
+                                            <Button size="large">Pierre Noble</Button>
                                         </CardActions>
                                     </Card>
                                 </Grid>
