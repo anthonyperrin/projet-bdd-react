@@ -144,7 +144,6 @@ sequelize
         app.use(config.rootApi + 'genre/', GenreRouter);
         app.use(config.rootApi + 'user/', UserRouter);
         app.use(config.rootApi + 'artist/', ArtistRouter);
-
         app.listen(config.port, () => {
             console.log('Started on port ' + config.port)
         });
