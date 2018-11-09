@@ -61,7 +61,7 @@ class Artists extends React.Component {
         const {classes} = this.props;
         return (
             <Grid container justify="center">
-                <Grid item xs={8}>
+                <Grid xs={8}>
                     <Typography className={classes.title} variant="h2" component="h3">
                         Artists
                     </Typography>

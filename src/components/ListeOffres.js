@@ -22,16 +22,12 @@ const styles = theme => ({
         minWidth: 120,
     },
     selectEmpty: {
-        marginTop: theme.spacing.unit ,
+        marginTop: theme.spacing.unit,
     },
     row: {
-        flexGrow: 1
-    },
-    card: {
-        minWidth: 0,
+        flexGrow: 0
     },
     bullet: {
-        display: 'inline-block',
         margin: '0 2px',
         transform: 'scale(0.8)',
     },
@@ -44,11 +40,12 @@ const styles = theme => ({
     pos: {
         marginBottom: 12,
     },
-    spacing : {
-        display: 'inline-flex',
+    display: {
+        position: 'relative',
+        float: 'left',
+        display: 'inline-flex'
     }
 });
-
 
 
 class ListeOffres extends React.Component {
@@ -78,7 +75,7 @@ class ListeOffres extends React.Component {
 
         return (
             <Grid container justify="center">
-                <Grid item xs={10}  className={classes.root}>
+                <Grid xs={8} className={classes.root}>
                     <Paper>
                         <Input
                             placeholder="Search"
@@ -105,12 +102,12 @@ class ListeOffres extends React.Component {
                         </FormControl>
                     </Paper>
                 </Grid>
-                <Grid xs={10} alignItems="center" className={classes.root && classes.spacing}>
+                <Grid xs={8} className={classes.root && classes.display}>
                     {
                         this.state.listOffers.map(offer => {
                             return (
-                                <Grid item className={classes.root} container spacing={24}>
-                                    <Card className={classes.card}>
+                                <Grid className={classes.root} container>
+                                    <Card>
                                         <CardContent>
                                             <Typography className={classes.title} color="textSecondary" gutterBottom>
                                                 {offer.name}
