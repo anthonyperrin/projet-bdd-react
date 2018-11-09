@@ -4,6 +4,7 @@ import {Switch, Route} from 'react-router-dom';
 import Login from './Login';
 import ListeOffres from './ListeOffres';
 import Artists from "./Artists";
+import Register from './Register';
 
 class View extends Component {
     render() {
@@ -13,6 +14,8 @@ class View extends Component {
                 <Route path={"/login"} component={Login} />
                 <Route path={"/offres"} component={ListeOffres}/>
                 <Route path={"/artists"} component={Artists}/>
+                <Route path={"/register"} component={Register}/>
+
             </Switch>
         );
     }

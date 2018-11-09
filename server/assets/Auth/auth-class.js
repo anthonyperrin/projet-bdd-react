@@ -41,12 +41,14 @@ let Auth = class {
                         FirstName: req.body.firstName,
                         Lastname: req.body.lastName,
                         Email: req.body.email,
+                        Rank: 0,
+                        Pseudo: req.body.pseudo,
                         Password: hashedPassword,
-                        Address1: req.body.address1,
-                        Address2: req.body.address2,
-                        City: req.body.city,
-                        Zipcode: req.body.zipcode,
-                        Coins: req.body.coins
+                        Address1: null,
+                        Address2: null,
+                        City: null,
+                        Zipcode: null,
+                        Coins: 0
                     })
                         .then(user => {
                             const token = jwt.sign({id: user.Id}, configSecret.secret, {expiresIn: 7200});
