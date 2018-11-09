@@ -17,6 +17,8 @@ import ListItemIcon from "@material-ui/core/ListItemIcon/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText/ListItemText";
 import Divider from "@material-ui/core/Divider/Divider";
 import QueueMusic from '@material-ui/icons/QueueMusic';
+import GroupWork from '@material-ui/icons/GroupWork';
+import LibraryMusic from '@material-ui/icons/LibraryMusic';
 
 const styles = {
     root: {
@@ -56,12 +58,18 @@ class Header extends React.Component {
                     </ListItem>
                 </List>
                 <List>
-                    <ListItem button key="profile" component={Link} to={"/mes_disques"}>
-                        <ListItemIcon><QueueMusic/></ListItemIcon>
-                        <ListItemText primary="Mes disques"/>
+                    <ListItem button key="artists" component={Link} to={"/artists"}>
+                        <ListItemIcon><GroupWork/></ListItemIcon>
+                        <ListItemText primary="Artistes"/>
                     </ListItem>
                 </List>
                 <Divider/>
+                <List>
+                    <ListItem button key="profile" component={Link} to={"/mes_disques"}>
+                        <ListItemIcon><LibraryMusic/></ListItemIcon>
+                        <ListItemText primary="Mes disques"/>
+                    </ListItem>
+                </List>
             </div>
         );
         return (
