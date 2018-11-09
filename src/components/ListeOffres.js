@@ -28,7 +28,7 @@ const styles = theme => ({
         flexGrow: 1
     },
     card: {
-        minWidth: 275,
+        minWidth: 0,
     },
     bullet: {
         display: 'inline-block',
@@ -43,23 +43,13 @@ const styles = theme => ({
     },
     pos: {
         marginBottom: 12,
+    },
+    spacing : {
+        display: 'inline-flex',
     }
 });
 
-let id = 0;
 
-function createData(name, calories, fat, carbs, protein) {
-    id += 1;
-    return {id, name, calories, fat, carbs, protein};
-}
-
-const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
 
 class ListeOffres extends React.Component {
     constructor(props) {
@@ -71,6 +61,12 @@ class ListeOffres extends React.Component {
                 },
                 {
                     name: "allo?"
+                },
+                {
+                    name: "Pierre?"
+                },
+                {
+                    name: "Bonjour?"
                 }]
         };
 
@@ -82,7 +78,7 @@ class ListeOffres extends React.Component {
 
         return (
             <Grid container justify="center">
-                <Grid item xs={8} className={classes.root}>
+                <Grid item xs={10}  className={classes.root}>
                     <Paper>
                         <Input
                             placeholder="Search"
@@ -109,11 +105,11 @@ class ListeOffres extends React.Component {
                         </FormControl>
                     </Paper>
                 </Grid>
-                <Grid xs={8} alignItems="center">
+                <Grid xs={10} alignItems="center" className={classes.root && classes.spacing}>
                     {
                         this.state.listOffers.map(offer => {
                             return (
-                                <Grid item className={classes.root}>
+                                <Grid item className={classes.root} container spacing={24}>
                                     <Card className={classes.card}>
                                         <CardContent>
                                             <Typography className={classes.title} color="textSecondary" gutterBottom>
