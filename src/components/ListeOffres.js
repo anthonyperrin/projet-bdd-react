@@ -50,7 +50,7 @@ const styles = theme => ({
         padding: theme.spacing.unit * 2,
         textAlign: 'center',
         color: theme.palette.text.secondary,
-        maxWidth: 345,
+        maxWidth: 300,
         margin: theme.spacing.unit,
     }
 });
@@ -60,7 +60,8 @@ class ListeOffres extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            listGenre: []
+            listGenre: [],
+            listGenreSorted: []
         };
     }
 
@@ -115,7 +116,7 @@ class ListeOffres extends React.Component {
                     {
                         this.state.listGenre.map(genre => {
                             return (
-                                <Grid item xs={4}>
+                                <Grid item xs={6} md={4} lg={3}>
                                     <Card className={classes.displayCard}>
                                         <CardContent>
                                             <Typography className={classes.title} color="textSecondary" gutterBottom>
