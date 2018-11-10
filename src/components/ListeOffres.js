@@ -17,7 +17,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 const styles = theme => ({
     root: {
         marginTop: theme.spacing.unit * 3,
-        padding: theme.spacing.unit
+        padding: theme.spacing.unit,
         flexGrow: 1,
     },
     formControl: {
@@ -62,7 +62,6 @@ class ListeOffres extends React.Component {
         this.state = {
             listGenre: []
         };
-
     }
 
     componentWillMount() {
@@ -80,76 +79,12 @@ class ListeOffres extends React.Component {
         const {classes} = this.props;
 
         return (
-            <Grid container justify="center">
+            <Grid container justify={"center"}>
                 <Grid xs={8} className={classes.root}>
                     <Typography className={classes.title1} variant="h2" component="h3">
                         Offers
                     </Typography>
-                    <Grid>
-                        <div className={classes.root}>
-                            <Paper>
-                                <Input
-                                    placeholder="Search"
-                                    className={classes.input}
-                                    inputProps={{
-                                        'aria-label': 'Description',
-                                    }}
-                                />
-                                <FormControl className={classes.formControl}>
-                                    <Select
-                                        value={this.state.age}
-                                        onChange={this.handleChange}
-                                        name="age"
-                                        className={classes.selectEmpty}>
-                                        <MenuItem value="" disabled>
-                                            Sort by
-                                        </MenuItem>
-                                        <MenuItem value={10}>Ten</MenuItem>
-                                        <MenuItem value={20}>Twenty</MenuItem>
-                                        <MenuItem value={30}>Thirty</MenuItem>
-                                    </Select>
-                                </FormControl>
-                            </Paper>
-                        </div>
-                        <Grid xs={8} className={classes.root && classes.display}>
-                            {
-                                this.state.listGenre.map(genre => {
-                                    return (
-                                        <Grid className={classes.root} container>
-                                            <Grid item className={classes.root} container xs={4}>
-                                                <Card className={classes.card} style={{alignSelf: 'center'}}>
-                                                    <CardContent>
-                                                        <Typography className={classes.title} color="textSecondary"
-                                                                    gutterBottom>
-                                                            {genre.Name}
-                                                        </Typography>
-                                                        <Typography variant="h5" component="h2">
-                                                            be
-                                                            nev
-                                                            lent
-                                                        </Typography>
-                                                        <Typography className={classes.pos} color="textSecondary">
-                                                            adjective
-                                                        </Typography>
-                                                        <Typography component="p">
-                                                            well meaning and kindly.
-                                                            <br/>
-                                                            {'"a benevolent smile"'}
-                                                        </Typography>
-                                                    </CardContent>
-                                                    <CardActions>
-                                                        <Button size="large">Pierre Noble</Button>
-                                                    </CardActions>
-                                                </Card>
-                                            </Grid>
-                                        </Grid>
-                                    )
-                                })
-                            }
-                        </Grid>
-                        )
-                    </Grid>
-            <Grid container justify={"center"}>
+                </Grid>
                 <Grid item xs={10} className={classes.root}>
                     <Paper>
                         <Input
@@ -196,7 +131,6 @@ class ListeOffres extends React.Component {
             </Grid>);
     }
 }
-
 ListeOffres.propTypes = {
     classes: PropTypes.object.isRequired,
 };
