@@ -5,6 +5,8 @@ import Grid from "@material-ui/core/Grid/Grid";
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardActionArea from '@material-ui/core/CardActionArea';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Input from '@material-ui/core/Input';
@@ -52,7 +54,10 @@ const styles = theme => ({
         color: theme.palette.text.secondary,
         maxWidth: 300,
         margin: theme.spacing.unit,
-    }
+    },
+    media: {
+        height: 140,
+    },
 });
 
 
@@ -61,19 +66,29 @@ class ListeOffres extends React.Component {
         super(props);
         this.state = {
             listGenre: [],
-            listGenreSorted: []
+            listGenreFiltered: [],
         };
     }
+
 
     componentWillMount() {
         fetch('http://127.0.0.1:8081/api/genre')
             .then(res => res.json())
             .then(json => this.setState(
                 {
-                    listGenre: json.result
+                    listGenre: json.result,
+                    listGenreFiltered: json.result,
                 }
             ))
     }
+
+    doFilter = (e) => {
+        this.setState({
+            listGenreFiltered: this.state.listGenre.filter(a =>
+                (a.Name.toLowerCase()).indexOf(e.target.value.toLowerCase()) >= 0
+            )
+        });
+    };
 
     render() {
 
@@ -81,7 +96,7 @@ class ListeOffres extends React.Component {
 
         return (
             <Grid container justify={"center"}>
-                <Grid xs={8} className={classes.root}>
+                <Grid xs={10} className={classes.root}>
                     <Typography className={classes.title1} variant="h2" component="h3">
                         Offers
                     </Typography>
@@ -90,6 +105,7 @@ class ListeOffres extends React.Component {
                     <Paper>
                         <Input
                             placeholder="Search"
+                            onChange={this.doFilter}
                             className={classes.input}
                             inputProps={{
                                 'aria-label': 'Description',
@@ -118,11 +134,27 @@ class ListeOffres extends React.Component {
                             return (
                                 <Grid item xs={6} md={4} lg={3}>
                                     <Card className={classes.displayCard}>
-                                        <CardContent>
-                                            <Typography className={classes.title} color="textSecondary" gutterBottom>
-                                                {genre.Name}
-                                            </Typography>
-                                        </CardContent>
+                                        <CardActionArea>
+                                            <CardMedia
+                                                className={classes.media}
+                                                image="https://www.apple.com/v/music/h/images/shared/og_image.png?201809111023"
+                                                title="musicTemplate"
+                                            />
+                                            <CardContent>
+                                                <Typography gutterBottom variant="h5" component="h2">
+                                                    {genre.Name}
+                                                </Typography>
+                                                <Typography component="p">
+                                                    Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
+                                                    across all continents except Antarctica
+                                                </Typography>
+                                            </CardContent>
+                                        </CardActionArea>
+                                        <CardActions>
+                                            <Button size="small" color="primary">
+                                                *Seller*
+                                            </Button>
+                                        </CardActions>
                                     </Card>
                                 </Grid>
                             )
