@@ -15,7 +15,8 @@ import Select from '@material-ui/core/Select';
 
 const styles = theme => ({
     root: {
-        marginTop: theme.spacing.unit * 3
+        marginTop: theme.spacing.unit * 3,
+        flexGrow: 1,
     },
     formControl: {
         marginLeft: theme.spacing.unit,
@@ -25,11 +26,7 @@ const styles = theme => ({
         marginTop: theme.spacing.unit,
     },
     row: {
-        flexGrow: 0
         flexGrow: 1
-    },
-    card: {
-        minWidth: 200,
     },
     bullet: {
         margin: '0 2px',
@@ -44,10 +41,12 @@ const styles = theme => ({
     pos: {
         marginBottom: 12,
     },
-    display: {
-        position: 'relative',
-        float: 'left',
-        display: 'inline-flex'
+    displayCard: {
+        padding: theme.spacing.unit * 2,
+        textAlign: 'center',
+        color: theme.palette.text.secondary,
+        maxWidth: 345,
+        margin: theme.spacing.unit,
     }
 });
 
@@ -76,10 +75,8 @@ class ListeOffres extends React.Component {
         const {classes} = this.props;
 
         return (
-            <Grid container justify="center">
-                <Grid xs={8} className={classes.root}>
-            <Grid container align="center" justify={"center"}>
-                <Grid item xs={10}  className={classes.root}>
+            <Grid container justify={"center"}>
+                <Grid item xs={10} className={classes.root}>
                     <Paper>
                         <Input
                             placeholder="Search"
@@ -104,35 +101,18 @@ class ListeOffres extends React.Component {
                         </FormControl>
                     </Paper>
                 </Grid>
-                <Grid xs={8} className={classes.root && classes.display}>
+                <Grid container className={classes.root} spacing={20} xs={10} direction="row"
+                      alignItems="center">
                     {
                         this.state.listGenre.map(genre => {
                             return (
-                                <Grid className={classes.root} container>
-                                    <Card>
-                                <Grid item className={classes.root} container xs={4}>
-                                    <Card className={classes.card} style={{ alignSelf: 'center' }}>
+                                <Grid item xs={4}>
+                                    <Card className={classes.displayCard}>
                                         <CardContent>
                                             <Typography className={classes.title} color="textSecondary" gutterBottom>
                                                 {genre.Name}
                                             </Typography>
-                                            <Typography variant="h5" component="h2">
-                                                be
-                                                nev
-                                                lent
-                                            </Typography>
-                                            <Typography className={classes.pos} color="textSecondary">
-                                                adjective
-                                            </Typography>
-                                            <Typography component="p">
-                                                well meaning and kindly.
-                                                <br/>
-                                                {'"a benevolent smile"'}
-                                            </Typography>
                                         </CardContent>
-                                        <CardActions>
-                                            <Button size="large">Pierre Noble</Button>
-                                        </CardActions>
                                     </Card>
                                 </Grid>
                             )
