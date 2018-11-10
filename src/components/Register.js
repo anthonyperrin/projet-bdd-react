@@ -75,7 +75,7 @@ class Register extends React.Component {
                             <LockIcon/>
                         </Avatar>
                         <Typography component="h1" variant="h5">
-                            Sign in
+                            Register
                         </Typography>
                         <form className={classes.form}>
                             <FormControl margin="normal" required fullWidth>
@@ -118,7 +118,7 @@ class Register extends React.Component {
                                 className={classes.submit}
                                 onClick={this.fetch}
                             >
-                                Sign in
+                                Register
                             </Button>
                         </form>
                     </Paper>

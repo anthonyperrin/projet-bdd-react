@@ -33,6 +33,9 @@ const styles = {
     },
     list: {
         width: 250,
+    },
+    buttonLogin: {
+        marginRight: 15
     }
 };
 
@@ -93,7 +96,7 @@ class Header extends React.Component {
                         <Typography variant="h6" color="inherit" className={classes.grow}>
                             DiscoGraph'y
                         </Typography>
-                        <Button color="inherit" component={Link} to={"/login"}>Login</Button>
+                        <Button color="inherit" component={Link} to={"/login"} className={classes.buttonLogin}>Login</Button>
                         <Button color="secondary" component={Link} to={"/register"}
                                 variant="contained">Register</Button>
                     </Toolbar>

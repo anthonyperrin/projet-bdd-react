@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
 import Grid from "@material-ui/core/Grid/Grid";
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -9,13 +8,16 @@ import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Input from '@material-ui/core/Input';
+import Paper from '@material-ui/core/Paper';
 import FormControl from '@material-ui/core/FormControl';
-import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+
 
 const styles = theme => ({
     root: {
-        marginTop: theme.spacing.unit * 3
+        marginTop: theme.spacing.unit * 3,
+        padding: theme.spacing.unit
     },
     formControl: {
         marginLeft: theme.spacing.unit,
@@ -25,7 +27,6 @@ const styles = theme => ({
         marginTop: theme.spacing.unit,
     },
     row: {
-        flexGrow: 0
         flexGrow: 1
     },
     card: {
@@ -37,6 +38,9 @@ const styles = theme => ({
     },
     input: {
         margin: theme.spacing.unit,
+    },
+    title1: {
+        marginTop: theme.spacing.unit
     },
     title: {
         fontSize: 14,
@@ -78,69 +82,75 @@ class ListeOffres extends React.Component {
         return (
             <Grid container justify="center">
                 <Grid xs={8} className={classes.root}>
-            <Grid container align="center" justify={"center"}>
-                <Grid item xs={10}  className={classes.root}>
-                    <Paper>
-                        <Input
-                            placeholder="Search"
-                            className={classes.input}
-                            inputProps={{
-                                'aria-label': 'Description',
-                            }}
-                        />
-                        <FormControl className={classes.formControl}>
-                            <Select
-                                value={this.state.age}
-                                onChange={this.handleChange}
-                                name="age"
-                                className={classes.selectEmpty}>
-                                <MenuItem value="" disabled>
-                                    Sort by
-                                </MenuItem>
-                                <MenuItem value={10}>Ten</MenuItem>
-                                <MenuItem value={20}>Twenty</MenuItem>
-                                <MenuItem value={30}>Thirty</MenuItem>
-                            </Select>
-                        </FormControl>
-                    </Paper>
+                    <Typography className={classes.title1} variant="h2" component="h3">
+                        Offers
+                    </Typography>
+                    <Grid>
+                        <div className={classes.root}>
+                            <Paper>
+                                <Input
+                                    placeholder="Search"
+                                    className={classes.input}
+                                    inputProps={{
+                                        'aria-label': 'Description',
+                                    }}
+                                />
+                                <FormControl className={classes.formControl}>
+                                    <Select
+                                        value={this.state.age}
+                                        onChange={this.handleChange}
+                                        name="age"
+                                        className={classes.selectEmpty}>
+                                        <MenuItem value="" disabled>
+                                            Sort by
+                                        </MenuItem>
+                                        <MenuItem value={10}>Ten</MenuItem>
+                                        <MenuItem value={20}>Twenty</MenuItem>
+                                        <MenuItem value={30}>Thirty</MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </Paper>
+                        </div>
+                        <Grid xs={8} className={classes.root && classes.display}>
+                            {
+                                this.state.listGenre.map(genre => {
+                                    return (
+                                        <Grid className={classes.root} container>
+                                            <Grid item className={classes.root} container xs={4}>
+                                                <Card className={classes.card} style={{alignSelf: 'center'}}>
+                                                    <CardContent>
+                                                        <Typography className={classes.title} color="textSecondary"
+                                                                    gutterBottom>
+                                                            {genre.Name}
+                                                        </Typography>
+                                                        <Typography variant="h5" component="h2">
+                                                            be
+                                                            nev
+                                                            lent
+                                                        </Typography>
+                                                        <Typography className={classes.pos} color="textSecondary">
+                                                            adjective
+                                                        </Typography>
+                                                        <Typography component="p">
+                                                            well meaning and kindly.
+                                                            <br/>
+                                                            {'"a benevolent smile"'}
+                                                        </Typography>
+                                                    </CardContent>
+                                                    <CardActions>
+                                                        <Button size="large">Pierre Noble</Button>
+                                                    </CardActions>
+                                                </Card>
+                                            </Grid>
+                                        </Grid>
+                                    )
+                                })
+                            }
+                        </Grid>
+                        )
+                    </Grid>
                 </Grid>
-                <Grid xs={8} className={classes.root && classes.display}>
-                    {
-                        this.state.listGenre.map(genre => {
-                            return (
-                                <Grid className={classes.root} container>
-                                    <Card>
-                                <Grid item className={classes.root} container xs={4}>
-                                    <Card className={classes.card} style={{ alignSelf: 'center' }}>
-                                        <CardContent>
-                                            <Typography className={classes.title} color="textSecondary" gutterBottom>
-                                                {genre.Name}
-                                            </Typography>
-                                            <Typography variant="h5" component="h2">
-                                                be
-                                                nev
-                                                lent
-                                            </Typography>
-                                            <Typography className={classes.pos} color="textSecondary">
-                                                adjective
-                                            </Typography>
-                                            <Typography component="p">
-                                                well meaning and kindly.
-                                                <br/>
-                                                {'"a benevolent smile"'}
-                                            </Typography>
-                                        </CardContent>
-                                        <CardActions>
-                                            <Button size="large">Pierre Noble</Button>
-                                        </CardActions>
-                                    </Card>
-                                </Grid>
-                            )
-                        })
-                    }
-                </Grid>
-            </Grid>
-        );
+            </Grid>);
     }
 }
 

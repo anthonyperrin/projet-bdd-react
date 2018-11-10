@@ -6,9 +6,6 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Paper from "@material-ui/core/Paper/Paper";
 import Input from "@material-ui/core/Input/Input";
-import FormControl from "@material-ui/core/FormControl/FormControl";
-import Select from "@material-ui/core/Select/Select";
-import MenuItem from "@material-ui/core/MenuItem/MenuItem";
 
 const styles = theme => ({
     root: {
@@ -20,13 +17,6 @@ const styles = theme => ({
     },
     title: {
         marginTop: theme.spacing.unit * 3
-    },
-    formControl: {
-        marginLeft: theme.spacing.unit,
-        minWidth: 120,
-    },
-    selectEmpty: {
-        marginTop: theme.spacing.unit,
     },
 });
 
@@ -51,8 +41,7 @@ class Artists extends React.Component {
     doFilter = (e) => {
         this.setState({
             listArtistsFiltered: this.state.listArtists.filter(a =>
-                a.FirstName.toLowerCase().indexOf(e.target.value.toLowerCase()) >= 0
-                || a.LastName.toLowerCase().indexOf(e.target.value.toLowerCase()) >= 0
+                (a.FirstName.toLowerCase() + ' ' + a.LastName.toLowerCase()).indexOf(e.target.value.toLowerCase()) >= 0
             )
         });
     };
@@ -67,6 +56,7 @@ class Artists extends React.Component {
                     </Typography>
                     <Paper className={classes.root}>
                         <Input
+                            style={{width: 300}}
                             onChange={this.doFilter}
                             placeholder="Search"
                             className={classes.input}
@@ -74,22 +64,6 @@ class Artists extends React.Component {
                                 'aria-label': 'Description',
                             }}
                         />
-                        <FormControl className={classes.formControl}>
-                            <Select
-                                value={this.state.age}
-                                onChange={this.handleChange}
-                                name="age"
-                                displayEmpty
-                                className={classes.selectEmpty}
-                            >
-                                <MenuItem value="" disabled>
-                                    Sort by
-                                </MenuItem>
-                                <MenuItem value={10}>Ten</MenuItem>
-                                <MenuItem value={20}>Twenty</MenuItem>
-                                <MenuItem value={30}>Thirty</MenuItem>
-                            </Select>
-                        </FormControl>
                     </Paper>
                 </Grid>
                 <Grid xs={8} item>
@@ -100,10 +74,6 @@ class Artists extends React.Component {
                                     <CardContent>
                                         <Typography variant="h5" component="h3">
                                             {artist.FirstName + ' ' + artist.LastName}
-                                        </Typography>
-                                        <Typography component="p">
-                                            Paper can be used to build surface or other elements for your
-                                            application.
                                         </Typography>
                                     </CardContent>
                                 </Card>
