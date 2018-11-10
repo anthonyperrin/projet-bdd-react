@@ -18,6 +18,7 @@ const styles = theme => ({
     root: {
         marginTop: theme.spacing.unit * 3,
         padding: theme.spacing.unit
+        flexGrow: 1,
     },
     formControl: {
         marginLeft: theme.spacing.unit,
@@ -28,9 +29,6 @@ const styles = theme => ({
     },
     row: {
         flexGrow: 1
-    },
-    card: {
-        minWidth: 200,
     },
     bullet: {
         margin: '0 2px',
@@ -48,10 +46,12 @@ const styles = theme => ({
     pos: {
         marginBottom: 12,
     },
-    display: {
-        position: 'relative',
-        float: 'left',
-        display: 'inline-flex'
+    displayCard: {
+        padding: theme.spacing.unit * 2,
+        textAlign: 'center',
+        color: theme.palette.text.secondary,
+        maxWidth: 345,
+        margin: theme.spacing.unit,
     }
 });
 
@@ -149,6 +149,49 @@ class ListeOffres extends React.Component {
                         </Grid>
                         )
                     </Grid>
+            <Grid container justify={"center"}>
+                <Grid item xs={10} className={classes.root}>
+                    <Paper>
+                        <Input
+                            placeholder="Search"
+                            className={classes.input}
+                            inputProps={{
+                                'aria-label': 'Description',
+                            }}
+                        />
+                        <FormControl className={classes.formControl}>
+                            <Select
+                                value={this.state.age}
+                                onChange={this.handleChange}
+                                name="age"
+                                className={classes.selectEmpty}>
+                                <MenuItem value="" disabled>
+                                    Sort by
+                                </MenuItem>
+                                <MenuItem value={10}>Ten</MenuItem>
+                                <MenuItem value={20}>Twenty</MenuItem>
+                                <MenuItem value={30}>Thirty</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Paper>
+                </Grid>
+                <Grid container className={classes.root} spacing={20} xs={10} direction="row"
+                      alignItems="center">
+                    {
+                        this.state.listGenre.map(genre => {
+                            return (
+                                <Grid item xs={4}>
+                                    <Card className={classes.displayCard}>
+                                        <CardContent>
+                                            <Typography className={classes.title} color="textSecondary" gutterBottom>
+                                                {genre.Name}
+                                            </Typography>
+                                        </CardContent>
+                                    </Card>
+                                </Grid>
+                            )
+                        })
+                    }
                 </Grid>
             </Grid>);
     }
