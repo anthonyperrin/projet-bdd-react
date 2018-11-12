@@ -5,7 +5,7 @@ import Grid from "@material-ui/core/Grid/Grid";
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
-import CardMedia from '@material-ui/core/CardMedia';
+import HourglassEmpty from '@material-ui/icons/HourglassEmpty';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -23,7 +23,7 @@ const styles = theme => ({
         flexGrow: 1,
     },
     align: {
-        display:'flex',
+        display: 'flex',
     },
     formControl: {
         marginLeft: theme.spacing.unit,
@@ -134,9 +134,8 @@ class ListeOffres extends React.Component {
                                 <Grid item xs={12} md={4} lg={3}>
                                     <Card className={classes.displayCard}>
                                         <CardActionArea>
-                                            <Typography gutterBottom variant="">
+                                            <Typography gutterBottom style={{color: genre.colorCode}}>
                                                 {genre.Name}
-                                                {genre.colorCode}
                                             </Typography>
                                             <CardContent>
                                                 <Grid item container xs={2}>
@@ -154,28 +153,20 @@ class ListeOffres extends React.Component {
                                                 </Typography>
                                             </CardContent>
                                         </CardActionArea>
-                                        <CardActions>
-                                            <Button variant="contained" size="small" style={{
-                                                background: genre.colorCode,
-                                                color: 'white'
-                                            }}>
-                                                *Seller*
-                                            </Button>
-                                        </CardActions>
-                                                </Typography>
-                                            </CardContent>
-                                        </CardActionArea>
                                         <div className={classes.align}>
                                             <Grid xs={12} md={6} item>
                                                 <CardActions>
-                                                    <Button size="small" color="primary">
+                                                    <Button variant="contained" size="small" style={{
+                                                        background: genre.colorCode,
+                                                        color: 'white'
+                                                    }}>
                                                         *Seller*
                                                     </Button>
                                                 </CardActions>
                                             </Grid>
                                             <Grid xs={12} md={6} item>
-                                                <Typography gutterBottom margin={100} variant="h5">
-                                                    *Price*
+                                                <Typography style={{marginTop: 7}} variant="h6">
+                                                    1500t
                                                 </Typography>
                                             </Grid>
                                         </div>
