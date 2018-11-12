@@ -9,13 +9,20 @@ const Genre = sequelize.define('genre', {
         },
         Name: {
             type: Sequelize.STRING
+        },
+        colorCode: {
+            type: Sequelize.STRING
         }
     },
     {
         freezeTableName: true,
-        createdAt: false,
-        updatedAt: false
-    });
+        createdAt:
+            false,
+        updatedAt:
+            false
+    }
+    )
+;
 
 Genre.sync();
 

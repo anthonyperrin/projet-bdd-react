@@ -10,7 +10,8 @@ import Input from "@material-ui/core/Input/Input";
 const styles = theme => ({
     root: {
         marginTop: theme.spacing.unit * 3,
-        padding: theme.spacing.unit
+        padding: theme.spacing.unit,
+        flexGrow: 1
     },
     input: {
         margin: theme.spacing.unit,
@@ -18,6 +19,14 @@ const styles = theme => ({
     title: {
         marginTop: theme.spacing.unit * 3
     },
+    displayCard: {
+        padding: theme.spacing.unit * 2,
+        textAlign: 'center',
+        color: theme.palette.text.secondary,
+        maxWidth: 300,
+        margin: theme.spacing.unit,
+    },
+
 });
 
 class Artists extends React.Component {
@@ -50,11 +59,13 @@ class Artists extends React.Component {
         const {classes} = this.props;
         return (
             <Grid container justify="center">
-                <Grid xs={8}>
+                <Grid xs={8} className={classes.root}>
                     <Typography className={classes.title} variant="h2" component="h3">
                         Artists
                     </Typography>
-                    <Paper className={classes.root}>
+                </Grid>
+                <Grid item xs={8} className={classes.root}>
+                    <Paper>
                         <Input
                             style={{width: 300}}
                             onChange={this.doFilter}
@@ -66,17 +77,19 @@ class Artists extends React.Component {
                         />
                     </Paper>
                 </Grid>
-                <Grid xs={8} item>
+                <Grid container className={classes.root} spacing={20} xs={8}>
                     {
                         this.state.listArtistsFiltered.map(artist => {
                             return (
-                                <Card item className={classes.root}>
-                                    <CardContent>
-                                        <Typography variant="h5" component="h3">
-                                            {artist.FirstName + ' ' + artist.LastName}
-                                        </Typography>
-                                    </CardContent>
-                                </Card>
+                                <Grid item xs={12} md={6} lg={4}>
+                                    <Card item className={classes.displayCard}>
+                                        <CardContent>
+                                            <Typography variant="h5" component="h3">
+                                                {artist.FirstName + ' ' + artist.LastName}
+                                            </Typography>
+                                        </CardContent>
+                                    </Card>
+                                </Grid>
                             );
                         })
                     }
