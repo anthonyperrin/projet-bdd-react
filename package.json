@@ -40,5 +40,6 @@
   "bugs": {
     "url": "https://github.com/anthonyperrin/projet-bdd-react/issues"
   },
-  "homepage": "https://github.com/anthonyperrin/projet-bdd-react#readme"
+  "homepage": "https://github.com/anthonyperrin/projet-bdd-react#readme",
+  "proxy": "http://localhost:3000"
 }

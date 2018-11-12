@@ -14,15 +14,15 @@ sequelize
     .authenticate()
     .then(() => {
         console.log('Connection has been established successfully.');
-
         const app = express();
-        app.use(cors());
+        app.use(cors({origin: '*'}));
+
         app.use(morgan);
         app.use(bodyParser.json());
         app.use(bodyParser.urlencoded({extended: true}));
         app.use(config.rootApi + 'api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-        // ROUTERS
+            // ROUTERS
         let AuthRouter = express.Router();
         let GenreRouter = express.Router();
         let UserRouter = express.Router();
@@ -38,6 +38,7 @@ sequelize
 
         AuthRouter.route('/register')
             .post(async (req, res) => {
+                console.log(req.body);
                 let account = await Auth.register(req);
                 res.json(checkAndChange(account));
             });
