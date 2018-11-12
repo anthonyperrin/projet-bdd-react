@@ -57,7 +57,7 @@ const styles = theme => ({
     },
     media: {
         height: 140,
-    },
+    }
 });
 
 
@@ -145,13 +145,17 @@ class ListeOffres extends React.Component {
                                                     {genre.Name}
                                                 </Typography>
                                                 <Typography component="p">
-                                                    Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
+                                                    Lizards are a widespread group of squamate reptiles, with over 6,000
+                                                    species, ranging
                                                     across all continents except Antarctica
                                                 </Typography>
                                             </CardContent>
                                         </CardActionArea>
                                         <CardActions>
-                                            <Button size="small" color="primary">
+                                            <Button variant="contained" size="small" style={{
+                                                background: genre.colorCode,
+                                                color: 'white'
+                                            }}>
                                                 *Seller*
                                             </Button>
                                         </CardActions>
@@ -164,6 +168,7 @@ class ListeOffres extends React.Component {
             </Grid>);
     }
 }
+
 ListeOffres.propTypes = {
     classes: PropTypes.object.isRequired,
 };

@@ -58,23 +58,38 @@ class Register extends React.Component {
         let password = data.get('password');
         let password2 = data.get('password2');
         let pseudo = data.get('pseudo');
+
+        let formData = {
+            email: data.get('firstName'),
+            firstName: data.get('lastName'),
+            lastName: data.get('password'),
+            password: data.get('password2'),
+            pseudo: data.get('pseudo')
+        };
+
         if (password === password2) {
             fetch('http://127.0.0.1:8081/api/auth/register', {
                 method: 'POST',
-                body: {
-                    email: email,
-                    firstName: firstName,
-                    lastName: lastName,
-                    password: password,
-                    pseudo: pseudo
-                }
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(formData)
             })
                 .then(alert('Vous vous êtes bien inscrit !'))
                 .catch(err => console.log(err));
-        } else {
-            alert('Erreur : Les 2 mots de passe sont différents');
-            document.getElementById("password").value = "";
-            document.getElementById("password2").value = "";
+        }
+
+        else {
+            alert(
+                'Erreur : Les 2 mots de passe sont différents'
+            )
+            ;
+            document
+                .getElementById(
+                    "password"
+                ).value = "";
+            document
+                .getElementById(
+                    "password2"
+                ).value = "";
         }
 
 
@@ -97,7 +112,7 @@ class Register extends React.Component {
                         <form className={classes.form} onSubmit={this.handleSubmit}>
                             <FormControl margin="normal" required fullWidth>
                                 <InputLabel htmlFor="firstName">FirstName</InputLabel>
-                                <Input id="firstName" name="firstName" autoFocus />
+                                <Input id="firstName" name="firstName" autoFocus/>
                             </FormControl>
                             <FormControl margin="normal" required fullWidth>
                                 <InputLabel htmlFor="lastName">LastName</InputLabel>
