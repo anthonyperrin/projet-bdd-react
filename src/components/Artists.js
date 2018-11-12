@@ -14,6 +14,7 @@ const styles = theme => ({
     },
     input: {
         margin: theme.spacing.unit,
+        fullWidth:'100%'
     },
     title: {
         marginTop: theme.spacing.unit * 3
@@ -56,7 +57,6 @@ class Artists extends React.Component {
                     </Typography>
                     <Paper className={classes.root}>
                         <Input
-                            style={{width: 300}}
                             onChange={this.doFilter}
                             placeholder="Search"
                             className={classes.input}

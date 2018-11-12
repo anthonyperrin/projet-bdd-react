@@ -22,6 +22,9 @@ const styles = theme => ({
         padding: theme.spacing.unit,
         flexGrow: 1,
     },
+    align: {
+        display:'flex',
+    },
     formControl: {
         marginLeft: theme.spacing.unit,
         minWidth: 120,
@@ -45,14 +48,11 @@ const styles = theme => ({
     title: {
         fontSize: 14,
     },
-    pos: {
-        marginBottom: 12,
-    },
     displayCard: {
         padding: theme.spacing.unit * 2,
         textAlign: 'center',
         color: theme.palette.text.secondary,
-        maxWidth: 300,
+        maxWidth: '100%',
         margin: theme.spacing.unit,
     },
     media: {
@@ -93,7 +93,6 @@ class ListeOffres extends React.Component {
     render() {
 
         const {classes} = this.props;
-
         return (
             <Grid container justify={"center"}>
                 <Grid xs={10} className={classes.root}>
@@ -130,31 +129,42 @@ class ListeOffres extends React.Component {
                 <Grid container className={classes.root} spacing={20} xs={10} direction="row"
                       alignItems="center">
                     {
-                        this.state.listGenre.map(genre => {
+                        this.state.listGenreFiltered.map(genre => {
                             return (
-                                <Grid item xs={6} md={4} lg={3}>
+                                <Grid item xs={12} md={4} lg={3}>
                                     <Card className={classes.displayCard}>
                                         <CardActionArea>
-                                            <CardMedia
-                                                className={classes.media}
-                                                image="https://www.apple.com/v/music/h/images/shared/og_image.png?201809111023"
-                                                title="musicTemplate"
-                                            />
+                                            <Typography gutterBottom variant="">
+                                                {genre.Name}
+                                                {genre.colorCode}
+                                            </Typography>
                                             <CardContent>
-                                                <Typography gutterBottom variant="h5" component="h2">
-                                                    {genre.Name}
-                                                </Typography>
+                                                <Grid item container xs={2}>
+                                                    <Typography gutterBottom variant="h5" component="h2">
+                                                        *Title*
+                                                    </Typography>
+                                                    <Typography gutterBottom variant="h7" component="h4">
+                                                        *Artist*
+                                                    </Typography>
+                                                </Grid>
                                                 <Typography component="p">
-                                                    Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-                                                    across all continents except Antarctica
                                                 </Typography>
                                             </CardContent>
                                         </CardActionArea>
-                                        <CardActions>
-                                            <Button size="small" color="primary">
-                                                *Seller*
-                                            </Button>
-                                        </CardActions>
+                                        <div className={classes.align}>
+                                            <Grid xs={12} md={6} item>
+                                                <CardActions>
+                                                    <Button size="small" color="primary">
+                                                        *Seller*
+                                                    </Button>
+                                                </CardActions>
+                                            </Grid>
+                                            <Grid xs={12} md={6} item>
+                                                <Typography gutterBottom margin={100} variant="h5">
+                                                    *Price*
+                                                </Typography>
+                                            </Grid>
+                                        </div>
                                     </Card>
                                 </Grid>
                             )
@@ -164,6 +174,7 @@ class ListeOffres extends React.Component {
             </Grid>);
     }
 }
+
 ListeOffres.propTypes = {
     classes: PropTypes.object.isRequired,
 };
