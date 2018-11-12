@@ -4,11 +4,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Input from '@material-ui/core/Input';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
 import InputLabel from '@material-ui/core/InputLabel';
 import LockIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
@@ -79,7 +75,7 @@ class Register extends React.Component {
                             <LockIcon/>
                         </Avatar>
                         <Typography component="h1" variant="h5">
-                            Sign in
+                            Register
                         </Typography>
                         <form className={classes.form}>
                             <FormControl margin="normal" required fullWidth>
@@ -122,7 +118,7 @@ class Register extends React.Component {
                                 className={classes.submit}
                                 onClick={this.fetch}
                             >
-                                Sign in
+                                Register
                             </Button>
                         </form>
                     </Paper>

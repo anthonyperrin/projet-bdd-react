@@ -1,42 +1,46 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
 import Grid from "@material-ui/core/Grid/Grid";
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardActionArea from '@material-ui/core/CardActionArea';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Input from '@material-ui/core/Input';
+import Paper from '@material-ui/core/Paper';
 import FormControl from '@material-ui/core/FormControl';
-import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+
 
 const styles = theme => ({
     root: {
-        marginTop: theme.spacing.unit * 3
+        marginTop: theme.spacing.unit * 3,
+        padding: theme.spacing.unit,
+        flexGrow: 1,
     },
     formControl: {
         marginLeft: theme.spacing.unit,
         minWidth: 120,
     },
     selectEmpty: {
-        marginTop: theme.spacing.unit ,
+        marginTop: theme.spacing.unit,
     },
     row: {
         flexGrow: 1
     },
-    card: {
-        minWidth: 0,
-    },
     bullet: {
-        display: 'inline-block',
         margin: '0 2px',
         transform: 'scale(0.8)',
     },
     input: {
         margin: theme.spacing.unit,
+    },
+    title1: {
+        marginTop: theme.spacing.unit
     },
     title: {
         fontSize: 14,
@@ -44,44 +48,64 @@ const styles = theme => ({
     pos: {
         marginBottom: 12,
     },
-    spacing : {
-        display: 'inline-flex',
-    }
+    displayCard: {
+        padding: theme.spacing.unit * 2,
+        textAlign: 'center',
+        color: theme.palette.text.secondary,
+        maxWidth: 300,
+        margin: theme.spacing.unit,
+    },
+    media: {
+        height: 140,
+    },
 });
-
 
 
 class ListeOffres extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            listOffers: [
-                {
-                    name: "oui"
-                },
-                {
-                    name: "allo?"
-                },
-                {
-                    name: "Pierre?"
-                },
-                {
-                    name: "Bonjour?"
-                }]
+            listGenre: [],
+            listGenreFiltered: [],
         };
-
     }
+
+
+    componentWillMount() {
+        fetch('http://127.0.0.1:8081/api/genre')
+            .then(res => res.json())
+            .then(json => this.setState(
+                {
+                    listGenre: json.result,
+                    listGenreFiltered: json.result,
+                }
+            ))
+    }
+
+    doFilter = (e) => {
+        this.setState({
+            listGenreFiltered: this.state.listGenre.filter(a =>
+                (a.Name.toLowerCase()).indexOf(e.target.value.toLowerCase()) >= 0
+            )
+        });
+    };
 
     render() {
 
         const {classes} = this.props;
 
         return (
-            <Grid container justify="center">
-                <Grid item xs={10}  className={classes.root}>
+            <Grid container justify={"center"}>
+                <Grid xs={10} className={classes.root}>
+                    <Typography className={classes.title1} variant="h2" component="h3">
+                        Offers
+                    </Typography>
+                </Grid>
+                <Grid item xs={10} className={classes.root}>
                     <Paper>
                         <Input
                             placeholder="Search"
+                            onChange={this.doFilter}
                             className={classes.input}
                             inputProps={{
                                 'aria-label': 'Description',
@@ -92,9 +116,7 @@ class ListeOffres extends React.Component {
                                 value={this.state.age}
                                 onChange={this.handleChange}
                                 name="age"
-                                displayEmpty
-                                className={classes.selectEmpty}
-                            >
+                                className={classes.selectEmpty}>
                                 <MenuItem value="" disabled>
                                     Sort by
                                 </MenuItem>
@@ -105,32 +127,33 @@ class ListeOffres extends React.Component {
                         </FormControl>
                     </Paper>
                 </Grid>
-                <Grid xs={10} alignItems="center" className={classes.root && classes.spacing}>
+                <Grid container className={classes.root} spacing={20} xs={10} direction="row"
+                      alignItems="center">
                     {
-                        this.state.listOffers.map(offer => {
+                        this.state.listGenre.map(genre => {
                             return (
-                                <Grid item className={classes.root} container spacing={24}>
-                                    <Card className={classes.card}>
-                                        <CardContent>
-                                            <Typography className={classes.title} color="textSecondary" gutterBottom>
-                                                {offer.name}
-                                            </Typography>
-                                            <Typography variant="h5" component="h2">
-                                                be
-                                                nev
-                                                lent
-                                            </Typography>
-                                            <Typography className={classes.pos} color="textSecondary">
-                                                adjective
-                                            </Typography>
-                                            <Typography component="p">
-                                                well meaning and kindly.
-                                                <br/>
-                                                {'"a benevolent smile"'}
-                                            </Typography>
-                                        </CardContent>
+                                <Grid item xs={6} md={4} lg={3}>
+                                    <Card className={classes.displayCard}>
+                                        <CardActionArea>
+                                            <CardMedia
+                                                className={classes.media}
+                                                image="https://www.apple.com/v/music/h/images/shared/og_image.png?201809111023"
+                                                title="musicTemplate"
+                                            />
+                                            <CardContent>
+                                                <Typography gutterBottom variant="h5" component="h2">
+                                                    {genre.Name}
+                                                </Typography>
+                                                <Typography component="p">
+                                                    Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
+                                                    across all continents except Antarctica
+                                                </Typography>
+                                            </CardContent>
+                                        </CardActionArea>
                                         <CardActions>
-                                            <Button size="small">Learn More</Button>
+                                            <Button size="small" color="primary">
+                                                *Seller*
+                                            </Button>
                                         </CardActions>
                                     </Card>
                                 </Grid>
@@ -138,11 +161,9 @@ class ListeOffres extends React.Component {
                         })
                     }
                 </Grid>
-            </Grid>
-        );
+            </Grid>);
     }
 }
-
 ListeOffres.propTypes = {
     classes: PropTypes.object.isRequired,
 };

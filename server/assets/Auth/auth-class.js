@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const configSecret = require('../config/config');
 const users = require('../../models/User');
+
 let Auth = class {
     static login(email, password) {
         return new Promise(next => {
