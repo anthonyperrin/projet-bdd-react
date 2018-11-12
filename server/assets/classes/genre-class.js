@@ -29,40 +29,42 @@ let Genre = class {
         });
     }
 
-    static add(name) {
+    static add(name, color) {
         return new Promise((next) => {
-            if (name) {
+            if (name && color) {
                 genres.findOne({
                     where: {
-                        Name: name
+                        Name: name,
+                        colorCode: color,
                     }
                 })
                     .then((result) => {
                         if (!result)
                             genres.create({
-                                Name: name
+                                Name: name,
+                                colorCode:color,
                             })
                                 .then((result) => next(result))
                                 .catch((err) => next(err.message));
                         else
-                            next(new Error("Name already used."))
+                            next(new Error("Name or color already used."))
                     })
                     .catch((err) => next(err.message))
             } else {
-                next(new Error('Name undefined.'));
+                next(new Error('Name or color undefined.'));
             }
         });
 
     }
 
-    static update(id, name) {
+    static update(id, name, color) {
         return new Promise((next) => {
             if (id) {
                 if (name) {
                     genres.findById(id)
                         .then((result) => {
                             if (!result)
-                                next(new Error('User not found.'));
+                                next(new Error('Genre not found.'));
                             else
                                 genres.update({
                                     where: {
@@ -78,8 +80,28 @@ let Genre = class {
                                     .catch((err) => next(err.message))
                         })
                         .catch((err) => next(err.message))
+                } else if (color) {
+                    genres.findById(id)
+                        .then((result) => {
+                            if (!result)
+                                next(new Error('Genre not found.'));
+                            else
+                                genres.update({
+                                    where: {
+                                        Id: id,
+                                        colorCode: color
+                                    }
+                                })
+                                    .then(() => {
+                                        genres.findById(id)
+                                            .then((result) => next(result))
+                                            .catch((err) => next(err.message))
+                                    })
+                                    .catch((err) => next(err.message))
+                        })
+                        .catch((err) => next(err.message))
                 } else {
-                    next(new Error('New name is undefined.'));
+                    next(new Error('New color is undefined.'));
                 }
             } else {
                 next(new Error('Id is undefined.'));
