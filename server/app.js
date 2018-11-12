@@ -38,6 +38,7 @@ sequelize
 
         AuthRouter.route('/register')
             .post(async (req, res) => {
+                console.log(req.body);
                 let account = await Auth.register(req);
                 res.json(checkAndChange(account));
             });

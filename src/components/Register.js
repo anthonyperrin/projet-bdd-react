@@ -44,8 +44,21 @@ const styles = theme => ({
 });
 
 class Register extends React.Component {
-    fetch = (firstName, lastName, email, password, password2, pseudo ) => {
-        if(password === password2){
+    constructor() {
+        super();
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleSubmit(event) {
+        event.preventDefault();
+        const data = new FormData(event.target);
+        let firstName = data.get('firstName');
+        let lastName = data.get('lastName');
+        let email = data.get('email');
+        let password = data.get('password');
+        let password2 = data.get('password2');
+        let pseudo = data.get('pseudo');
+        if (password === password2) {
             fetch('http://127.0.0.1:8081/api/auth/register', {
                 method: 'POST',
                 body: {
@@ -56,12 +69,16 @@ class Register extends React.Component {
                     pseudo: pseudo
                 }
             })
-                .then(alert('Vous vous êtes bien inscrit !'));
-        }else{
+                .then(alert('Vous vous êtes bien inscrit !'))
+                .catch(err => console.log(err));
+        } else {
             alert('Erreur : Les 2 mots de passe sont différents');
+            document.getElementById("password").value = "";
+            document.getElementById("password2").value = "";
         }
 
-    };
+
+    }
 
     render() {
         const {classes} = this.props;
@@ -77,10 +94,10 @@ class Register extends React.Component {
                         <Typography component="h1" variant="h5">
                             Register
                         </Typography>
-                        <form className={classes.form}>
+                        <form className={classes.form} onSubmit={this.handleSubmit}>
                             <FormControl margin="normal" required fullWidth>
                                 <InputLabel htmlFor="firstName">FirstName</InputLabel>
-                                <Input id="firstName" name="firstName" autoFocus/>
+                                <Input id="firstName" name="firstName" autoFocus />
                             </FormControl>
                             <FormControl margin="normal" required fullWidth>
                                 <InputLabel htmlFor="lastName">LastName</InputLabel>
@@ -115,8 +132,6 @@ class Register extends React.Component {
                                 fullWidth
                                 variant="contained"
                                 color="primary"
-                                className={classes.submit}
-                                onClick={this.fetch}
                             >
                                 Register
                             </Button>

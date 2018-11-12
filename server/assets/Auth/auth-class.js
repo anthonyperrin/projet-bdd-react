@@ -30,7 +30,6 @@ let Auth = class {
     static register(req) {
         return new Promise((next) => {
             const hashedPassword = bcrypt.hashSync(req.body.password, 8);
-            console.log('registering');
             users.findOne({
                 where: {
                     Email: req.body.email
