@@ -70,7 +70,7 @@ class Header extends React.Component {
                 <List>
                     <ListItem button key="profile" component={Link} to={"/mes_disques"}>
                         <ListItemIcon><LibraryMusic/></ListItemIcon>
-                        <ListItemText primary="Mes disques"/>
+                        <ListItemText primary="My items"/>
                     </ListItem>
                 </List>
             </div>

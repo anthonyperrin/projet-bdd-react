@@ -68,6 +68,27 @@ INSERT INTO `artist`(`LastName`, `FirstName`) VALUES ('Strokes', 'The');
 INSERT INTO `artist`(`LastName`, `FirstName`) VALUES ('Skrillex', '');
 INSERT INTO `artist`(`LastName`, `FirstName`) VALUES ('Skream', '');
 
-
-
-
+INSERT INTO `genre` (`Id`, `Name`, `colorCode`) VALUES
+(2, 'Pop', '#f44336'),
+(3, 'Jazz', '#e91e63'),
+(4, 'Dance', '#8e24aa'),
+(5, 'Rythm and blues', '#673ab7'),
+(6, 'Hip-hop', '#3f51b5'),
+(7, 'Rock', '#2196f3'),
+(8, 'Classical music', '#03a9f4'),
+(9, 'Blues', '#00bcd4'),
+(10, 'Rap', '#009688'),
+(11, 'Reggae', '#4caf50'),
+(12, 'Soul', '#8bc34a'),
+(13, 'Funk', '#cddc39'),
+(14, 'Country music', '#ffeb3b'),
+(15, 'Traditional music', '#ffc107'),
+(16, 'Folk', '#ff9800'),
+(17, 'Heavy metal', '#383838'),
+(18, 'Punk rock', '#ff5722'),
+(19, 'Alternative rock', '#795548'),
+(20, 'House', '#9e9e9e'),
+(21, 'Indie rock', '#37474f'),
+(22, 'Instrumental', '#880e4f'),
+(23, 'Dubstep', '#0d47a1'),
+(24, 'Hard rock', '#000000');
