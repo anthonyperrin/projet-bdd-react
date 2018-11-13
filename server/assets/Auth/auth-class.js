@@ -36,25 +36,30 @@ let Auth = class {
                 }
             })
                 .then((user) => {
-                    if (user) next(new Error("Email already used. Please use another one to register."));
-                    users.create({
-                        FirstName: req.body.firstName,
-                        Lastname: req.body.lastName,
-                        Email: req.body.email,
-                        Rank: 0,
-                        Pseudo: req.body.pseudo,
-                        Password: hashedPassword,
-                        Address1: null,
-                        Address2: null,
-                        City: null,
-                        Zipcode: null,
-                        Coins: 0
-                    })
-                        .then(user => {
-                            const token = jwt.sign({id: user.Id}, configSecret.secret, {expiresIn: 7200});
-                            next({auth: true, token: token})
+                    console.log(user);
+                    if (user != null){
+                        next(new Error("Email already used. Please use another one to register."));
+                    }else{
+                        users.create({
+                            FirstName: req.body.firstName,
+                            Lastname: req.body.lastName,
+                            Email: req.body.email,
+                            Rank: 0,
+                            Pseudo: req.body.pseudo,
+                            Password: hashedPassword,
+                            Address1: null,
+                            Address2: null,
+                            City: null,
+                            Zipcode: null,
+                            Coins: 0
                         })
-                        .catch(err => next(err));
+                            .then(user => {
+                                const token = jwt.sign({id: user.Id}, configSecret.secret, {expiresIn: 7200});
+                                next({auth: true, token: token})
+                            })
+                            .catch(err => next(err));
+                    }
+
                 })
                 .catch(err => next(err.message()))
         });
