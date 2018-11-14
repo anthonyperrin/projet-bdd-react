@@ -2,6 +2,8 @@ const Sequelize = require('sequelize');
 const sequelize = require('../assets/config/database');
 const Artist = require('./Artist');
 const User = require('./User');
+const Genre = require('./Genre');
+
 const Disc = sequelize.define('disc', {
         Id: {
             primaryKey: true,
@@ -42,6 +44,7 @@ const Disc = sequelize.define('disc', {
     );
 Disc.belongsTo(Artist, {foreignKey: 'Id_Artist'});
 Disc.belongsTo(User, {foreignKey: 'Id_User'});
+//Disc.belongsTo(Genre, {foreignKey: 'Id_Genre'});
 
 Disc.sync();
 

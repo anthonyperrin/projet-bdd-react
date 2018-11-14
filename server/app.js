@@ -27,12 +27,14 @@ sequelize
         let GenreRouter = express.Router();
         let UserRouter = express.Router();
         let ArtistRouter = express.Router();
+        let DiscRouter = express.Router();
 
         // SERVICES
         let Auth = require('./assets/Auth/auth-class');
         let Genre = require('./assets/classes/genre-class');
         let User = require('./assets/classes/user-class');
         let Artist = require('./assets/classes/artist-class');
+        let Disc = require('./assets/classes/disc-class');
 
         const VerifyToken  = require('./assets/Auth/VerifyToken');
 
@@ -88,25 +90,26 @@ sequelize
             });
 
         UserRouter.route('/')
+            //Get all users
             .get(async (req, res,) => {
                 let users = await User.getAll(req.query.max);
                 res.json(checkAndChange(users));
             });
 
         UserRouter.route('/:id')
-        //Get member by index
+        //Get user by index
             .get(async (req, res) => {
                 let user = await User.getById(req.params.id);
                 res.json(checkAndChange(user));
             })
 
-            //Update member with index
+            //Update user with index
             .put(async (req, res) => {
                 let user = await User.update(req.body);
                 res.json(checkAndChange(user));
             })
 
-            //Delete member with index
+            //Delete user with index
             .delete(async (req, res) => {
                 let result = await User.delete(req.params.id);
                 res.json(checkAndChange(result));
@@ -123,24 +126,38 @@ sequelize
                 res.json(checkAndChange(artist));
             });
         ArtistRouter.route('/:id')
-        //Get member by index
+        //Get artist by index
             .get(async (req, res) => {
                 let artist = await Artist.getById(req.params.id);
                 res.json(checkAndChange(artist));
             })
 
-            //Update member with index
+            //Update artist with index
             .put(async (req, res) => {
                 let artist = await Artist.update(req.params.id, req.body);
                 res.json(checkAndChange(artist));
             })
 
-            //Delete member with index
+            //Delete artist with index
             .delete(async (req, res) => {
                 let result = await Artist.delete(req.params.id);
                 res.json(checkAndChange(result));
             });
 
+        DiscRouter.route('/')
+            // Get all discs
+            .get(async (req, res,) => {
+                let discs = await Disc.getAll(req.query.max);
+                res.json(checkAndChange(discs));
+            });
+        DiscRouter.route('/:id')
+        //Get disc by index
+            .get(async (req, res) => {
+                let disc = await Disc.getById(req.params.id);
+                res.json(checkAndChange(disc));
+            });
+
+        app.use(config.rootApi + 'disc/', DiscRouter);
         app.use(config.rootApi + 'auth/', AuthRouter);
         app.use(config.rootApi + 'genre/', GenreRouter);
         app.use(config.rootApi + 'user/', UserRouter);
