@@ -16,10 +16,8 @@ const Genre = sequelize.define('genre', {
     },
     {
         freezeTableName: true,
-        createdAt:
-            false,
-        updatedAt:
-            false
+        createdAt: false,
+        updatedAt: false
     }
     )
 ;

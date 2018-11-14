@@ -92,3 +92,4 @@ INSERT INTO `genre` (`Id`, `Name`, `colorCode`) VALUES
 (22, 'Instrumental', '#880e4f'),
 (23, 'Dubstep', '#0d47a1'),
 (24, 'Hard rock', '#000000');
+
