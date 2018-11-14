@@ -10,6 +10,7 @@ import LockIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
+import { Redirect } from 'react-router-dom'
 
 const styles = theme => ({
     layout: {
@@ -49,21 +50,32 @@ class Register extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    state = {
+        redirect: false
+    };
+
+    setRedirect = () => {
+        this.setState({
+            redirect: true
+        })
+    };
+
+    renderRedirect = () => {
+        if (this.state.redirect) {
+            return <Redirect to='/login' />
+        }
+    };
+
     handleSubmit(event) {
         event.preventDefault();
         const data = new FormData(event.target);
-        let firstName = data.get('firstName');
-        let lastName = data.get('lastName');
-        let email = data.get('email');
         let password = data.get('password');
         let password2 = data.get('password2');
-        let pseudo = data.get('pseudo');
-
         let formData = {
-            email: data.get('firstName'),
-            firstName: data.get('lastName'),
-            lastName: data.get('password'),
-            password: data.get('password2'),
+            firstName: data.get('firstName'),
+            lastName: data.get('lastName'),
+            password: data.get('password'),
+            email: data.get('email'),
             pseudo: data.get('pseudo')
         };
 
@@ -73,7 +85,6 @@ class Register extends React.Component {
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(formData)
             })
-                .then(alert('Vous vous êtes bien inscrit !'))
                 .catch(err => console.log(err));
         }
 
