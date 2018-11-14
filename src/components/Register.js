@@ -51,13 +51,19 @@ class Register extends React.Component {
     }
 
     state = {
-        redirect: false
+        redirect: false,
+        erreurMsg : ""
     };
 
     setRedirect = () => {
         this.setState({
             redirect: true
         })
+    };
+
+    afficherMsg = (msg) => {
+        this.setState({erreurMsg : msg.message});
+        document.getElementById("erreur").innerText(msg.message);
     };
 
     renderRedirect = () => {
@@ -85,14 +91,13 @@ class Register extends React.Component {
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(formData)
             })
+                .then(mss => mss.json())
+                .then(mss => this.afficherMsg(mss))
                 .catch(err => console.log(err));
         }
 
         else {
-            alert(
-                'Erreur : Les 2 mots de passe sont différents'
-            )
-            ;
+            this.setState({erreurMsg : "Erreur : Les 2 mots de passe sont différents"});
             document
                 .getElementById(
                     "password"
@@ -120,6 +125,7 @@ class Register extends React.Component {
                         <Typography component="h1" variant="h5">
                             Register
                         </Typography>
+
                         <form className={classes.form} onSubmit={this.handleSubmit}>
                             <FormControl margin="normal" required fullWidth>
                                 <InputLabel htmlFor="firstName">FirstName</InputLabel>
@@ -153,6 +159,9 @@ class Register extends React.Component {
                                 <InputLabel htmlFor="pseudo">Pseudo</InputLabel>
                                 <Input id="pseudo" name="pseudo"/>
                             </FormControl>
+                            <Typography margin="normal" component="p" id="erreur">
+                                {this.state.erreurMsg}
+                            </Typography>
                             <Button
                                 type="submit"
                                 fullWidth
