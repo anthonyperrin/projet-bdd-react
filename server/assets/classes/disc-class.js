@@ -1,10 +1,13 @@
 const discs = require('../../models/Disc');
 const artists = require('../../models/Artist');
 const users = require('../../models/User');
+const genres = require('../../models/Genre');
 let Disc = class {
     static getById(id) {
         return new Promise((next) => {
-            discs.findById(id)
+            discs.findById(id, {
+                include: [artists, users, genres]
+            })
                 .then(result => next(result))
                 .catch(err => next(err.message))
         });
@@ -14,7 +17,8 @@ let Disc = class {
         return new Promise((next) => {
             if (max && max > 0) {
                 discs.findAll({
-                    limit: parseInt(max)
+                    limit: parseInt(max),
+                    include: [artists, genres, users]
                 })
                     .then(result => next(result))
                     .catch(err => next(err.message))
@@ -24,7 +28,7 @@ let Disc = class {
             }
             else {
                 discs.findAll({
-                    include: [artists, users]
+                    include: [artists, users, genres]
                 })
                     .then(result => next(result))
                     .catch(err => next(err.message))
