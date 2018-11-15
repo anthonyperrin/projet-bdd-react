@@ -45,7 +45,6 @@ const Disc = sequelize.define('disc', {
 Disc.belongsTo(Genre, { foreignKey: 'Id_Genre'});
 Disc.belongsTo(Artist, {foreignKey: 'Id_Artist'});
 Disc.belongsTo(User, {foreignKey: 'Id_User'});
-//Disc.belongsTo(Genre, {foreignKey: 'Id_Genre'});
 
 Disc.sync();
 
