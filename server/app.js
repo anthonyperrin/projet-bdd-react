@@ -63,7 +63,7 @@ sequelize
             });
 
         GenreRouter.route('/')
-            .get(async (req, res,) => {
+            .get(async (req, res) => {
                 let genres = await Genre.getAll(req.query.max);
                 res.json(checkAndChange(genres));
             })

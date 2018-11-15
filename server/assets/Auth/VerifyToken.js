@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const configSecret = require('../config/config');
 
-function verifyToken(req, res, next) {
+const verifyToken = (req, res, next) => {
     const token = req.headers['x-access-token'];
     if (!token) return res.status(403).send({auth: false, message: 'No token provided.'});
     jwt.verify(token,
