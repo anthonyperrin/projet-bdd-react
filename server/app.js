@@ -28,6 +28,7 @@ sequelize
         let UserRouter = express.Router();
         let ArtistRouter = express.Router();
         let DiscRouter = express.Router();
+        let BuyRouter = express.Router();
 
         // SERVICES
         let Auth = require('./assets/Auth/auth-class');
@@ -35,6 +36,7 @@ sequelize
         let User = require('./assets/classes/user-class');
         let Artist = require('./assets/classes/artist-class');
         let Disc = require('./assets/classes/disc-class');
+        let Buy = require('./assets/classes/buy-class');
 
         const VerifyToken  = require('./assets/Auth/VerifyToken');
 
@@ -61,7 +63,7 @@ sequelize
             });
 
         GenreRouter.route('/')
-            .get(async (req, res,) => {
+            .get(async (req, res) => {
                 let genres = await Genre.getAll(req.query.max);
                 res.json(checkAndChange(genres));
             })
@@ -157,11 +159,25 @@ sequelize
                 res.json(checkAndChange(disc));
             });
 
+        BuyRouter.route('/')
+        // Get all discs
+            .get(async (req, res,) => {
+                let buys = await Buy.getAll(req.query.max);
+                res.json(checkAndChange(buys));
+            });
+        BuyRouter.route('/:id')
+        //Get disc by index
+            .get(async (req, res) => {
+                let buy = await Buy.getById(req.params.id);
+                res.json(checkAndChange(buy));
+            });
+
         app.use(config.rootApi + 'disc/', DiscRouter);
         app.use(config.rootApi + 'auth/', AuthRouter);
         app.use(config.rootApi + 'genre/', GenreRouter);
         app.use(config.rootApi + 'user/', UserRouter);
         app.use(config.rootApi + 'artist/', ArtistRouter);
+        app.use(config.rootApi + 'buy/', BuyRouter);
         app.listen(config.port, () => {
             console.log('Started on port ' + config.port)
         });
