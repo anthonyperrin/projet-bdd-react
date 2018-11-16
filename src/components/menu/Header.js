@@ -63,7 +63,7 @@ class Header extends React.Component {
                 <List>
                     <ListItem button key="artists" component={Link} to={"/artists"}>
                         <ListItemIcon><GroupWork/></ListItemIcon>
-                        <ListItemText primary="Artistes"/>
+                        <ListItemText primary="Artists"/>
                     </ListItem>
                 </List>
                 <Divider/>
@@ -71,6 +71,13 @@ class Header extends React.Component {
                     <ListItem button key="profile" component={Link} to={"/mes_disques"}>
                         <ListItemIcon><LibraryMusic/></ListItemIcon>
                         <ListItemText primary="My items"/>
+                    </ListItem>
+                </List>
+                <Divider/>
+                <List>
+                    <ListItem button key="AddDisc" component={Link} to={"/AddDisc"}>
+                        <ListItemIcon><LibraryMusic/></ListItemIcon>
+                        <ListItemText primary="Add Disc"/>
                     </ListItem>
                 </List>
             </div>
