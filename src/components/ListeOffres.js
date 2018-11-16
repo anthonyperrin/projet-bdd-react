@@ -13,6 +13,12 @@ import Paper from '@material-ui/core/Paper';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import {Link} from 'react-router-dom';
+import ListItem from "@material-ui/core/ListItem/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon/ListItemIcon";
+import LibraryMusic from '@material-ui/icons/LibraryMusic';
+import ListItemText from "@material-ui/core/ListItemText/ListItemText";
+import List from "@material-ui/core/List/List";
 
 
 const styles = theme => ({
@@ -123,6 +129,12 @@ class ListeOffres extends React.Component {
                                 <MenuItem value={30}>Thirty</MenuItem>
                             </Select>
                         </FormControl>
+                        <List>
+                            <ListItem button key="AddDisc" component={Link} to={"/AddDisc"}>
+                                <ListItemIcon><LibraryMusic/></ListItemIcon>
+                                <ListItemText primary="Add Disc"/>
+                            </ListItem>
+                        </List>
                     </Paper>
                 </Grid>
                 <Grid container className={classes.root} spacing={20} xs={10} direction="row"

@@ -35,6 +35,33 @@ let Disc = class {
             }
         });
     }
+    static add() {
+        return new Promise((next) => {
+            if (name && color) {
+                genres.findOne({
+                    where: {
+                        Name: name,
+                        colorCode: color,
+                    }
+                })
+                    .then((result) => {
+                        if (!result)
+                            genres.create({
+                                Name: name,
+                                colorCode:color,
+                            })
+                                .then((result) => next(result))
+                                .catch((err) => next(err.message));
+                        else
+                            next(new Error("Name or color already used."))
+                    })
+                    .catch((err) => next(err.message))
+            } else {
+                next(new Error('Name or color undefined.'));
+            }
+        });
+
+    }
 
 };
 module.exports = Disc;
