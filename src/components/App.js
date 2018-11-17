@@ -6,10 +6,11 @@ import View from './View';
 import {connect} from 'react-redux';
 import {Provider} from 'react-redux';
 import {store}from '../store/index';
+import { withRouter } from 'react-router-dom'
 
 class App extends Component {
     render() {
-        console.log(this.props)
+        console.log(this.props);
         return (
             <Provider store={store}>
                 <div>
@@ -28,4 +29,4 @@ const mapStateToProps = state => {
     }
 };
 
-export default connect(mapStateToProps)(App);
+export default withRouter(connect(mapStateToProps)(App));
