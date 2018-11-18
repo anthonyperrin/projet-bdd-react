@@ -2,7 +2,7 @@ import {ADD_TOKEN} from './actions'
 import {DEL_TOKEN} from './actions'
 
 const initialState = {
-    token: "test"
+    token: ""
 };
 
 export default function  (state = initialState, action){

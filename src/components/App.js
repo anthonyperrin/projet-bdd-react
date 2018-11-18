@@ -11,7 +11,6 @@ import { withRouter } from 'react-router-dom'
 
 class App extends Component {
     render() {
-        console.log(this.props);
         return (
             <Provider store={store}>
                 <div>
@@ -29,5 +28,7 @@ const mapStateToProps = state => {
         token: state
     }
 };
+
+
 
 export default withRouter(connect(mapStateToProps)(App));
