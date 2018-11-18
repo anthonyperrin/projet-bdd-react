@@ -19,6 +19,7 @@ import Divider from "@material-ui/core/Divider/Divider";
 import QueueMusic from '@material-ui/icons/QueueMusic';
 import GroupWork from '@material-ui/icons/GroupWork';
 import LibraryMusic from '@material-ui/icons/LibraryMusic';
+import {store}from '../../store/index';
 
 const styles = {
     root: {
@@ -82,7 +83,31 @@ class Header extends React.Component {
                 </List>
             </div>
         );
+        let token = store.getState().state.token;
+        let rightList = "";
+        if(token === "" ){
+            console.log(1, token);
+            rightList = (
+                <div>
+                    <Button color="inherit" component={Link} to={"/login"} className={classes.buttonLogin}>Login</Button>
+                    <Button color="secondary" component={Link} to={"/register"} variant="contained">Register</Button>
+                </div>
+
+            );
+        }else{
+            console.log(2, token);
+            rightList = (
+                <div>
+                    <Button color="inherit" component={Link} to={"/profile"} className={classes.buttonLogin}>Profile</Button>
+                    <Button color="secondary" component={Link} to={"/deco"} variant="contained">Log out</Button>
+                </div>
+
+            );
+        }
+
+
         return (
+
             <div className={classes.root}>
                 <Drawer open={this.state.left} onClose={this.toggleDrawer('left', false)}>
                     <div
@@ -103,9 +128,7 @@ class Header extends React.Component {
                         <Typography variant="h6" color="inherit" className={classes.grow}>
                             DiscoGraph'y
                         </Typography>
-                        <Button color="inherit" component={Link} to={"/login"} className={classes.buttonLogin}>Login</Button>
-                        <Button color="secondary" component={Link} to={"/register"}
-                                variant="contained">Register</Button>
+                        {rightList}
                     </Toolbar>
                 </AppBar>
             </div>

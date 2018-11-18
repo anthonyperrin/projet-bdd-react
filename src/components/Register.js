@@ -12,6 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Redirect } from 'react-router-dom'
 
+
 const styles = theme => ({
     layout: {
         width: 'auto',
@@ -62,8 +63,12 @@ class Register extends React.Component {
     };
 
     afficherMsg = (msg) => {
-        this.setState({erreurMsg : msg.message});
-        document.getElementById("erreur").innerText(msg.message);
+        if(msg.status === "error"){
+            this.setState({erreurMsg : msg.message});
+            document.getElementById("erreur").innerText(msg.message);
+        }else{
+            this.setRedirect();
+        }
     };
 
     renderRedirect = () => {
@@ -161,6 +166,7 @@ class Register extends React.Component {
                             </FormControl>
                             <Typography margin="normal" component="p" id="erreur">
                                 {this.state.erreurMsg}
+                                {this.renderRedirect()}
                             </Typography>
                             <Button
                                 type="submit"
