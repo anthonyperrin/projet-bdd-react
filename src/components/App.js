@@ -8,6 +8,7 @@ import {Provider} from 'react-redux';
 import {store}from '../store/index';
 import { withRouter } from 'react-router-dom'
 
+
 class App extends Component {
     render() {
         console.log(this.props);

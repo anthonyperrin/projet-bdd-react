@@ -11,6 +11,8 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Redirect } from 'react-router-dom'
+import store from '../store/index'
+import {addtoken} from '../store/actions'
 
 const styles = theme => ({
     layout: {
@@ -52,13 +54,13 @@ class Login extends React.Component {
 
     state = {
         redirect: false,
-        erreurMsg : ""
+        erreurMsg : "",
+        token : ""
     };
 
     setRedirect = () => {
         this.setState({
             redirect: true,
-            token : ""
         })
     };
 
@@ -74,6 +76,7 @@ class Login extends React.Component {
 
     renderRedirect = () => {
         if (this.state.redirect) {
+            store.dispatch(addtoken(this.state.token));
             return <Redirect to='/mes_disques' />
         }
     };
