@@ -86,7 +86,6 @@ class Header extends React.Component {
         let token = store.getState().state.token;
         let rightList = "";
         if(token === "" ){
-            console.log(1, token);
             rightList = (
                 <div>
                     <Button color="inherit" component={Link} to={"/login"} className={classes.buttonLogin}>Login</Button>
@@ -95,7 +94,6 @@ class Header extends React.Component {
 
             );
         }else{
-            console.log(2, token);
             rightList = (
                 <div>
                     <Button color="inherit" component={Link} to={"/profile"} className={classes.buttonLogin}>Profile</Button>
