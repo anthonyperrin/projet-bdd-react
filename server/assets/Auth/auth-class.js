@@ -15,7 +15,7 @@ let Auth = class {
                         if (!res) next(new Error('No user found.'));
                         const passwordIsValid = bcrypt.compareSync(password, res.Password);
                         if (!passwordIsValid) next(new Error('Wrong email or password.'));
-                        const token = jwt.sign({id: res.id}, configSecret.secret, {expiresIn: 7200});
+                        const token = jwt.sign({id: res.Id}, configSecret.secret, {expiresIn: 7200});
                         next({auth: true, token: token});
                     })
                     .catch(err => next(err.message))
@@ -75,7 +75,6 @@ let Auth = class {
             });
             jwt.verify(token, configSecret.secret, (err, result) => {
                 if (err) next(new Error('Failed to authenticate token.'));
-                console.log(result.id);
                 users.findById(result.id, {password: false})
                     .then(res => {
                         if (!res) next(new Error('No user found.'));

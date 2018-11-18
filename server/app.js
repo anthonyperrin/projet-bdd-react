@@ -151,6 +151,10 @@ sequelize
             .get(async (req, res,) => {
                 let discs = await Disc.getAll(req.query.max);
                 res.json(checkAndChange(discs));
+            })
+            .post(async (req, res) => {
+                let disc = await Disc.add(req.body);
+                res.json(checkAndChange(disc));
             });
         DiscRouter.route('/:id')
         //Get disc by index

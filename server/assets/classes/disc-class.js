@@ -35,33 +35,40 @@ let Disc = class {
             }
         });
     }
-    static add() {
+    static add(req) {
         return new Promise((next) => {
-            if (name && color) {
-                genres.findOne({
+            if (req.Name && req.Id_Genre && req.Id_User) {
+                discs.findOne({
                     where: {
-                        Name: name,
-                        colorCode: color,
+                        Name: req.Name,
+                        Id_Genre: req.Id_Genre,
+                        Id_User: req.Id_User,
                     }
                 })
                     .then((result) => {
                         if (!result)
-                            genres.create({
-                                Name: name,
-                                colorCode:color,
+                            discs.create({
+                                Name: req.Name,
+                                Id_User: req.Id_User,
+                                ReleaseYear: req.ReleaseYear,
+                                Price: req.Price,
+                                nbViews: 0,
+                                Id_Artist: req.Id_Artist,
+                                DateAdd: req.DateAdd,
+                                Id_Genre: req.Id_Genre
                             })
                                 .then((result) => next(result))
                                 .catch((err) => next(err.message));
                         else
-                            next(new Error("Name or color already used."))
+                            next(new Error("Disc already in sale."))
                     })
                     .catch((err) => next(err.message))
             } else {
-                next(new Error('Name or color undefined.'));
+                next(new Error('Parameters undefined.'));
             }
         });
-
     }
+
 
 };
 module.exports = Disc;

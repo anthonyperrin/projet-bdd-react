@@ -14,7 +14,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import LibraryAdd from '@material-ui/icons/LibraryAdd';
 import Album from '@material-ui/icons/Album'
-
+import {store}from '../store/index';
+import {addtoken} from "../store/actions";
+import {Redirect} from "react-router-dom";
 
 const styles = theme => ({
     typography: {
@@ -79,7 +81,9 @@ class AddDisc extends React.Component {
             price: '',
             labelWidth:0,
             redirect:false,
-            erreurMsg:""
+            erreurMsg:"",
+            user: {},
+            token: store.getState().state.token,
         }
     }
     setRedirect = () => {
@@ -88,11 +92,37 @@ class AddDisc extends React.Component {
         })
     };
 
+    renderRedirect = () => {
+        if (this.state.redirect) {
+            return <Redirect to='/register' />
+        }
+    };
+
     afficherMsg = (msg) => {
         this.setState({erreurMsg : msg.message});
         document.getElementById("erreur").innerText(msg.message);
     };
 
+    handleSubmit = (event) => {
+        event.preventDefault();
+        console.log(this.state);
+        let today = new Date();
+        let formData = {
+            Name: this.state.title,
+            Id_User: this.state.user.Id,
+            ReleaseYear: this.state.year,
+            Price: parseInt(this.state.price),
+            DateAdd: today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate(),
+            nbViews: 0,
+            Id_Artist: this.state.artist,
+            Id_Genre: this.state.genre
+        };
+        fetch('http://127.0.0.1:8081/api/disc/', {
+            method: 'POST',
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(formData)
+        })
+    };
 
     componentWillMount() {
         fetch('http://127.0.0.1:8081/api/artist')
@@ -101,38 +131,70 @@ class AddDisc extends React.Component {
                 {
                     listArtists: json.result,
                 }
-            ))
+            ));
         fetch('http://127.0.0.1:8081/api/genre')
             .then(res => res.json())
             .then(json => this.setState(
                 {
                     listGenre: json.result,
                 }
-            ))
+            ));
+        let header =new Headers({
+            'x-access-token': this.state.token
+        });
+        fetch('http://127.0.0.1:8081/api/auth/current', {
+            headers: header
+        })
+            .then(res => res.json())
+            .then(json => this.confUser(json) )
+
     }
+
+    confUser = (json) => {
+        this.setState(
+            {
+                user: json.result,
+            }
+        );
+
+        this.verifyAuth();
+    };
+
+    verifyAuth = () => {
+        console.log(this.state.user);
+        if(this.state.user.auth === false){
+
+            this.setRedirect();
+
+            console.log(this.state.redirect);
+        }
+    };
 
     handleArtistSelectChange = event => {
         this.setState({[event.target.name]: event.target.value});
         this.state.artist = event.target.value;
         document.getElementById('titleartist').innerHTML = '';
-        console.log(this.state.artist)
     };
 
     handleGenreSelectChange = event => {
         this.setState({[event.target.name]: event.target.value});
         this.state.genre = event.target.value;
-        console.log(this.state.genre)
         document.getElementById('titlegenre').innerHTML = '';
-    }
+    };
 
     handleTitleChange = event => {
-        this.state.title = event.target.value
-        console.log(this.state.title)
-    }
+        this.state.title = event.target.value;
+        console.log(this.state.user);
+    };
 
     handleDateChange = event => {
-        this.state.release 
-    }
+        this.state.year = event.target.value;
+    };
+
+    handlePriceChange = event => {
+        this.state.price = event.target.value;
+    };
+
 
 
     render() {
@@ -148,6 +210,7 @@ class AddDisc extends React.Component {
                         </Avatar>
                         <Typography component="h1" variant={"display1"}>
                             Add your own disc's offer
+                            {this.renderRedirect()}
                         </Typography>
                         <form className={classes.form} onSubmit={this.handleSubmit}>
                             <FormControl margin="normal" required fullWidth>
@@ -206,6 +269,7 @@ class AddDisc extends React.Component {
                                         InputLabelProps={{
                                             shrink: true,
                                         }}
+                                        onChange={this.handleDateChange}
                                     />
                                 </FormControl>
                                 <FormControl required fullWidth>
@@ -219,20 +283,24 @@ class AddDisc extends React.Component {
                                             shrink: true,
                                         }}
                                         margin="normal"
+                                        onChange={this.handlePriceChange}
                                     />
+
+
                                 </FormControl>
                             </div>
                             <Typography margin="normal" component="p" id="erreur">
                                 {this.state.erreurMsg}
                             </Typography>
                             <Button
-                                onClick={this.displayAlert}
+                                onClick={this.sendDataDisc}
                                 type="submit"
                                 fullWidth
                                 variant="contained"
                                 color="primary">
                                 Add offer
                                 <LibraryAdd style={{marginLeft:'20px'}}/>
+
                             </Button>
                         </form>
                     </Paper>
