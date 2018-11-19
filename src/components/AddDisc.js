@@ -98,13 +98,16 @@ class AddDisc extends React.Component {
     };
 
     afficherMsg = (msg) => {
-        this.setState({erreurMsg : msg.message});
-        document.getElementById("erreur").innerText(msg.message);
+        if(msg.status === "error"){
+            this.setState({erreurMsg : msg.message});
+        }else if(msg.status === "success"){
+            this.setState({erreurMsg : "The disc has been added."});
+        }
+        console.log(this.state);
     };
 
     handleSubmit = (event) => {
         event.preventDefault();
-        console.log(this.state);
         let today = new Date();
         let formData = {
             Name: this.state.title,
@@ -122,6 +125,7 @@ class AddDisc extends React.Component {
             body: JSON.stringify(formData)
         })
             .then(rep => rep.json())
+            .then(json => this.afficherMsg(json))
 
     };
 
@@ -164,12 +168,10 @@ class AddDisc extends React.Component {
     };
 
     verifyAuth = () => {
-        console.log(this.state.user);
         if(this.state.user.auth === false){
 
             this.setRedirect();
 
-            console.log(this.state.redirect);
         }
     };
 

@@ -69,7 +69,7 @@ class Header extends React.Component {
                 </List>
                 <Divider/>
                 <List>
-                    <ListItem button key="profile" component={Link} to={"/mes_disques"}>
+                    <ListItem button key="profile" component={Link} to={"/my_discs"}>
                         <ListItemIcon><LibraryMusic/></ListItemIcon>
                         <ListItemText primary="My items"/>
                     </ListItem>
