@@ -14,14 +14,8 @@ const Disc = sequelize.define('disc', {
         Name: {
             type: Sequelize.STRING
         },
-        Category: {
-            type: Sequelize.SMALLINT(6)
-        },
         ReleaseYear: {
             type: Sequelize.DATE
-        },
-        Label: {
-            type: Sequelize.STRING
         },
         Price: {
             type: Sequelize.INTEGER
