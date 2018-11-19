@@ -220,7 +220,7 @@ class MyDiscs extends React.Component {
                                                         </Grid>
                                                         <Grid xs={12} md={6} item>
                                                             <Typography style={{marginTop: 7}} variant="h6">
-                                                                {disc.price}
+                                                                {disc.Price} €
                                                             </Typography>
                                                         </Grid>
                                                     </div>
