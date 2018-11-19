@@ -93,7 +93,7 @@ class AddDisc extends React.Component {
 
     renderRedirect = () => {
         if (this.state.redirect) {
-            return <Redirect to='/register' />
+            return <Redirect to='/login' />
         }
     };
 
@@ -104,7 +104,6 @@ class AddDisc extends React.Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        console.log(this.state);
         let today = new Date();
         let formData = {
             Name: this.state.title,

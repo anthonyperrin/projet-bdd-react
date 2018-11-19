@@ -19,7 +19,7 @@ import Divider from "@material-ui/core/Divider/Divider";
 import QueueMusic from '@material-ui/icons/QueueMusic';
 import GroupWork from '@material-ui/icons/GroupWork';
 import LibraryMusic from '@material-ui/icons/LibraryMusic';
-import {store}from '../../store/index';
+import {store} from '../../store/index';
 
 const styles = {
     root: {
@@ -42,7 +42,9 @@ const styles = {
 
 class Header extends React.Component {
     state = {
-        left: false
+        left: false,
+        user:{},
+        token : store.getState().state.token
     };
 
     toggleDrawer = (side, open) => () => {
@@ -83,9 +85,8 @@ class Header extends React.Component {
                 </List>
             </div>
         );
-        let token = store.getState().state.token;
         let rightList = "";
-        if(token === "" ){
+        if(store.getState().state.token === "" ){
             rightList = (
                 <div>
                     <Button color="inherit" component={Link} to={"/login"} className={classes.buttonLogin}>Login</Button>
@@ -96,6 +97,7 @@ class Header extends React.Component {
         }else{
             rightList = (
                 <div>
+                    <Typography>{this.state.user.Coins}</Typography>
                     <Button color="inherit" component={Link} to={"/profile"} className={classes.buttonLogin}>Profile</Button>
                     <Button color="secondary" component={Link} to={"/deco"} variant="contained">Log out</Button>
                 </div>

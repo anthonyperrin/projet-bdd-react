@@ -10,7 +10,7 @@ const User = sequelize.define('user', {
         FirstName: {
             type: Sequelize.STRING
         },
-        Lastname: {
+        LastName: {
             type: Sequelize.STRING
         },
         Rank: {

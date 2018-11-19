@@ -16,7 +16,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import {Link} from 'react-router-dom';
 import ListItem from "@material-ui/core/ListItem/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon/ListItemIcon";
-import LibraryMusic from '@material-ui/icons/LibraryMusic';
+import AttachMoney from '@material-ui/icons/AttachMoney';
+import PlusOne from '@material-ui/icons/PlusOne';
 import ListItemText from "@material-ui/core/ListItemText/ListItemText";
 import List from "@material-ui/core/List/List";
 
@@ -72,24 +73,26 @@ class ListeOffres extends React.Component {
         this.state = {
             listGenre: [],
             listGenreFiltered: [],
+            listDisc: [],
+            listDiscFiltered: []
         };
     }
 
 
     componentWillMount() {
-        fetch('http://127.0.0.1:8081/api/genre')
+        fetch('http://127.0.0.1:8081/api/disc')
             .then(res => res.json())
             .then(json => this.setState(
                 {
-                    listGenre: json.result,
-                    listGenreFiltered: json.result,
+                    listDisc: json.result,
+                    listDiscFiltered: json.result
                 }
             ))
     }
 
     doFilter = (e) => {
         this.setState({
-            listGenreFiltered: this.state.listGenre.filter(a =>
+            listDiscFiltered: this.state.listDisc.filter(a =>
                 (a.Name.toLowerCase()).indexOf(e.target.value.toLowerCase()) >= 0
             )
         });
@@ -131,7 +134,7 @@ class ListeOffres extends React.Component {
                         </FormControl>
                         <List>
                             <ListItem button key="AddDisc" component={Link} to={"/AddDisc"}>
-                                <ListItemIcon><LibraryMusic/></ListItemIcon>
+                                <ListItemIcon><PlusOne/></ListItemIcon>
                                 <ListItemText primary="Add Disc"/>
                             </ListItem>
                         </List>
@@ -140,21 +143,23 @@ class ListeOffres extends React.Component {
                 <Grid container className={classes.root} spacing={20} xs={10} direction="row"
                       alignItems="center">
                     {
-                        this.state.listGenreFiltered.map(genre => {
+                        this.state.listDiscFiltered.map(disc => {
                             return (
                                 <Grid item xs={12} md={4} lg={3}>
                                     <Card className={classes.displayCard}>
                                         <CardActionArea>
-                                            <Typography gutterBottom style={{color: genre.colorCode}}>
-                                                {genre.Name}
+                                            <Typography gutterBottom style={{color: disc.genre.colorCode}}>
+                                                {disc.genre.Name}
                                             </Typography>
-                                            <CardContent>
-                                                <Grid item container xs={2}>
-                                                    <Typography gutterBottom variant="h5" component="h2">
-                                                        *Title*
+                                            <CardContent style={{ justifyContent:'left' }}>
+                                                <Grid item container xs={12}>
+                                                    <Typography gutterBottom variant="h5" component="h3">
+                                                        {disc.Name}
                                                     </Typography>
+                                                </Grid>
+                                                <Grid item container xs={12}>
                                                     <Typography gutterBottom variant="h7" component="h4">
-                                                        *Artist*
+                                                        {disc.artist.FirstName + ' ' + disc.artist.LastName}
                                                     </Typography>
                                                 </Grid>
                                             </CardContent>
@@ -163,16 +168,16 @@ class ListeOffres extends React.Component {
                                             <Grid xs={12} md={6} item>
                                                 <CardActions>
                                                     <Button variant="contained" size="small" style={{
-                                                        background: genre.colorCode,
+                                                        background: disc.genre.colorCode,
                                                         color: 'white'
                                                     }}>
-                                                        *Seller*
+                                                        {disc.user.Pseudo}
                                                     </Button>
                                                 </CardActions>
                                             </Grid>
                                             <Grid xs={12} md={6} item>
-                                                <Typography style={{marginTop: 7}} variant="h6">
-                                                    1500t
+                                                <Typography style={{marginTop: 20}} variant="h6">
+                                                    {disc.Price + '.00 $'}
                                                 </Typography>
                                             </Grid>
                                         </div>

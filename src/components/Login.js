@@ -10,7 +10,7 @@ import LockIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
-import { Redirect } from 'react-router-dom'
+import {Link, Redirect} from 'react-router-dom'
 import store from '../store/index'
 import {addtoken} from '../store/actions'
 
@@ -44,6 +44,9 @@ const styles = theme => ({
     submit: {
         marginTop: theme.spacing.unit * 3,
     },
+    registertxt: {
+        marginTop : '10px'
+    }
 });
 
 class Login extends React.Component {
@@ -141,6 +144,7 @@ class Login extends React.Component {
                                 Sign in
                             </Button>
                         </form>
+                        <Typography className={classes.registertxt}>New user ?<Typography component={Link} to={"/register"} className={classes.registertxt}>Click here</Typography></Typography>
                     </Paper>
                 </main>
             </React.Fragment>
