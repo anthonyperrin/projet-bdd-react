@@ -15,7 +15,6 @@ import TextField from '@material-ui/core/TextField';
 import LibraryAdd from '@material-ui/icons/LibraryAdd';
 import Album from '@material-ui/icons/Album'
 import {store}from '../store/index';
-import {addtoken} from "../store/actions";
 import {Redirect} from "react-router-dom";
 
 const styles = theme => ({
@@ -122,6 +121,13 @@ class AddDisc extends React.Component {
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(formData)
         })
+            .then(rep => rep.json())
+            .then(json => this.verifyAdd(json));
+
+    };
+
+    verifyAdd = (event) =>{
+            
     };
 
     componentWillMount() {
