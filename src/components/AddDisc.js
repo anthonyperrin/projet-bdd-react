@@ -122,13 +122,10 @@ class AddDisc extends React.Component {
             body: JSON.stringify(formData)
         })
             .then(rep => rep.json())
-            .then(json => this.verifyAdd(json));
 
     };
 
-    verifyAdd = (event) =>{
-            
-    };
+
 
     componentWillMount() {
         fetch('http://127.0.0.1:8081/api/artist')
