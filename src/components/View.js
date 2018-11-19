@@ -6,6 +6,8 @@ import ListeOffres from './ListeOffres';
 import Artists from "./Artists";
 import Register from './Register';
 import AddDisc from './AddDisc';
+import MyDiscs from "./MyDiscs";
+import Profile from "./Profile";
 
 class View extends Component {
     render() {
@@ -15,8 +17,10 @@ class View extends Component {
                 <Route path={"/login"} component={Login} />
                 <Route path={"/offres"} component={ListeOffres}/>
                 <Route path={"/artists"} component={Artists}/>
+                <Route path={"/my_discs"} component={MyDiscs}/>
                 <Route path={"/register"} component={Register}/>
                 <Route path={"/addDisc"} component={AddDisc} />
+                <Route path={"/profile"} component={Profile} />
             </Switch>
         );
     }

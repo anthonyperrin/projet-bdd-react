@@ -80,7 +80,7 @@ class Login extends React.Component {
     renderRedirect = () => {
         if (this.state.redirect) {
             store.dispatch(addtoken(this.state.token));
-            return <Redirect to='/AddDisc' />
+            return <Redirect to='/Profile' />
         }
     };
 

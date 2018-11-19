@@ -98,8 +98,12 @@ class AddDisc extends React.Component {
     };
 
     afficherMsg = (msg) => {
-        this.setState({erreurMsg : msg.message});
-        document.getElementById("erreur").innerText(msg.message);
+        if(msg.status === "error"){
+            this.setState({erreurMsg : msg.message});
+        }else if(msg.status === "success"){
+            this.setState({erreurMsg : "The disc has been added."});
+        }
+        console.log(this.state);
     };
 
     handleSubmit = (event) => {
@@ -121,13 +125,11 @@ class AddDisc extends React.Component {
             body: JSON.stringify(formData)
         })
             .then(rep => rep.json())
-            .then(json => this.verifyAdd(json));
+            .then(json => this.afficherMsg(json))
 
     };
 
-    verifyAdd = (event) =>{
-            
-    };
+
 
     componentWillMount() {
         fetch('http://127.0.0.1:8081/api/artist')
@@ -166,12 +168,10 @@ class AddDisc extends React.Component {
     };
 
     verifyAuth = () => {
-        console.log(this.state.user);
         if(this.state.user.auth === false){
 
             this.setRedirect();
 
-            console.log(this.state.redirect);
         }
     };
 

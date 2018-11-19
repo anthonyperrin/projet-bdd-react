@@ -64,7 +64,7 @@ let Disc = class {
                     })
                     .catch((err) => next(err.message))
             } else {
-                next(new Error('Parameters undefined.'));
+                next(new Error('Some parameters are undefined.'));
             }
         });
     }
