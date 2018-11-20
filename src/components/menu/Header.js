@@ -44,7 +44,41 @@ class Header extends React.Component {
     state = {
         left: false,
         user:{},
-        token : store.getState().state.token
+        token : "",
+        isUser: false,
+        isChecked: false,
+        coins: store.getState().state.token,
+        isDifferent: false
+    };
+
+    confUser = (json) => {
+        this.setState(
+            {
+                user: json.result,
+                isUser: true
+            }
+        );
+    };
+
+    handleTokenAndUser = (thisToken, thisCoins) => {
+        if((thisToken !== this.state.token && !this.state.isChecked) || (this.state.isUser && this.state.coins !== thisCoins)){
+
+            this.setState({
+                isChecked: true,
+                token: thisToken,
+                coins: thisCoins
+            });
+            let header =new Headers({
+                'x-access-token': thisToken
+            });
+            fetch('http://127.0.0.1:8081/api/auth/current', {
+                headers: header
+            })
+                .then(res => res.json())
+                .then(json => this.confUser(json))
+                .then(this.setState({isDifferent: false}))
+        }
+
     };
 
     toggleDrawer = (side, open) => () => {
@@ -52,6 +86,7 @@ class Header extends React.Component {
             [side]: open,
         });
     };
+
 
     render() {
         const {classes} = this.props;
@@ -86,6 +121,7 @@ class Header extends React.Component {
             </div>
         );
         let rightList = "";
+        this.handleTokenAndUser(store.getState().state.token);
         if(store.getState().state.token === "" ){
             rightList = (
                 <div>
@@ -97,15 +133,14 @@ class Header extends React.Component {
         }else{
             rightList = (
                 <div>
-                    <Typography>{this.state.user.Coins}</Typography>
+                    <Button color="inherit">{store.getState().state.coins} $</Button>
+                    <Button color="inherit" >0 $ Blocked</Button>
                     <Button color="inherit" component={Link} to={"/profile"} className={classes.buttonLogin}>Profile</Button>
-                    <Button color="secondary" component={Link} to={"/deco"} variant="contained">Log out</Button>
+                    <Button color="secondary" component={Link} to={"/logout"} variant="contained">Log out</Button>
                 </div>
 
             );
         }
-
-
         return (
 
             <div className={classes.root}>

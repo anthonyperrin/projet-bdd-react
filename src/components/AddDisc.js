@@ -117,7 +117,6 @@ class AddDisc extends React.Component {
         }else if(msg.status === "success"){
             this.setState({erreurMsg : "The disc has been added."});
         }
-        console.log(this.state);
     };
 
     handleSubmit = (event) => {
@@ -212,6 +211,7 @@ class AddDisc extends React.Component {
     handlePriceChange = event => {
         this.state.price = event.target.value;
     };
+
 
 
 
@@ -318,7 +318,6 @@ class AddDisc extends React.Component {
                                 color="primary">
                                 Add offer
                                 <LibraryAdd style={{marginLeft:'20px'}}/>
-
                             </Button>
                         </form>
                     </Paper>
