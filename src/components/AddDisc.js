@@ -79,21 +79,34 @@ class AddDisc extends React.Component {
             year:'',
             price: '',
             labelWidth:0,
-            redirect:false,
+            redirectLogin:false,
+            redirectOffer:false,
             erreurMsg:"",
             user: {},
             token: store.getState().state.token,
         }
     }
-    setRedirect = () => {
+    setRedirectLogin = () => {
         this.setState({
-            redirect: true
+            redirectLogin: true
         })
     };
 
-    renderRedirect = () => {
-        if (this.state.redirect) {
+    setRedirectOffer = () => {
+        this.setState({
+            redirectOffer: true
+        })
+    };
+
+    renderRedirectLogin = () => {
+        if (this.state.redirectLogin) {
             return <Redirect to='/login' />
+        }
+    };
+
+    renderRedirectOffer = () => {
+        if (this.state.redirectOffer) {
+            return <Redirect to='/offres' />
         }
     };
 
@@ -126,6 +139,8 @@ class AddDisc extends React.Component {
         })
             .then(rep => rep.json())
             .then(json => this.afficherMsg(json))
+        this.setRedirectOffer();
+        alert('Disc has just been added')
 
     };
 
@@ -163,15 +178,12 @@ class AddDisc extends React.Component {
                 user: json.result,
             }
         );
-
         this.verifyAuth();
     };
 
     verifyAuth = () => {
         if(this.state.user.auth === false){
-
-            this.setRedirect();
-
+            this.setRedirectLogin();
         }
     };
 
@@ -215,7 +227,8 @@ class AddDisc extends React.Component {
                         </Avatar>
                         <Typography component="h1" variant={"display1"}>
                             Add your own disc's offer
-                            {this.renderRedirect()}
+                            {this.renderRedirectLogin()}
+                            {this.renderRedirectOffer()}
                         </Typography>
                         <form className={classes.form} onSubmit={this.handleSubmit}>
                             <FormControl margin="normal" required fullWidth>
@@ -298,7 +311,6 @@ class AddDisc extends React.Component {
                                 {this.state.erreurMsg}
                             </Typography>
                             <Button
-                                onClick={this.sendDataDisc}
                                 type="submit"
                                 fullWidth
                                 variant="contained"

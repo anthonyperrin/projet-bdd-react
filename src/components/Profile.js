@@ -51,7 +51,7 @@ const styles = theme => ({
         margin: theme.spacing.unit,
     },
     title1: {
-        marginTop: theme.spacing.unit
+        margin: theme.spacing.unit
     },
     title: {
         fontSize: 14,
@@ -65,7 +65,24 @@ const styles = theme => ({
     },
     media: {
         height: 140,
-    }
+    },
+    layout: {
+        width: 'auto',
+        display: 'block', // Fix IE 11 issue.
+        marginLeft: theme.spacing.unit * 3,
+        marginRight: theme.spacing.unit * 3,
+        [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
+            width: 400,
+            marginLeft: 'auto',
+            marginRight: 'auto',
+        },
+    },
+    paper: {
+        marginTop: theme.spacing.unit * 8,
+        display: 'flex',
+        flexDirection: 'column',
+        padding: `${theme.spacing.unit}px`,
+    },
 });
 
 
@@ -75,7 +92,7 @@ class Profile extends React.Component {
         this.state = {
             user: {},
             token: store.getState().state.token,
-            redirect:false,
+            redirect: false,
         };
     }
 
@@ -87,12 +104,12 @@ class Profile extends React.Component {
 
     renderRedirect = () => {
         if (this.state.redirect) {
-            return <Redirect to='/login' />
+            return <Redirect to='/login'/>
         }
     };
 
     componentWillMount() {
-        let header =new Headers({
+        let header = new Headers({
             'x-access-token': this.state.token
         });
         fetch('http://127.0.0.1:8081/api/auth/current', {
@@ -114,25 +131,33 @@ class Profile extends React.Component {
     };
 
     verifyAuth = () => {
-        if(this.state.user.auth === false){
+        if (this.state.user.auth === false) {
             this.setRedirect();
         }
     };
 
     render() {
         const {classes} = this.props;
-        return(
+        return (
             <React.Fragment>
                 <Typography>
                     {this.renderRedirect()}
                 </Typography>
                 <main className={classes.layout}>
-                    <Paper className={classes.paper}>
-                        <Typography className={classes.title1} variant="h2" component="h3">
-                            {this.state.user.FirstName + ' ' + this.state.user.Lastname}
-                        </Typography>
-                        
-                    </Paper>
+                    <Grid container xs={12}>
+                        <Paper className={classes.paper}>
+                            <Typography className={classes.title1} variant="h2" component="h3">
+                                {this.state.user.FirstName + ' ' + this.state.user.LastName}
+                            </Typography>
+                            <Typography className={classes.title1} style={{marginTop: '26px'}} variant="display1"
+                                        component="h3">
+                                {this.state.user.Pseudo}
+                            </Typography>
+                            <Typography component={Link} to={"/my_discs"}>
+                                My discs
+                            </Typography>
+                        </Paper>
+                    </Grid>
                 </main>
             </React.Fragment>
         );

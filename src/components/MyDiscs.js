@@ -188,10 +188,12 @@ class MyDiscs extends React.Component {
                                                             {disc.Name}
                                                         </Typography>
                                                         <CardContent>
-                                                            <Grid item container xs={2}>
+                                                            <Grid item container xs={12}>
                                                                 <Typography gutterBottom variant="h5" component="h2">
                                                                     {disc.Name}
                                                                 </Typography>
+                                                            </Grid>
+                                                            <Grid item container xs={12}>
                                                                 <Typography gutterBottom variant="h7" component="h4">
                                                                     {disc.artist.LastName + ' ' + disc.artist.FirstName}
                                                                 </Typography>
@@ -220,7 +222,7 @@ class MyDiscs extends React.Component {
                                                         </Grid>
                                                         <Grid xs={12} md={6} item>
                                                             <Typography style={{marginTop: 7}} variant="h6">
-                                                                {disc.Price} €
+                                                                {disc.Price} $
                                                             </Typography>
                                                         </Grid>
                                                     </div>
