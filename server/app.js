@@ -107,6 +107,7 @@ sequelize
 
             //Update user with index
             .put(async (req, res) => {
+                console.log(req);
                 let user = await User.update(req.body);
                 res.json(checkAndChange(user));
             })

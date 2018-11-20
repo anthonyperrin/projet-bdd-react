@@ -13,6 +13,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import {Link, Redirect} from 'react-router-dom'
 import store from '../store/index'
 import {addtoken} from '../store/actions'
+import {modCoins} from '../store/actions'
 
 const styles = theme => ({
     layout: {

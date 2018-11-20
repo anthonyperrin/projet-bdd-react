@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 //components
-import Header from './menu/Header';
 import View from './View';
+import Header from './menu/Header';
 //REDUX
 import {connect} from 'react-redux';
 import {Provider} from 'react-redux';

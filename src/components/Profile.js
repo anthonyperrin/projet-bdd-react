@@ -2,26 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
 import Grid from "@material-ui/core/Grid/Grid";
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import CardActionArea from '@material-ui/core/CardActionArea';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import Input from '@material-ui/core/Input';
 import Paper from '@material-ui/core/Paper';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
 import {Link, Redirect} from 'react-router-dom';
-import ListItem from "@material-ui/core/ListItem/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon/ListItemIcon";
-import LibraryMusic from '@material-ui/icons/LibraryMusic';
-import ListItemText from "@material-ui/core/ListItemText/ListItemText";
-import List from "@material-ui/core/List/List";
 import {store} from "../store";
-import Avatar from "@material-ui/core/Avatar/Avatar";
-import Album from "@material-ui/core/SvgIcon/SvgIcon";
+import {modCoins} from "../store/actions";
 
 
 const styles = theme => ({
@@ -96,6 +82,38 @@ class Profile extends React.Component {
         };
     }
 
+    handleAddCoins = () => {
+        this.state.user.Coins += 500;
+        let user = {
+            id: this.state.user.Id,
+            FirstName: this.state.user.FirstName,
+            Lastname: this.state.user.Lastname,
+            Rank: this.state.user.Rank,
+            Address1: this.state.user.Address1,
+            Address2: this.state.user.Address2,
+            Pseudo: this.state.user.Pseudo,
+            Mobile: this.state.user.Mobile,
+            Email: this.state.user.Email,
+            City: this.state.user.City,
+            Zipcode: this.state.user.Zipcode,
+            Password: this.state.user.Password,
+            Coins: this.state.user.Coins
+        };
+
+        fetch('http://127.0.0.1:8081/api/user/update', {
+            method: 'PUT',
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(user)
+        })
+            .then(mss => mss.json())
+            .then(mss => this.majCoins(mss));
+    };
+
+    majCoins = (data) => {
+        store.dispatch(modCoins(data.result.Coins));
+        console.log(store.getState());
+    };
+
     setRedirect = () => {
         this.setState({
             redirect: true
@@ -133,6 +151,8 @@ class Profile extends React.Component {
     verifyAuth = () => {
         if (this.state.user.auth === false) {
             this.setRedirect();
+        }else{
+            store.dispatch(modCoins(this.state.user.Coins))
         }
     };
 
@@ -156,6 +176,15 @@ class Profile extends React.Component {
                             <Typography component={Link} to={"/my_discs"}>
                                 My discs
                             </Typography>
+                            <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                color="primary"
+                                onClick={this.handleAddCoins}>
+                                Add coins
+
+                            </Button>
                         </Paper>
                     </Grid>
                 </main>

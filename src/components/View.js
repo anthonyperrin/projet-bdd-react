@@ -8,6 +8,7 @@ import Register from './Register';
 import AddDisc from './AddDisc';
 import MyDiscs from "./MyDiscs";
 import Profile from "./Profile";
+import LogOut from "./LogOut";
 
 class View extends Component {
     render() {
@@ -21,6 +22,7 @@ class View extends Component {
                 <Route path={"/register"} component={Register}/>
                 <Route path={"/addDisc"} component={AddDisc} />
                 <Route path={"/profile"} component={Profile} />
+                <Route path={"/logout"} component={LogOut} />
             </Switch>
         );
     }
