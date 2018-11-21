@@ -203,21 +203,13 @@ class MyDiscs extends React.Component {
                                                     <div className={classes.align}>
                                                         <Grid xs={12} md={6} item>
                                                             <CardActions>
-                                                                <Button variant="contained" size="small" style={{
-                                                                    background: disc.genre.colorCode,
-                                                                    color: 'white'
-                                                                }}>
-                                                                    You
-                                                                </Button>
-                                                            </CardActions>
-                                                            <CardActions>
-                                                                <Button
+                                                                <Button component={Link} to={`/updatedisc/${disc.Id}`}
                                                                         variant="contained" size="small" style={{
-                                                                    background: 'black',
-                                                                    color: disc.genre.colorCode
-                                                                }}><Link to={`/updatedisc/${disc.Id}`}>
+                                                                    background: disc.genre.colorCode,
+                                                                    color: 'white',
+
+                                                                }}>
                                                                     Modify
-                                                                </Link>
                                                                 </Button>
                                                             </CardActions>
                                                         </Grid>

@@ -81,6 +81,8 @@ class UpdateDisc extends React.Component {
             erreurMsg:"",
             user: {},
             token: store.getState().state.token,
+            artist: {},
+            genre: {}
         }
     }
     setRedirectLogin = () => {
@@ -103,7 +105,7 @@ class UpdateDisc extends React.Component {
 
     renderRedirectOffer = () => {
         if (this.state.redirectOffer) {
-            return <Redirect to='/offres' />
+            return <Redirect to='/my_disc' />
         }
     };
 
@@ -111,7 +113,11 @@ class UpdateDisc extends React.Component {
         if(msg.status === "error"){
             this.setState({erreurMsg : msg.message});
         }else if(msg.status === "success"){
-            this.setState({erreurMsg : "The disc has been updated."});
+            this.setState(
+                {
+                    erreurMsg : "The disc has been updated.",
+                    disc: msg.result
+                });
         }
     };
 
@@ -119,23 +125,23 @@ class UpdateDisc extends React.Component {
         event.preventDefault();
         let today = new Date();
         let formData = {
-            Name: this.state.title,
+            Name: this.state.disc.Name,
             Id_User: this.state.user.Id,
-            ReleaseYear: this.state.year,
+            ReleaseYear: this.state.disc.ReleaseYear,
             Price: parseInt(this.state.price),
             DateAdd: today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate(),
             nbViews: 0,
-            Id_Artist: this.state.artist,
-            Id_Genre: this.state.genre
+            Id_Artist: this.state.disc.Id_Artist,
+            Id_Genre: this.state.disc.Id_Genre
         };
-        fetch('http://127.0.0.1:8081/api/disc/', {
-            method: 'POST',
+        fetch('http://127.0.0.1:8081/api/disc/' + this.state.disc.Id, {
+            method: 'PUT',
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(formData)
         })
             .then(rep => rep.json())
             .then(json => this.afficherMsg(json))
-        this.setRedirectOffer();
+        //this.setRedirectOffer();
 
     };
 
@@ -149,7 +155,7 @@ class UpdateDisc extends React.Component {
             headers: header
         })
             .then(res => res.json())
-            .then(json => this.confUser(json) )
+            .then(json => this.confUser(json) );
         fetch('http://127.0.0.1:8081/api/disc/' + this.props.match.params.id)
             .then(res => res.json())
             .then(json => this.setState(
@@ -158,6 +164,7 @@ class UpdateDisc extends React.Component {
                     datafetched :true
                 }
             ))
+            .then(console.log(this.state));
 
     }
 
@@ -174,11 +181,20 @@ class UpdateDisc extends React.Component {
         if(this.state.user.auth === false){
             this.setRedirectLogin();
         }
+        this.handleArtistAndGenre();
+    };
+
+    handleArtistAndGenre = () => {
+        this.setState({
+            artist: this.state.disc.artist,
+            genre:  this.state.disc.genre
+        })
     };
 
 
     handlePriceChange = event => {
         this.state.price = event.target.value;
+        console.log(this.state.disc);
     };
 
 
@@ -195,41 +211,25 @@ class UpdateDisc extends React.Component {
                             <Album/>
                         </Avatar>
                         <Typography component="h1" variant={"display1"}>
-                            Add your own disc's offer
+                            Modify your own disc's offer
                             {this.renderRedirectLogin()}
                             {this.renderRedirectOffer()}
                         </Typography>
-                        <form className={classes.form} onSubmit={this.handleSubmit}>
+                        <form className={classes.form} onSubmit={this.handleSubmit} >
                             <FormControl margin="normal" required fullWidth>
                                 <Input value={this.state.disc.Name} id="title" name="title" disabled/>
                             </FormControl>
                             <FormControl margin="normal" required fullWidth>
-                                {
-                                    (disc && disc.artist && disc.datafetched) ?
-                                        <Input
-                                            value={this.state.disc.artist.FirstName + ' ' + this.state.disc.artist.LastName}
-                                            id="artist" name="artist" disabled/> :
-                                        null
-                                }
+
+                                <Input value={this.state.artist.FirstName + ' ' + this.state.artist.LastName} id="artist" name="artist" disabled/>
                             </FormControl>
                             <FormControl margin="normal" required fullWidth>
-                                {
-                                    (disc && disc.genre && disc.datafetched) ?
-                                    <Input value={this.state.disc.genre.Name} id="genre" name="genre" disabled/> :
-                                        null
-                                }
+                                <Input value={this.state.genre.Name} id="genre" name="genre" disabled/>
                             </FormControl>
-                            <div className={classes.align}>
-                                <FormControl required fullWidth style={{marginTop:'16px'}}>
-                                    {
-                                        (disc && disc.datafetched) ?
-                                            <Input value={this.state.disc.ReleaseYear} id="genre" name="genre" disabled/> :
-                                            null
-                                    }
-                                </FormControl>
+                            <FormControl required fullWidth>
                                 <FormControl required fullWidth>
                                     <TextField
-                                        id="standard-number"
+                                        id="standard-numberPrice"
                                         type="number"
                                         InputProps={{ inputProps: { min: 0}}}
                                         className={classes.textField}
@@ -237,12 +237,14 @@ class UpdateDisc extends React.Component {
                                             shrink: true,
                                         }}
                                         margin="normal"
+                                        placeholder={"Price : " + this.state.disc.Price + ' $'}
                                         onChange={this.handlePriceChange}
                                     />
-
-
                                 </FormControl>
-                            </div>
+
+
+                            </FormControl>
+
                             <Typography margin="normal" component="p" id="erreur">
                                 {this.state.erreurMsg}
                             </Typography>
@@ -251,7 +253,7 @@ class UpdateDisc extends React.Component {
                                 fullWidth
                                 variant="contained"
                                 color="primary">
-                                Add offer
+                                Modify offer
                                 <LibraryAdd style={{marginLeft:'20px'}}/>
 
                             </Button>
