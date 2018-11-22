@@ -64,7 +64,15 @@ const styles = theme => ({
     },
     media: {
         height: 140,
-    }
+    },
+    boutonDecline: {
+        backgroundColor: "#c00404",
+        color: "white"
+    },
+    boutonAccept: {
+        backgroundColor: "#00d084",
+        color: "white"
+    },
 });
 
 
@@ -196,29 +204,46 @@ class ListeOffres extends React.Component {
                                     <Card className={classes.displayCard}>
                                         <CardActionArea>
 
-                                            <CardContent style={{ justifyContent:'left' }}>
-                                                <Grid item container xs={12}>
-                                                    <Typography gutterBottom variant="h5" component="h3">
-                                                        {buy.disc.Name}
-                                                    </Typography>
-                                                </Grid>
-                                                <Grid item container xs={12}>
-                                                    <Typography gutterBottom variant="h7" component="h4">
-                                                    </Typography>
-                                                </Grid>
+                                            <CardContent style={{ justifyContent:'center' }}>
+                                                <Typography gutterBottom variant="h5" component="h3">
+                                                    {buy.disc.Name}
+                                                </Typography>
                                             </CardContent>
                                         </CardActionArea>
                                         <div className={classes.align}>
                                             <Grid xs={12} md={6} item>
                                                 <Typography style={{marginTop: 20}} variant="h6">
-                                                    You want : {buy.disc.Price + '.00 $'}
+                                                    Sell : {buy.disc.Price + '.00 $'}
                                                 </Typography>
 
                                             </Grid>
                                             <Grid xs={12} md={6} item>
                                                 <Typography style={{marginTop: 20}} variant="h6">
-                                                    He offer : {buy.CoinLocked + '.00 $'}
+                                                    Offer : {buy.CoinLocked + '.00 $'}
                                                 </Typography>
+                                            </Grid>
+                                        </div>
+                                        <div className={classes.align}>
+                                            <Grid xs={12} md={6} item>
+                                                <Button
+                                                    type="submit"
+                                                    fullWidth
+                                                    className={classes.boutonDecline}
+                                                    variant="contained"
+                                                    color="#c00404"
+                                                    onClick={this.handleDecline}>
+                                                    Decline
+                                                </Button>
+                                            </Grid>
+                                            <Grid xs={12} md={6} item>
+                                                <Button
+                                                    type="submit"
+                                                    fullWidth
+                                                    className={classes.boutonAccept}
+                                                    variant="contained"
+                                                    onClick={this.handleAccept}>
+                                                    Accept
+                                                </Button>
                                             </Grid>
                                         </div>
                                     </Card>
