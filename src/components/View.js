@@ -13,6 +13,7 @@ import LogOut from "./LogOut";
 import Indexadmin from "./Indexadmin";
 import MakeOffer from "./MakeOffer";
 import MyOffer from "./MyOffer";
+import Userdiscs from './Userdiscs'
 
 
 class View extends Component {
@@ -32,6 +33,7 @@ class View extends Component {
                 <Route path={"/myOffer"} component={MyOffer}/>
                 <Route path={"/logout"} component={LogOut} />
                 <Route path={"/Indexadmin"} component={Indexadmin} />
+                <Route path={"/userdiscs/:id"} component={Userdiscs} />
             </Switch>
         );
     }

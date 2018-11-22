@@ -112,11 +112,10 @@ sequelize
                 let user = await User.getById(req.params.id);
                 res.json(checkAndChange(user));
             })
-
             //Update user with index
             .put(async (req, res) => {
                 console.log(req);
-                let user = await User.update(req.body);
+                let user = await User.update(req.params.id, req.body);
                 res.json(checkAndChange(user));
             })
 

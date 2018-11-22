@@ -68,7 +68,6 @@ class Header extends React.Component {
                 isChecked: true,
                 token: thisToken,
                 coins: thisCoins,
-
                 coinsLocked: thisCoinsLocked,
             });
             let header =new Headers({
@@ -89,7 +88,6 @@ class Header extends React.Component {
             [side]: open,
         });
     };
-
 
     render() {
         const {classes} = this.props;
