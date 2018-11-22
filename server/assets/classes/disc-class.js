@@ -104,6 +104,29 @@ let Disc = class {
         });
 
     }
+
+    static delete(id) {
+        return new Promise((next) => {
+            if (id) {
+                discs.findById(id)
+                    .then((result) => {
+                        if (!result) next(new Error('No disc found.'));
+                        else
+                            discs.destroy({
+                                where: {
+                                    Id: id
+                                }
+                            })
+                                .then(() => next('Disc successfully deleted.'))
+                                .catch((err) => next(err.message))
+
+                    })
+                    .catch((err) => next(err.message))
+            } else {
+                next(new Error('Id is undefined.'));
+            }
+        });
+    }
 };
 module.exports = Disc;
 

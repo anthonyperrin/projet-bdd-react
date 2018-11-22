@@ -120,7 +120,7 @@ class Userdiscs extends React.Component {
 
     DeleteDisc(disc) {
         const data = this.state.discList.filter(i => i.Id === disc.Id)
-        fetch('http://127.0.0.1:8081/api/user/' + data[0].Id, {
+        fetch('http://127.0.0.1:8081/api/disc/' + data[0].Id, {
             method: 'DELETE'
         })
             .then(res => res.json())
@@ -139,7 +139,6 @@ class Userdiscs extends React.Component {
     render() {
 
         const {classes} = this.props;
-        console.log(this.props.match.params.id)
         return (
             <main>
                 <Typography>
@@ -168,25 +167,27 @@ class Userdiscs extends React.Component {
                                 </TableHead>
                                 <TableBody>
                                     {this.state.discList.map(disc => {
-                                        if (disc.Id_User === this.props.match.params.id)
-                                        return (
-                                            <TableRow key={disc.Id}>
-                                                <TableCell style={{maxWidth: '20px'}}>
-                                                    <Button onClick={this.DeleteDisc.bind(this, disc)}>
-                                                        <DeleteForever style={{color: 'red'}}/>
-                                                    </Button>
-                                                </TableCell>
-                                                <TableCell component="th" scope="row" numeric>
-                                                    {disc.Id}
-                                                </TableCell>
-                                                <TableCell>{disc.Name}</TableCell>
-                                                <TableCell>{disc.artist.FirstName + ' ' + disc.artist.FirstName}</TableCell>
-                                                <TableCell>{disc.genre.Name}</TableCell>
-                                                <TableCell>{disc.ReleaseYear}</TableCell>
-                                                <TableCell>{disc.DateAdd} </TableCell>
-                                                <TableCell><Typography style={{fontWeight :'bold'}}>{disc.Price}.00 $</Typography></TableCell>
-                                            </TableRow>
-                                        );
+                                        if (disc.user.Id === parseInt(this.props.match.params.id)) {
+                                            return (
+                                                <TableRow key={disc.Id}>
+                                                    <TableCell style={{maxWidth: '20px'}}>
+                                                        <Button onClick={this.DeleteDisc.bind(this, disc)}>
+                                                            <DeleteForever style={{color: 'red'}}/>
+                                                        </Button>
+                                                    </TableCell>
+                                                    <TableCell component="th" scope="row" numeric>
+                                                        {disc.Id}
+                                                    </TableCell>
+                                                    <TableCell>{disc.Name}</TableCell>
+                                                    <TableCell>{disc.artist.FirstName + ' ' + disc.artist.LastName}</TableCell>
+                                                    <TableCell>{disc.genre.Name}</TableCell>
+                                                    <TableCell>{disc.ReleaseYear}</TableCell>
+                                                    <TableCell>{disc.DateAdd} </TableCell>
+                                                    <TableCell><Typography style={{fontWeight: 'bold'}}>{disc.Price}.00
+                                                        $</Typography></TableCell>
+                                                </TableRow>
+                                            );
+                                        }
                                     })}
                                 </TableBody>
                             </Table>

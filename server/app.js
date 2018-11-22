@@ -188,10 +188,13 @@ sequelize
                 res.json(checkAndChange(disc));
             })
             .put(async (req, res) => {
-                    let disc = await Disc.update(req.params.id, req.body);
-                    res.json(checkAndChange(disc));
+                let disc = await Disc.delete(req.params.id, req.body);
+                res.json(checkAndChange(disc));
+            })
+            .delete(async (req, res) => {
+                let disc = await Disc.delete(req.params.id);
+                res.json(checkAndChange(disc));
             });
-
         BuyRouter.route('/')
         // Get all discs
             .get(async (req, res,) => {
