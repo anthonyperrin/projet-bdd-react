@@ -69,6 +69,9 @@ const styles = theme => ({
         flexDirection: 'column',
         padding: `${theme.spacing.unit}px`,
     },
+    button: {
+        padding: `${theme.spacing.unit}px`,
+    }
 });
 
 
@@ -173,12 +176,19 @@ class Profile extends React.Component {
                                         component="h3">
                                 {this.state.user.Pseudo}
                             </Typography>
-                            <Typography component={Link} to={"/my_discs"}>
-                                My discs
-                            </Typography>
                             <Button
                                 type="submit"
                                 fullWidth
+                                className={classes.button}
+                                component={Link} to={"/my_discs"}
+                                variant="contained"
+                                color="primary">
+                                My disc
+                            </Button>
+                            <Button
+                                type="submit"
+                                fullWidth
+                                className={classes.button}
                                 variant="contained"
                                 color="primary"
                                 onClick={this.handleAddCoins}>
