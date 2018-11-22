@@ -139,13 +139,19 @@ class ListeOffres extends React.Component {
             fetch('http://127.0.0.1:8081/api/disco')
                 .then(res => res.json())
                 .then(json => this.setState({listBuy: json.result,listBuyFiltered: json.result}))
-                .then(console.log(this.state))
-                .then(this.confListeDisc())
+                .then(console.log(this.state));
+
 
         }
     };
 
     afficherMessageBuyAccept = (msg, buy) => {
+        fetch('http://127.0.0.1:8081/api/disco')
+            .then(res => res.json())
+            .then(json => this.setState({listBuy: json.result,listBuyFiltered: json.result}))
+            .then(console.log(this.state))
+            .then(this.confListeDisc());
+
         this.state.user.Coins += buy.CoinLocked;
         fetch('http://127.0.0.1:8081/api/user/' + this.state.user.Id, {
             method: 'PUT',
@@ -153,13 +159,9 @@ class ListeOffres extends React.Component {
             body: JSON.stringify(this.state.user)
         })
             .then(rep => rep.json())
-            .then(json => this.afficherMsg(json));
+            .then(json => this.afficherMsg(json))
+            .then(this.confListeDisc())
 
-        fetch('http://127.0.0.1:8081/api/disco')
-            .then(res => res.json())
-            .then(json => this.setState({listBuy: json.result,listBuyFiltered: json.result}))
-            .then(console.log(this.state))
-            .then(this.confListeDisc());
 
     };
 
@@ -219,7 +221,6 @@ class ListeOffres extends React.Component {
             this.setRedirectLogin();
         }
         this.confListeDisc();
-        console.log(this.state);
     };
 
     setRedirectLogin = () => {

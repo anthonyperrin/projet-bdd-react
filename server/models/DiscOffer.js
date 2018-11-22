@@ -34,7 +34,7 @@ const DiscOffer = sequelize.define('discoffer', {
         vendeur: {
             type: Sequelize.INTEGER
         },
-        status: {
+        Status: {
             type: Sequelize.SMALLINT
         }
     },
