@@ -55,7 +55,7 @@ let User = class {
                                     where: {
                                         Id: id,
                                     }
-                                })N
+                                })
                                     .then(() => {
                                         users.findById(id)
                                             .then((result) => next(result))
