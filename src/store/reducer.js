@@ -19,10 +19,7 @@ export default function  (state = initialState, action){
             return state;
 
         case EDIT_COIN:
-            console.log(action, state.coins);
-            console.log(state.coins = action.value);
             state.coins = action.value;
-            console.log(state);
             return state;
 
         default:
