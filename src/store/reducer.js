@@ -21,7 +21,7 @@ export default function  (state = initialState, action){
             return state;
 
         case EDIT_COIN:
-            state.coins = action.value;rn state;
+            state.coins = action.value;
 
         case EDIT_COINLOCKED:
             state.coinsLocked = action.value;
