@@ -173,11 +173,19 @@ sequelize
             .get(async (req, res,) => {
                 let buys = await Buy.getAll(req.query.max);
                 res.json(checkAndChange(buys));
+            })
+            .post(async (req, res) => {
+                let buy = await Buy.add(req.body);
+                res.json(checkAndChange(buy));
             });
         BuyRouter.route('/:id')
         //Get disc by index
             .get(async (req, res) => {
                 let buy = await Buy.getById(req.params.id);
+                res.json(checkAndChange(buy));
+            })
+            .put(async (req, res) => {
+                let buy = await Buy.update(req.params.id, req.body);
                 res.json(checkAndChange(buy));
             });
 

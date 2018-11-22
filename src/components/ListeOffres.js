@@ -20,6 +20,8 @@ import AttachMoney from '@material-ui/icons/AttachMoney';
 import PlusOne from '@material-ui/icons/PlusOne';
 import ListItemText from "@material-ui/core/ListItemText/ListItemText";
 import List from "@material-ui/core/List/List";
+import {store}from '../store/index';
+import {Redirect} from "react-router-dom";
 
 
 const styles = theme => ({
@@ -74,21 +76,67 @@ class ListeOffres extends React.Component {
             listGenre: [],
             listGenreFiltered: [],
             listDisc: [],
-            listDiscFiltered: []
+            listDiscFiltered: [],
+            token: store.getState().state.token,
+            user: {},
+            redirectLogin: false,
         };
     }
 
 
-    componentWillMount() {
+    componentDidMount() {
+        let header =new Headers({
+            'x-access-token': store.getState().state.token
+        });
+        fetch('http://127.0.0.1:8081/api/auth/current', {
+            headers: header
+        })
+            .then(res => res.json())
+            .then(json => this.confUser(json) );
         fetch('http://127.0.0.1:8081/api/disc')
             .then(res => res.json())
-            .then(json => this.setState(
-                {
-                    listDisc: json.result,
-                    listDiscFiltered: json.result
-                }
-            ))
+            .then(json => this.setState({listDisc: json.result,listDiscFiltered: json.result}))
     }
+
+    confListeDisc = () => {
+        this.setState({
+            listDisc: this.state.listDisc.filter(a =>
+                (a.Id_User !== this.state.user.Id)
+            ),
+            listDiscFiltered: this.state.listDisc.filter(a =>
+                (a.Id_User !== this.state.user.Id)
+            )
+        });
+
+    };
+
+    confUser = (json) => {
+        this.setState(
+            {
+                user: json.result,
+            }
+        );
+        this.verifyAuth();
+    };
+
+    verifyAuth = () => {
+        if(this.state.user.auth === false){
+            this.setRedirectLogin();
+        }
+        this.confListeDisc();
+    };
+
+    setRedirectLogin = () => {
+        this.setState({
+            redirectLogin: true
+        })
+    };
+
+    renderRedirectLogin = () => {
+        if (this.state.redirectLogin) {
+            return <Redirect to='/login' />
+        }
+    };
 
     doFilter = (e) => {
         this.setState({
@@ -107,6 +155,7 @@ class ListeOffres extends React.Component {
                 <Grid xs={10} className={classes.root}>
                     <Typography className={classes.title1} variant="h2" component="h3">
                         Offers
+                        {this.renderRedirectLogin()}
                     </Typography>
                 </Grid>
                 <Grid item xs={10} className={classes.root}>
@@ -168,9 +217,11 @@ class ListeOffres extends React.Component {
                                         <div className={classes.align}>
                                             <Grid xs={12} md={6} item>
                                                 <CardActions>
-                                                    <Button variant="contained" size="small" style={{
+                                                    <Button component={Link} to={`/makeOffer/${disc.Id}`}
+                                                        variant="contained" size="small" style={{
                                                         background: disc.genre.colorCode,
                                                         color: 'white'
+
                                                     }}>
                                                         Make an offer
                                                     </Button>
