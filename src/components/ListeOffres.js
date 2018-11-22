@@ -119,20 +119,6 @@ class ListeOffres extends React.Component {
                                 'aria-label': 'Description',
                             }}
                         />
-                        <FormControl className={classes.formControl}>
-                            <Select
-                                value={this.state.age}
-                                onChange={this.handleChange}
-                                name="age"
-                                className={classes.selectEmpty}>
-                                <MenuItem value="" disabled>
-                                    Sort by
-                                </MenuItem>
-                                <MenuItem value={10}>Ten</MenuItem>
-                                <MenuItem value={20}>Twenty</MenuItem>
-                                <MenuItem value={30}>Thirty</MenuItem>
-                            </Select>
-                        </FormControl>
                         <List>
                             <ListItem button key="AddDisc" component={Link} to={"/AddDisc"}>
                                 <ListItemIcon><PlusOne/></ListItemIcon>
