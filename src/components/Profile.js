@@ -131,7 +131,7 @@ class Profile extends React.Component {
                         <Typography className={classes.title1} variant="h2" component="h3">
                             {this.state.user.FirstName + ' ' + this.state.user.Lastname}
                         </Typography>
-                        
+
                     </Paper>
                 </main>
             </React.Fragment>
