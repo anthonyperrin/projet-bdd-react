@@ -85,6 +85,7 @@ class ListeOffres extends React.Component {
             token: store.getState().state.token,
             user: {},
             redirectLogin: false,
+            userBuyer: {}
         };
     }
 
@@ -97,26 +98,106 @@ class ListeOffres extends React.Component {
             headers: header
         })
             .then(res => res.json())
-            .then(json => this.confUser(json) );
+            .then(json => this.confUser(json));
         fetch('http://127.0.0.1:8081/api/disco')
             .then(res => res.json())
             .then(json => this.setState({listBuy: json.result,listBuyFiltered: json.result}))
+            .then(console.log(this.state))
     }
 
+    afficherMsg = (msg) => {
+        if(msg.status === "error"){
+            this.setState({erreurMsg : msg.message});
+        }else if(msg.status === "success"){
+            this.setState(
+                {
+                    erreurMsg : "The disc has been updated.",
+                    disc: msg.result
+                });
+        }
+    };
+
+    afficherMsgBuyDecline = (msg, buy) => {
+        if(msg.status === "error"){
+            this.setState({erreurMsg : msg.message});
+        }else if(msg.status === "success"){
+            this.setState(
+                {
+                    erreurMsg : "The disc has been updated.",
+                    disc: msg.result
+                });
+
+            buy.user.Coins += buy.CoinLocked;
+            fetch('http://127.0.0.1:8081/api/user/' + buy.user.Id, {
+                method: 'PUT',
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(buy.user)
+            })
+                .then(rep => rep.json())
+                .then(json => this.afficherMsg(json));
+
+            fetch('http://127.0.0.1:8081/api/disco')
+                .then(res => res.json())
+                .then(json => this.setState({listBuy: json.result,listBuyFiltered: json.result}))
+                .then(console.log(this.state))
+                .then(this.confListeDisc())
+
+        }
+    };
+
+    afficherMessageBuyAccept = (msg, buy) => {
+        this.state.user.Coins += buy.CoinLocked;
+        fetch('http://127.0.0.1:8081/api/user/' + this.state.user.Id, {
+            method: 'PUT',
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(this.state.user)
+        })
+            .then(rep => rep.json())
+            .then(json => this.afficherMsg(json));
+
+        fetch('http://127.0.0.1:8081/api/disco')
+            .then(res => res.json())
+            .then(json => this.setState({listBuy: json.result,listBuyFiltered: json.result}))
+            .then(console.log(this.state))
+            .then(this.confListeDisc());
+
+    };
+
     handleDecline = (buy) => {
+        //Ajout coins autre user
+        fetch('http://127.0.0.1:8081/api/buy/' + buy.Id, {
+            method: 'DELETE',
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(buy.user)
+        })
+            .then(rep => rep.json())
+            .then(json => this.afficherMsgBuyDecline(json, buy));
+
+
 
     };
 
     handleAccept = (buy) => {
-        console.log(buy);
+        buy.Status = 1;
+        fetch('http://127.0.0.1:8081/api/buy/' + buy.Id, {
+            method: 'PUT',
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(buy)
+        })
+            .then(rep => rep.json())
+            .then(json => this.afficherMessageBuyAccept(json, buy));
+
+
+
     };
 
     confListeDisc = () => {
-        console.log(this.state);
         this.setState({
+
             listBuy: this.state.listBuy.filter(a =>
                 (a.vendeur === this.state.user.Id)
             ),
+
             listBuyFiltered: this.state.listBuy.filter(a =>
                 (a.vendeur === this.state.user.Id)
             )
@@ -138,6 +219,7 @@ class ListeOffres extends React.Component {
             this.setRedirectLogin();
         }
         this.confListeDisc();
+        console.log(this.state);
     };
 
     setRedirectLogin = () => {
@@ -204,10 +286,49 @@ class ListeOffres extends React.Component {
                         </List>
                     </Paper>
                 </Grid>
+                <Typography margin="normal" component="p" id="erreur">
+                    {this.state.erreurMsg}
+                </Typography>
                 <Grid container className={classes.root} spacing={20} xs={10} direction="row"
                       alignItems="center">
                     {
                         this.state.listBuyFiltered.map(buy => {
+                            let reponse = "";
+                            if(buy.Status === 0 ){
+                                reponse = (
+                                    <div className={classes.align}>
+                                        <Grid xs={12} md={6} item>
+                                            <Button
+                                                type="submit"
+                                                fullWidth
+                                                className={classes.boutonDecline}
+                                                variant="contained"
+                                                color="#c00404"
+                                                onClick={this.handleDecline.bind(this, buy)}>
+                                                Decline
+                                            </Button>
+                                        </Grid>
+                                        <Grid xs={12} md={6} item>
+                                            <Button
+                                                type="submit"
+                                                fullWidth
+                                                className={classes.boutonAccept}
+                                                variant="contained"
+                                                onClick={this.handleAccept.bind(this, buy)}>
+                                                Accept
+                                            </Button>
+                                        </Grid>
+                                    </div>
+                                )
+                            }else{
+                                reponse = (
+                                    <div className={classes.align}>
+                                        <Typography>
+                                            Vous avez déjà accepté cette offre
+                                        </Typography>
+                                    </div>
+                                )
+                            }
                             return (
                                 <Grid item xs={12} md={4} lg={3}>
                                     <Card className={classes.displayCard}>
@@ -232,29 +353,7 @@ class ListeOffres extends React.Component {
                                                 </Typography>
                                             </Grid>
                                         </div>
-                                        <div className={classes.align}>
-                                            <Grid xs={12} md={6} item>
-                                                <Button
-                                                    type="submit"
-                                                    fullWidth
-                                                    className={classes.boutonDecline}
-                                                    variant="contained"
-                                                    color="#c00404"
-                                                    onClick={this.handleDecline.bind(this, buy)}>
-                                                    Decline
-                                                </Button>
-                                            </Grid>
-                                            <Grid xs={12} md={6} item>
-                                                <Button
-                                                    type="submit"
-                                                    fullWidth
-                                                    className={classes.boutonAccept}
-                                                    variant="contained"
-                                                    onClick={this.handleAccept.bind(this, buy)}>
-                                                    Accept
-                                                </Button>
-                                            </Grid>
-                                        </div>
+                                        {reponse}
                                     </Card>
                                 </Grid>
                             )

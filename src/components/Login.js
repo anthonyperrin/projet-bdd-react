@@ -82,7 +82,7 @@ class Login extends React.Component {
     majCoinLocked = (data) => {
         store.dispatch(modCoinsLocked(parseInt(data.result.CoinLocked)))
     };
-    
+
     afficherMsg = (msg) => {
         if(msg.status === "error"){
             this.setState({erreurMsg : msg.message});

@@ -148,7 +148,7 @@ class MakeOffer extends React.Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        if(this.state.user.Coins > this.state.price){
+        if(this.state.user.Coins >= this.state.price){
             let formData = {
                 Id:  this.state.disc.Id,
                 Id_User: this.state.user.Id,

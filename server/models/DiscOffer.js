@@ -30,6 +30,12 @@ const DiscOffer = sequelize.define('discoffer', {
         },
         CoinLocked: {
             type: Sequelize.INTEGER
+        },
+        vendeur: {
+            type: Sequelize.INTEGER
+        },
+        status: {
+            type: Sequelize.SMALLINT
         }
     },
     {
@@ -40,7 +46,6 @@ const DiscOffer = sequelize.define('discoffer', {
 );
 DiscOffer.belongsTo(Genre, { foreignKey: 'Id_Genre'});
 DiscOffer.belongsTo(Artist, {foreignKey: 'Id_Artist'});
-DiscOffer.belongsTo(User, {foreignKey: 'vendeur'});
 DiscOffer.belongsTo(User, {foreignKey: 'acheteur'});
 
 DiscOffer.sync();

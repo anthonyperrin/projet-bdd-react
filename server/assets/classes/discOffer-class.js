@@ -34,6 +34,41 @@ let DiscOffer = class {
             }
         });
     }
+
+    static update(id, disc) {
+        return new Promise((next) => {
+            if (id) {
+                if (disc) {
+                    discs.findById(id)
+                        .then((result) => {
+                            if (!result)
+                                next(new Error('Offer not found.'));
+                            else
+                                discs.update(   {
+                                    Status: disc.Status
+                                },{
+                                    where: {
+                                        Id: id,
+
+                                    }
+                                })
+                                    .then(() => {
+                                        discs.findById(id)
+                                            .then((result) => next(result))
+                                            .catch((err) => next(err.message))
+                                    })
+                                    .catch((err) => next(err.message))
+                        })
+                        .catch((err) => next(err.message))
+                } else {
+                    next(new Error('Offer is undefined.'));
+                }
+            } else {
+                next(new Error('Id is undefined.'));
+            }
+        });
+
+    }
 };
 module.exports = DiscOffer;
 

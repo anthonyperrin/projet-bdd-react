@@ -167,6 +167,10 @@ sequelize
             .get(async (req, res) => {
                 let disc = await DiscO.getById(req.params.id);
                 res.json(checkAndChange(disc));
+            })
+            .put(async (req, res) => {
+                let disc = await DiscO.update(req.params.id, req.body);
+                res.json(checkAndChange(disc));
             });
         DiscRouter.route('/')
             // Get all discs
@@ -199,6 +203,7 @@ sequelize
                 let buy = await Buy.add(req.body);
                 res.json(checkAndChange(buy));
             });
+
         BuyRouter.route('/:id')
         //Get disc by index
             .get(async (req, res) => {
@@ -208,6 +213,10 @@ sequelize
             .put(async (req, res) => {
                 let buy = await Buy.update(req.params.id, req.body);
                 res.json(checkAndChange(buy));
+            })
+            .delete(async (req, res) => {
+                let result = await Buy.delete(req.params.id);
+                res.json(checkAndChange(result));
             });
 
         app.use(config.rootApi + 'disc/', DiscRouter);

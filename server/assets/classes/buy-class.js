@@ -78,7 +78,7 @@ let Buy = class {
                                 },{
                                     where: {
                                         Id: id,
-                                        Id_User: buy.Id_User,
+                                        Id_User: buy.acheteur,
                                     }
                                 })
                                     .then(() => {
@@ -97,6 +97,29 @@ let Buy = class {
             }
         });
 
+    }
+
+    static delete(id) {
+        return new Promise((next) => {
+            if (id) {
+                buys.findById(id)
+                    .then((result) => {
+                        if (!result) next(new Error('No offer found.'));
+                        else
+                            buys.destroy({
+                                where: {
+                                    Id: id
+                                }
+                            })
+                                .then(() => next('Offer successfully deleted.'))
+                                .catch((err) => next(err.message))
+
+                    })
+                    .catch((err) => next(err.message))
+            } else {
+                next(new Error('Id is undefined.'));
+            }
+        });
     }
 };
 
