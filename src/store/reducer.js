@@ -22,11 +22,9 @@ export default function  (state = initialState, action){
 
         case EDIT_COIN:
             state.coins = action.value;
-            return state;
 
         case EDIT_COINLOCKED:
             state.coinsLocked = action.value;
-            console.log(state.coinsLocked, action.value);
             return state;
 
         default:

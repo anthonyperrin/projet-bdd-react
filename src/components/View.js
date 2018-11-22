@@ -10,8 +10,10 @@ import MyDiscs from "./MyDiscs";
 import Profile from "./Profile";
 import UpdateDisc from "./UpdateDisc";
 import LogOut from "./LogOut";
+import Indexadmin from "./Indexadmin";
 import MakeOffer from "./MakeOffer";
 import MyOffer from "./MyOffer";
+
 
 class View extends Component {
     render() {
@@ -29,6 +31,7 @@ class View extends Component {
                 <Route path={"/makeOffer/:id"} component={MakeOffer}/>
                 <Route path={"/myOffer"} component={MyOffer}/>
                 <Route path={"/logout"} component={LogOut} />
+                <Route path={"/Indexadmin"} component={Indexadmin} />
             </Switch>
         );
     }

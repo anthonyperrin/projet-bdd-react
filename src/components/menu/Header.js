@@ -68,6 +68,7 @@ class Header extends React.Component {
                 isChecked: true,
                 token: thisToken,
                 coins: thisCoins,
+
                 coinsLocked: thisCoinsLocked,
             });
             let header =new Headers({
@@ -117,9 +118,18 @@ class Header extends React.Component {
                 <List>
                     <ListItem button key="AddDisc" component={Link} to={"/AddDisc"}>
                         <ListItemIcon><LibraryMusic/></ListItemIcon>
-                        <ListItemText primary="Add Disc"/>
+                        <ListItemText primary="Add disc"/>
                     </ListItem>
                 </List>
+                <Divider/>
+                <List>
+                    <ListItem button key="Adminindex" component={Link} to={"/Indexadmin"}>
+                        <ListItemIcon><LibraryMusic/></ListItemIcon>
+                        <ListItemText primary="Admin panel"/>
+                    </ListItem>
+                </List>
+
+
             </div>
         );
         let rightList = "";
