@@ -68,7 +68,6 @@ class Header extends React.Component {
                 isChecked: true,
                 token: thisToken,
                 coins: thisCoins,
-
                 coinsLocked: thisCoinsLocked,
             });
             let header =new Headers({
@@ -81,7 +80,6 @@ class Header extends React.Component {
                 .then(json => this.confUser(json))
                 .then(this.setState({isDifferent: false}))
         }
-
     };
 
     toggleDrawer = (side, open) => () => {
@@ -133,7 +131,7 @@ class Header extends React.Component {
             </div>
         );
         let rightList = "";
-        this.handleTokenAndUser(store.getState().state.token,store.getState().state.coins, store.getState().state.coinsLocked);
+        this.handleTokenAndUser(store.getState().state.token, store.getState().state.coins, store.getState().state.coinsLocked);
         if(store.getState().state.token === "" ){
             rightList = (
                 <div>

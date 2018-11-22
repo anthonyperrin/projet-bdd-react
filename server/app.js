@@ -28,6 +28,7 @@ sequelize
         let UserRouter = express.Router();
         let ArtistRouter = express.Router();
         let DiscRouter = express.Router();
+        let DiscORouter = express.Router();
         let BuyRouter = express.Router();
         let CoinRouter = express.Router();
 
@@ -37,6 +38,7 @@ sequelize
         let User = require('./assets/classes/user-class');
         let Artist = require('./assets/classes/artist-class');
         let Disc = require('./assets/classes/disc-class');
+        let DiscO = require('./assets/classes/discOffer-class');
         let Buy = require('./assets/classes/buy-class');
         let Coin = require('./assets/classes/coinlocked-class');
 
@@ -154,7 +156,18 @@ sequelize
                 let result = await Artist.delete(req.params.id);
                 res.json(checkAndChange(result));
             });
-
+        DiscORouter.route('/')
+        // Get all discs
+            .get(async (req, res,) => {
+                let discs = await DiscO.getAll(req.query.max);
+                res.json(checkAndChange(discs));
+            });
+        DiscORouter.route('/:id')
+        //Get disc by index
+            .get(async (req, res) => {
+                let disc = await DiscO.getById(req.params.id);
+                res.json(checkAndChange(disc));
+            });
         DiscRouter.route('/')
             // Get all discs
             .get(async (req, res,) => {
@@ -198,6 +211,7 @@ sequelize
             });
 
         app.use(config.rootApi + 'disc/', DiscRouter);
+        app.use(config.rootApi + 'disco/', DiscORouter);
         app.use(config.rootApi + 'auth/', AuthRouter);
         app.use(config.rootApi + 'genre/', GenreRouter);
         app.use(config.rootApi + 'user/', UserRouter);

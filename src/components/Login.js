@@ -12,7 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import {Link, Redirect} from 'react-router-dom'
 import store from '../store/index'
-import {addtoken} from '../store/actions'
+import {addtoken, modCoinsLocked} from '../store/actions'
 import {modCoins} from '../store/actions'
 
 const styles = theme => ({
@@ -68,6 +68,21 @@ class Login extends React.Component {
         })
     };
 
+    componentDidMount(){
+        let start = {result: {Coins:0}};
+        this.majCoins(start);
+        let starter = {result: {CoinLocked:0}};
+        this.majCoinLocked(starter);
+    }
+
+    majCoins = (data) => {
+        store.dispatch(modCoins(data.result.Coins));
+    };
+
+    majCoinLocked = (data) => {
+        store.dispatch(modCoinsLocked(parseInt(data.result.CoinLocked)))
+    };
+    
     afficherMsg = (msg) => {
         if(msg.status === "error"){
             this.setState({erreurMsg : msg.message});

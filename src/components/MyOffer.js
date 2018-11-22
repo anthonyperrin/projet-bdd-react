@@ -98,18 +98,27 @@ class ListeOffres extends React.Component {
         })
             .then(res => res.json())
             .then(json => this.confUser(json) );
-        fetch('http://127.0.0.1:8081/api/buy')
+        fetch('http://127.0.0.1:8081/api/disco')
             .then(res => res.json())
             .then(json => this.setState({listBuy: json.result,listBuyFiltered: json.result}))
     }
 
+    handleDecline = (buy) => {
+
+    };
+
+    handleAccept = (buy) => {
+        console.log(buy);
+    };
+
     confListeDisc = () => {
+        console.log(this.state);
         this.setState({
-            listBuy: this.state.listBuy(a =>
-                (a.Id_User === this.state.user.Id)
+            listBuy: this.state.listBuy.filter(a =>
+                (a.vendeur === this.state.user.Id)
             ),
             listBuyFiltered: this.state.listBuy.filter(a =>
-                (a.Id_User === this.state.user.Id)
+                (a.vendeur === this.state.user.Id)
             )
         });
 
@@ -159,7 +168,7 @@ class ListeOffres extends React.Component {
             <Grid container justify={"center"}>
                 <Grid xs={10} className={classes.root}>
                     <Typography className={classes.title1} variant="h2" component="h3">
-                        Offers
+                        My Offers
                         {this.renderRedirectLogin()}
                     </Typography>
                 </Grid>
@@ -206,14 +215,14 @@ class ListeOffres extends React.Component {
 
                                             <CardContent style={{ justifyContent:'center' }}>
                                                 <Typography gutterBottom variant="h5" component="h3">
-                                                    {buy.disc.Name}
+                                                    {buy.Name}
                                                 </Typography>
                                             </CardContent>
                                         </CardActionArea>
                                         <div className={classes.align}>
                                             <Grid xs={12} md={6} item>
                                                 <Typography style={{marginTop: 20}} variant="h6">
-                                                    Sell : {buy.disc.Price + '.00 $'}
+                                                    Sell : {buy.Price + '.00 $'}
                                                 </Typography>
 
                                             </Grid>
@@ -231,7 +240,7 @@ class ListeOffres extends React.Component {
                                                     className={classes.boutonDecline}
                                                     variant="contained"
                                                     color="#c00404"
-                                                    onClick={this.handleDecline}>
+                                                    onClick={this.handleDecline.bind(this, buy)}>
                                                     Decline
                                                 </Button>
                                             </Grid>
@@ -241,7 +250,7 @@ class ListeOffres extends React.Component {
                                                     fullWidth
                                                     className={classes.boutonAccept}
                                                     variant="contained"
-                                                    onClick={this.handleAccept}>
+                                                    onClick={this.handleAccept.bind(this, buy)}>
                                                     Accept
                                                 </Button>
                                             </Grid>
