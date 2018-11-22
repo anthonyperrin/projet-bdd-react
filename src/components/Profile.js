@@ -72,6 +72,7 @@ const styles = theme => ({
     },
     button: {
         padding: `${theme.spacing.unit}px`,
+        margin: `${theme.spacing.unit}px`,
     }
 });
 

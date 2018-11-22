@@ -88,7 +88,6 @@ class Header extends React.Component {
         });
     };
 
-
     render() {
         const {classes} = this.props;
         const sideList = (

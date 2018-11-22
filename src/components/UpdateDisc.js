@@ -141,7 +141,6 @@ class UpdateDisc extends React.Component {
         })
             .then(rep => rep.json())
             .then(json => this.afficherMsg(json))
-        //this.setRedirectOffer();
 
     };
 

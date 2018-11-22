@@ -29,11 +29,11 @@ let User = class {
         });
     }
 
-    static update(user) {
+    static update(id, user) {
         return new Promise((next) => {
-            if (user.Id) {
+            if (id) {
                 if (user) {
-                    users.findById(user.Id)
+                    users.findById(id)
                         .then((result) => {
                             if (!result)
                                 next(new Error('User not found.'));
@@ -53,12 +53,11 @@ let User = class {
                                     Coins: user.Coins
                                 },{
                                     where: {
-                                        Id: user.Id,
-
+                                        Id: id,
                                     }
-                                })
+                                })N
                                     .then(() => {
-                                        users.findById(user.Id)
+                                        users.findById(id)
                                             .then((result) => next(result))
                                             .catch((err) => next(err.message))
                                     })

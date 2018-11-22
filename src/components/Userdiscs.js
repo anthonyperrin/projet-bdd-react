@@ -58,15 +58,14 @@ const styles = theme => ({
 });
 
 
-class Indexadmin extends React.Component {
+class Userdiscs extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             user: {},
             token: store.getState().state.token,
             redirect: false,
-            usersList : [],
-            discList : [],
+            discList: [],
         };
     }
 
@@ -79,11 +78,11 @@ class Indexadmin extends React.Component {
         })
             .then(res => res.json())
             .then(json => this.confUser(json))
-        fetch('http://127.0.0.1:8081/api/user')
+        fetch('http://127.0.0.1:8081/api/disc')
             .then(res => res.json())
             .then(json => this.setState(
                 {
-                    usersList: json.result,
+                    discList: json.result,
                 }
             ))
     }
@@ -119,57 +118,18 @@ class Indexadmin extends React.Component {
         // }
     };
 
-    doFilter = (e) => {
-
-    };
-
-    TransformToLevel(rank) {
-        switch (rank) {
-            case 100:
-                rank = 'ADMIN';
-                break;
-            case 0:
-                rank = 'USER';
-                break;
-        }
-        return rank
-    }
-
-    DeleteUser(user) {
-        const data = this.state.usersList.filter(i=> i.Id === user.Id)
+    DeleteDisc(disc) {
+        const data = this.state.discList.filter(i => i.Id === disc.Id)
         fetch('http://127.0.0.1:8081/api/user/' + data[0].Id, {
-            method :'DELETE'
+            method: 'DELETE'
         })
             .then(res => res.json())
             .then(json => this.HandleStateDelete(json, data[0].Id))
     }
 
-     HandleStateDelete(json, id) {
+    HandleStateDelete(json, id) {
         if (json.result !== null) {
-            alert('User '+ id+' successfully deleted.');
-            this.setRedirect()
-        } else {
-            alert('An error happened, please check logs or retry')
-        }
-    }
-
-    ChangeRankUser(user) {
-        let newRank;
-        const data = this.state.usersList.filter(i=> i.Id === user.Id)
-        user.Rank === 0 ? user.Rank = 100 : user.Rank = 0
-        fetch('http://127.0.0.1:8081/api/user/' + data[0].Id, {
-            method: 'PUT',
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify(user)
-        })
-            .then(res => res.json())
-            .then(json => this.HandleStateUpdate(json, data[0].Id, user.Rank))
-    }
-
-    HandleStateUpdate(json, id, rank) {
-        console.log(json)
-        if (json.result !== null) {
-            alert('User '+ id +' successfully updated to rank ' + rank +'.');
+            alert('Disc ' + id + ' successfully deleted.');
             this.setRedirect()
         } else {
             alert('An error happened, please check logs or retry')
@@ -179,15 +139,16 @@ class Indexadmin extends React.Component {
     render() {
 
         const {classes} = this.props;
+        console.log(this.props.match.params.id)
         return (
             <main>
                 <Typography>
-                    { this.renderRedirect() }
+                    {this.renderRedirect()}
                 </Typography>
                 <Grid container justify={"center"}>
                     <Grid item xs={10} className={classes.root}>
                         <Typography className={classes.title1} variant="h2" component="h3">
-                            Admin
+                            Disc of user {this.props.match.params.id}
                         </Typography>
                     </Grid>
                     <Grid item className={classes.root}>
@@ -195,41 +156,35 @@ class Indexadmin extends React.Component {
                             <Table className={classes.table}>
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell>Action</TableCell>
+                                        <TableCell style={{maxWidth: '20px'}}>Action</TableCell>
                                         <TableCell>Id</TableCell>
                                         <TableCell>Name</TableCell>
-                                        <TableCell>FirstName</TableCell>
-                                        <TableCell>NickName</TableCell>
-                                        <TableCell>Level</TableCell>
-                                        <TableCell>Email</TableCell>
-                                        <TableCell>Coins</TableCell>
+                                        <TableCell>Artist</TableCell>
+                                        <TableCell>Genre</TableCell>
+                                        <TableCell>Release Year</TableCell>
+                                        <TableCell>Date Add</TableCell>
+                                        <TableCell>Price</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {this.state.usersList.map(user => {
-                                        if (user.Id !== this.state.user.Id)
+                                    {this.state.discList.map(disc => {
+                                        if (disc.Id_User === this.props.match.params.id)
                                         return (
-                                            <TableRow key={user.Id}>
-                                                <TableCell>
-                                                    <Button onClick={this.DeleteUser.bind(this, user)} >
-                                                        <DeleteForever style={{ color : 'red'}}/>
-                                                    </Button>
-                                                    <Button accessibilityLabel="Change rank user" onClick={this.ChangeRankUser.bind(this, user)} >
-                                                        <PanTool/>
-                                                    </Button>
-                                                    <Button component={Link} to={`/userdiscs/${user.Id}`}>
-                                                        <LibraryMusic style={{color:'blue'}}/>
+                                            <TableRow key={disc.Id}>
+                                                <TableCell style={{maxWidth: '20px'}}>
+                                                    <Button onClick={this.DeleteDisc.bind(this, disc)}>
+                                                        <DeleteForever style={{color: 'red'}}/>
                                                     </Button>
                                                 </TableCell>
                                                 <TableCell component="th" scope="row" numeric>
-                                                    {user.Id}
+                                                    {disc.Id}
                                                 </TableCell>
-                                                <TableCell>{user.LastName}</TableCell>
-                                                <TableCell>{user.FirstName}</TableCell>
-                                                <TableCell>{user.Pseudo}</TableCell>
-                                                <TableCell>{this.TransformToLevel(user.Rank)}</TableCell>
-                                                <TableCell>{user.Email}</TableCell>
-                                                <TableCell>{user.Coins} </TableCell>
+                                                <TableCell>{disc.Name}</TableCell>
+                                                <TableCell>{disc.artist.FirstName + ' ' + disc.artist.FirstName}</TableCell>
+                                                <TableCell>{disc.genre.Name}</TableCell>
+                                                <TableCell>{disc.ReleaseYear}</TableCell>
+                                                <TableCell>{disc.DateAdd} </TableCell>
+                                                <TableCell><Typography style={{fontWeight :'bold'}}>{disc.Price}.00 $</Typography></TableCell>
                                             </TableRow>
                                         );
                                     })}
@@ -243,8 +198,8 @@ class Indexadmin extends React.Component {
     }
 }
 
-Indexadmin.propTypes = {
+Userdiscs.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Indexadmin);
+export default withStyles(styles)(Userdiscs);
