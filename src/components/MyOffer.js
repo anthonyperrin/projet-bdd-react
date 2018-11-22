@@ -64,7 +64,15 @@ const styles = theme => ({
     },
     media: {
         height: 140,
-    }
+    },
+    boutonDecline: {
+        backgroundColor: "#c00404",
+        color: "white"
+    },
+    boutonAccept: {
+        backgroundColor: "#00d084",
+        color: "white"
+    },
 });
 
 
@@ -90,18 +98,27 @@ class ListeOffres extends React.Component {
         })
             .then(res => res.json())
             .then(json => this.confUser(json) );
-        fetch('http://127.0.0.1:8081/api/buy')
+        fetch('http://127.0.0.1:8081/api/disco')
             .then(res => res.json())
             .then(json => this.setState({listBuy: json.result,listBuyFiltered: json.result}))
     }
 
+    handleDecline = (buy) => {
+
+    };
+
+    handleAccept = (buy) => {
+        console.log(buy);
+    };
+
     confListeDisc = () => {
+        console.log(this.state);
         this.setState({
-            listBuy: this.state.listBuy(a =>
-                (a.Id_User === this.state.user.Id)
+            listBuy: this.state.listBuy.filter(a =>
+                (a.vendeur === this.state.user.Id)
             ),
             listBuyFiltered: this.state.listBuy.filter(a =>
-                (a.Id_User === this.state.user.Id)
+                (a.vendeur === this.state.user.Id)
             )
         });
 
@@ -138,7 +155,7 @@ class ListeOffres extends React.Component {
     doFilter = (e) => {
         this.setState({
             listBuyFiltered: this.state.listBuy.filter(a =>
-                (a.Name.toLowerCase()).indexOf(e.target.value.toLowerCase()) >= 0
+                (a.disc.Name.toLowerCase()).indexOf(e.target.value.toLowerCase()) >= 0
             )
         });
     };
@@ -151,7 +168,7 @@ class ListeOffres extends React.Component {
             <Grid container justify={"center"}>
                 <Grid xs={10} className={classes.root}>
                     <Typography className={classes.title1} variant="h2" component="h3">
-                        Offers
+                        My Offers
                         {this.renderRedirectLogin()}
                     </Typography>
                 </Grid>
@@ -196,29 +213,46 @@ class ListeOffres extends React.Component {
                                     <Card className={classes.displayCard}>
                                         <CardActionArea>
 
-                                            <CardContent style={{ justifyContent:'left' }}>
-                                                <Grid item container xs={12}>
-                                                    <Typography gutterBottom variant="h5" component="h3">
-                                                        {buy.disc.Name}
-                                                    </Typography>
-                                                </Grid>
-                                                <Grid item container xs={12}>
-                                                    <Typography gutterBottom variant="h7" component="h4">
-                                                    </Typography>
-                                                </Grid>
+                                            <CardContent style={{ justifyContent:'center' }}>
+                                                <Typography gutterBottom variant="h5" component="h3">
+                                                    {buy.Name}
+                                                </Typography>
                                             </CardContent>
                                         </CardActionArea>
                                         <div className={classes.align}>
                                             <Grid xs={12} md={6} item>
                                                 <Typography style={{marginTop: 20}} variant="h6">
-                                                    You want : {buy.disc.Price + '.00 $'}
+                                                    Sell : {buy.Price + '.00 $'}
                                                 </Typography>
 
                                             </Grid>
                                             <Grid xs={12} md={6} item>
                                                 <Typography style={{marginTop: 20}} variant="h6">
-                                                    He offer : {buy.CoinLocked + '.00 $'}
+                                                    Offer : {buy.CoinLocked + '.00 $'}
                                                 </Typography>
+                                            </Grid>
+                                        </div>
+                                        <div className={classes.align}>
+                                            <Grid xs={12} md={6} item>
+                                                <Button
+                                                    type="submit"
+                                                    fullWidth
+                                                    className={classes.boutonDecline}
+                                                    variant="contained"
+                                                    color="#c00404"
+                                                    onClick={this.handleDecline.bind(this, buy)}>
+                                                    Decline
+                                                </Button>
+                                            </Grid>
+                                            <Grid xs={12} md={6} item>
+                                                <Button
+                                                    type="submit"
+                                                    fullWidth
+                                                    className={classes.boutonAccept}
+                                                    variant="contained"
+                                                    onClick={this.handleAccept.bind(this, buy)}>
+                                                    Accept
+                                                </Button>
                                             </Grid>
                                         </div>
                                     </Card>

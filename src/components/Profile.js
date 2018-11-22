@@ -146,7 +146,9 @@ class Profile extends React.Component {
             headers: header
         })
             .then(res => res.json())
-            .then(json => this.confUser(json))
+            .then(json => this.confUser(json));
+
+
 
 
 
