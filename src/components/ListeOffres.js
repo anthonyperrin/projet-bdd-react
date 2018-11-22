@@ -98,6 +98,7 @@ class ListeOffres extends React.Component {
         });
     };
 
+
     render() {
 
         const {classes} = this.props;
@@ -171,7 +172,7 @@ class ListeOffres extends React.Component {
                                                         background: disc.genre.colorCode,
                                                         color: 'white'
                                                     }}>
-                                                        {disc.user.Pseudo}
+                                                        Make an offer
                                                     </Button>
                                                 </CardActions>
                                             </Grid>

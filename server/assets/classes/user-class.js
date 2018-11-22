@@ -31,32 +31,34 @@ let User = class {
 
     static update(user) {
         return new Promise((next) => {
-            if (user.Id) {
+            if (user.id) {
                 if (user) {
-                    user.findById(user.Id)
+                    users.findById(user.id)
                         .then((result) => {
                             if (!result)
                                 next(new Error('User not found.'));
                             else
-                                users.update({
+                                users.update(   {
+                                    FirstName: user.FirstName,
+                                    Lastname: user.Lastname,
+                                    Rank: user.Rank,
+                                    Address1: user.Address1,
+                                    Address2: user.Address2,
+                                    Pseudo: user.Pseudo,
+                                    Mobile: user.Mobile,
+                                    Email: user.Email,
+                                    City: user.City,
+                                    Zipcode: user.Zipcode,
+                                    Password: user.Password,
+                                    Coins: user.Coins
+                                },{
                                     where: {
-                                        Id: user.Id,
-                                        FirstName: user.FirstName,
-                                        Lastname: user.Lastname,
-                                        Rank: user.Rank,
-                                        Address1: user.Address1,
-                                        Address2: user.Address2,
-                                        Pseudo: user.Pseudo,
-                                        Mobile: user.Mobile,
-                                        Email: user.Email,
-                                        City: user.City,
-                                        Zipcode: user.Zipcode,
-                                        Password: user.Password,
-                                        Coins: user.Coins
+                                        Id: user.id,
+
                                     }
                                 })
                                     .then(() => {
-                                        user.findById(user.Id)
+                                        users.findById(user.id)
                                             .then((result) => next(result))
                                             .catch((err) => next(err.message))
                                     })

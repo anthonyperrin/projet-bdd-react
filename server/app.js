@@ -107,6 +107,7 @@ sequelize
 
             //Update user with index
             .put(async (req, res) => {
+                console.log(req);
                 let user = await User.update(req.body);
                 res.json(checkAndChange(user));
             })
@@ -161,6 +162,10 @@ sequelize
             .get(async (req, res) => {
                 let disc = await Disc.getById(req.params.id);
                 res.json(checkAndChange(disc));
+            })
+            .put(async (req, res) => {
+                    let disc = await Disc.update(req.params.id, req.body);
+                    res.json(checkAndChange(disc));
             });
 
         BuyRouter.route('/')

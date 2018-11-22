@@ -77,7 +77,7 @@ class MyDiscs extends React.Component {
             listDiscFiltered: [],
             user: {},
             token: store.getState().state.token,
-            redirect:false,
+            redirect: false,
         };
     }
 
@@ -89,7 +89,7 @@ class MyDiscs extends React.Component {
 
     renderRedirect = () => {
         if (this.state.redirect) {
-            return <Redirect to='/login' />
+            return <Redirect to='/login'/>
         }
     };
 
@@ -101,7 +101,7 @@ class MyDiscs extends React.Component {
                     listDisc: json.result
                 }
             ));
-        let header =new Headers({
+        let header = new Headers({
             'x-access-token': this.state.token
         });
         fetch('http://127.0.0.1:8081/api/auth/current', {
@@ -138,14 +138,14 @@ class MyDiscs extends React.Component {
     };
 
     verifyAuth = () => {
-        if(this.state.user.auth === false){
+        if (this.state.user.auth === false) {
             this.setRedirect();
         }
     };
 
     render() {
         const {classes} = this.props;
-        return(
+        return (
             <React.Fragment>
                 <Typography>
                     {this.renderRedirect()}
@@ -188,10 +188,12 @@ class MyDiscs extends React.Component {
                                                             {disc.Name}
                                                         </Typography>
                                                         <CardContent>
-                                                            <Grid item container xs={2}>
+                                                            <Grid item container xs={12}>
                                                                 <Typography gutterBottom variant="h5" component="h2">
                                                                     {disc.Name}
                                                                 </Typography>
+                                                            </Grid>
+                                                            <Grid item container xs={12}>
                                                                 <Typography gutterBottom variant="h7" component="h4">
                                                                     {disc.artist.LastName + ' ' + disc.artist.FirstName}
                                                                 </Typography>
@@ -201,26 +203,19 @@ class MyDiscs extends React.Component {
                                                     <div className={classes.align}>
                                                         <Grid xs={12} md={6} item>
                                                             <CardActions>
-                                                                <Button variant="contained" size="small" style={{
+                                                                <Button component={Link} to={`/updatedisc/${disc.Id}`}
+                                                                        variant="contained" size="small" style={{
                                                                     background: disc.genre.colorCode,
-                                                                    color: 'white'
-                                                                }}>
-                                                                    You
-                                                                </Button>
-                                                                <Button variant="contained" size="small" style={{
-                                                                    background: 'black',
-                                                                    color: disc.genre.colorCode
+                                                                    color: 'white',
+
                                                                 }}>
                                                                     Modify
                                                                 </Button>
                                                             </CardActions>
-                                                            <CardActions>
-
-                                                            </CardActions>
                                                         </Grid>
                                                         <Grid xs={12} md={6} item>
                                                             <Typography style={{marginTop: 7}} variant="h6">
-                                                                {disc.Price} €
+                                                                {disc.Price} $
                                                             </Typography>
                                                         </Grid>
                                                     </div>

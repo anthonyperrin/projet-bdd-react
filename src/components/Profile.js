@@ -2,26 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
 import Grid from "@material-ui/core/Grid/Grid";
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import CardActionArea from '@material-ui/core/CardActionArea';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import Input from '@material-ui/core/Input';
 import Paper from '@material-ui/core/Paper';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
 import {Link, Redirect} from 'react-router-dom';
-import ListItem from "@material-ui/core/ListItem/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon/ListItemIcon";
-import LibraryMusic from '@material-ui/icons/LibraryMusic';
-import ListItemText from "@material-ui/core/ListItemText/ListItemText";
-import List from "@material-ui/core/List/List";
 import {store} from "../store";
-import Avatar from "@material-ui/core/Avatar/Avatar";
-import Album from "@material-ui/core/SvgIcon/SvgIcon";
+import {modCoins} from "../store/actions";
 
 
 const styles = theme => ({
@@ -51,7 +37,7 @@ const styles = theme => ({
         margin: theme.spacing.unit,
     },
     title1: {
-        marginTop: theme.spacing.unit
+        margin: theme.spacing.unit
     },
     title: {
         fontSize: 14,
@@ -65,7 +51,24 @@ const styles = theme => ({
     },
     media: {
         height: 140,
-    }
+    },
+    layout: {
+        width: 'auto',
+        display: 'block', // Fix IE 11 issue.
+        marginLeft: theme.spacing.unit * 3,
+        marginRight: theme.spacing.unit * 3,
+        [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
+            width: 400,
+            marginLeft: 'auto',
+            marginRight: 'auto',
+        },
+    },
+    paper: {
+        marginTop: theme.spacing.unit * 8,
+        display: 'flex',
+        flexDirection: 'column',
+        padding: `${theme.spacing.unit}px`,
+    },
 });
 
 
@@ -75,9 +78,41 @@ class Profile extends React.Component {
         this.state = {
             user: {},
             token: store.getState().state.token,
-            redirect:false,
+            redirect: false,
         };
     }
+
+    handleAddCoins = () => {
+        this.state.user.Coins += 500;
+        let user = {
+            id: this.state.user.Id,
+            FirstName: this.state.user.FirstName,
+            Lastname: this.state.user.Lastname,
+            Rank: this.state.user.Rank,
+            Address1: this.state.user.Address1,
+            Address2: this.state.user.Address2,
+            Pseudo: this.state.user.Pseudo,
+            Mobile: this.state.user.Mobile,
+            Email: this.state.user.Email,
+            City: this.state.user.City,
+            Zipcode: this.state.user.Zipcode,
+            Password: this.state.user.Password,
+            Coins: this.state.user.Coins
+        };
+
+        fetch('http://127.0.0.1:8081/api/user/update', {
+            method: 'PUT',
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(user)
+        })
+            .then(mss => mss.json())
+            .then(mss => this.majCoins(mss));
+    };
+
+    majCoins = (data) => {
+        store.dispatch(modCoins(data.result.Coins));
+        console.log(store.getState());
+    };
 
     setRedirect = () => {
         this.setState({
@@ -87,12 +122,12 @@ class Profile extends React.Component {
 
     renderRedirect = () => {
         if (this.state.redirect) {
-            return <Redirect to='/login' />
+            return <Redirect to='/login'/>
         }
     };
 
     componentWillMount() {
-        let header =new Headers({
+        let header = new Headers({
             'x-access-token': this.state.token
         });
         fetch('http://127.0.0.1:8081/api/auth/current', {
@@ -114,25 +149,44 @@ class Profile extends React.Component {
     };
 
     verifyAuth = () => {
-        if(this.state.user.auth === false){
+        if (this.state.user.auth === false) {
             this.setRedirect();
+        }else{
+            store.dispatch(modCoins(this.state.user.Coins))
         }
     };
 
     render() {
         const {classes} = this.props;
-        return(
+        return (
             <React.Fragment>
                 <Typography>
                     {this.renderRedirect()}
                 </Typography>
                 <main className={classes.layout}>
-                    <Paper className={classes.paper}>
-                        <Typography className={classes.title1} variant="h2" component="h3">
-                            {this.state.user.FirstName + ' ' + this.state.user.Lastname}
-                        </Typography>
+                    <Grid container xs={12}>
+                        <Paper className={classes.paper}>
+                            <Typography className={classes.title1} variant="h2" component="h3">
+                                {this.state.user.FirstName + ' ' + this.state.user.LastName}
+                            </Typography>
+                            <Typography className={classes.title1} style={{marginTop: '26px'}} variant="display1"
+                                        component="h3">
+                                {this.state.user.Pseudo}
+                            </Typography>
+                            <Typography component={Link} to={"/my_discs"}>
+                                My discs
+                            </Typography>
+                            <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                color="primary"
+                                onClick={this.handleAddCoins}>
+                                Add coins
 
-                    </Paper>
+                            </Button>
+                        </Paper>
+                    </Grid>
                 </main>
             </React.Fragment>
         );

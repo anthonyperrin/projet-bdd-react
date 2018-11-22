@@ -4,7 +4,6 @@ import Paper from "@material-ui/core/Paper/Paper";
 import Avatar from "@material-ui/core/Avatar/Avatar";
 import Typography from "@material-ui/core/Typography/Typography";
 import FormControl from "@material-ui/core/FormControl/FormControl";
-import InputLabel from "@material-ui/core/InputLabel/InputLabel";
 import Input from "@material-ui/core/Input/Input";
 import Button from "@material-ui/core/Button/Button";
 import PropTypes from "prop-types";
@@ -67,15 +66,13 @@ const styles = theme => ({
     }
 });
 
-class AddDisc extends React.Component {
+class UpdateDisc extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            listArtists: [],
-            listGenre: [],
+            datateched : false,
+            disc:{},
             title:'',
-            artist:'',
-            genre: '',
             year:'',
             price: '',
             labelWidth:0,
@@ -84,6 +81,8 @@ class AddDisc extends React.Component {
             erreurMsg:"",
             user: {},
             token: store.getState().state.token,
+            artist: {},
+            genre: {}
         }
     }
     setRedirectLogin = () => {
@@ -93,10 +92,9 @@ class AddDisc extends React.Component {
     };
 
     setRedirectOffer = () => {
-        alert('Disc has just been added');
         this.setState({
             redirectOffer: true
-        });
+        })
     };
 
     renderRedirectLogin = () => {
@@ -107,7 +105,7 @@ class AddDisc extends React.Component {
 
     renderRedirectOffer = () => {
         if (this.state.redirectOffer) {
-            return <Redirect to='/offres' />
+            return <Redirect to='/my_disc' />
         }
     };
 
@@ -115,7 +113,11 @@ class AddDisc extends React.Component {
         if(msg.status === "error"){
             this.setState({erreurMsg : msg.message});
         }else if(msg.status === "success"){
-            this.setState({erreurMsg : "The disc has been added."});
+            this.setState(
+                {
+                    erreurMsg : "The disc has been updated.",
+                    disc: msg.result
+                });
         }
     };
 
@@ -123,44 +125,29 @@ class AddDisc extends React.Component {
         event.preventDefault();
         let today = new Date();
         let formData = {
-            Name: this.state.title,
+            Name: this.state.disc.Name,
             Id_User: this.state.user.Id,
-            ReleaseYear: this.state.year,
+            ReleaseYear: this.state.disc.ReleaseYear,
             Price: parseInt(this.state.price),
             DateAdd: today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate(),
             nbViews: 0,
-            Id_Artist: this.state.artist,
-            Id_Genre: this.state.genre
+            Id_Artist: this.state.disc.Id_Artist,
+            Id_Genre: this.state.disc.Id_Genre
         };
-        fetch('http://127.0.0.1:8081/api/disc/', {
-            method: 'POST',
+        fetch('http://127.0.0.1:8081/api/disc/' + this.state.disc.Id, {
+            method: 'PUT',
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(formData)
         })
             .then(rep => rep.json())
             .then(json => this.afficherMsg(json))
-            .then(this.setRedirectOffer());
-
+        //this.setRedirectOffer();
 
     };
 
 
 
     componentWillMount() {
-        fetch('http://127.0.0.1:8081/api/artist')
-            .then(res => res.json())
-            .then(json => this.setState(
-                {
-                    listArtists: json.result,
-                }
-            ));
-        fetch('http://127.0.0.1:8081/api/genre')
-            .then(res => res.json())
-            .then(json => this.setState(
-                {
-                    listGenre: json.result,
-                }
-            ));
         let header =new Headers({
             'x-access-token': this.state.token
         });
@@ -168,7 +155,16 @@ class AddDisc extends React.Component {
             headers: header
         })
             .then(res => res.json())
-            .then(json => this.confUser(json) )
+            .then(json => this.confUser(json) );
+        fetch('http://127.0.0.1:8081/api/disc/' + this.props.match.params.id)
+            .then(res => res.json())
+            .then(json => this.setState(
+                {
+                    disc: json.result,
+                    datafetched :true
+                }
+            ))
+            .then(console.log(this.state));
 
     }
 
@@ -185,39 +181,27 @@ class AddDisc extends React.Component {
         if(this.state.user.auth === false){
             this.setRedirectLogin();
         }
+        this.handleArtistAndGenre();
     };
 
-    handleArtistSelectChange = event => {
-        this.setState({[event.target.name]: event.target.value});
-        this.state.artist = event.target.value;
-        document.getElementById('titleartist').innerHTML = '';
+    handleArtistAndGenre = () => {
+        this.setState({
+            artist: this.state.disc.artist,
+            genre:  this.state.disc.genre
+        })
     };
 
-    handleGenreSelectChange = event => {
-        this.setState({[event.target.name]: event.target.value});
-        this.state.genre = event.target.value;
-        document.getElementById('titlegenre').innerHTML = '';
-    };
-
-    handleTitleChange = event => {
-        this.state.title = event.target.value;
-        console.log(this.state.user);
-    };
-
-    handleDateChange = event => {
-        this.state.year = event.target.value;
-    };
 
     handlePriceChange = event => {
         this.state.price = event.target.value;
+        console.log(this.state.disc);
     };
-
 
 
 
     render() {
         const {classes} = this.props;
-
+        const {disc} = this.state;
         return (
             <React.Fragment>
                 <CssBaseline/>
@@ -227,74 +211,25 @@ class AddDisc extends React.Component {
                             <Album/>
                         </Avatar>
                         <Typography component="h1" variant={"display1"}>
-                            Add your own disc's offer
+                            Modify your own disc's offer
                             {this.renderRedirectLogin()}
                             {this.renderRedirectOffer()}
                         </Typography>
-                        <form className={classes.form} onSubmit={this.handleSubmit}>
+                        <form className={classes.form} onSubmit={this.handleSubmit} >
                             <FormControl margin="normal" required fullWidth>
-                                <InputLabel htmlFor="title">Title</InputLabel>
-                                <Input onChange={this.handleTitleChange} id="title" name="title" autoFocus/>
+                                <Input value={this.state.disc.Name} id="title" name="title" disabled/>
                             </FormControl>
                             <FormControl margin="normal" required fullWidth>
-                                <InputLabel id="titleartist" htmlFor="artist-id">Artist</InputLabel>
-                                <Select
-                                    value={this.state.artist}
-                                    onChange={this.handleArtistSelectChange}
-                                    inputProps={{
-                                        name: 'artist',
-                                        id: 'artist-id',
-                                    }}
-                                    className={classes.selectEmpty}>
-                                    {
-                                        this.state.listArtists.map(a => {
-                                            return (
-                                                <MenuItem value={a.Id}>{a.FirstName + ' ' + a.LastName}</MenuItem>
-                                            )
-                                        })
-                                    }
-                                </Select>
+
+                                <Input value={this.state.artist.FirstName + ' ' + this.state.artist.LastName} id="artist" name="artist" disabled/>
                             </FormControl>
                             <FormControl margin="normal" required fullWidth>
-                                <InputLabel id="titlegenre" htmlFor="genre-id">Genre</InputLabel>
-                                <Select
-                                    label="Genre"
-                                    value={this.state.genre}
-                                    onChange={this.handleGenreSelectChange}
-                                    inputProps={{
-                                        name: 'genre',
-                                        id: 'genre-id',
-                                    }}
-                                    className={classes.selectEmpty}>
-                                    {
-                                        this.state.listGenre.map(a => {
-                                            return (
-                                                <MenuItem value={a.Id}><Album style={{
-                                                    color: a.colorCode,
-                                                }} className={classes.icon}/>{a.Name}</MenuItem>
-                                            )
-                                        })
-                                    }
-                                </Select>
+                                <Input value={this.state.genre.Name} id="genre" name="genre" disabled/>
                             </FormControl>
-                            <div className={classes.align}>
-                                <FormControl required fullWidth style={{marginTop:'16px'}}>
-                                    <TextField
-                                        id="date"
-                                        label="Release Year*"
-                                        type="date"
-                                        defaultValue="now()"
-                                        className={classes.textField}
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                        onChange={this.handleDateChange}
-                                    />
-                                </FormControl>
+                            <FormControl required fullWidth>
                                 <FormControl required fullWidth>
                                     <TextField
-                                        id="standard-number"
-                                        label="Price*"
+                                        id="standard-numberPrice"
                                         type="number"
                                         InputProps={{ inputProps: { min: 0}}}
                                         className={classes.textField}
@@ -302,12 +237,14 @@ class AddDisc extends React.Component {
                                             shrink: true,
                                         }}
                                         margin="normal"
+                                        placeholder={"Price : " + this.state.disc.Price + ' $'}
                                         onChange={this.handlePriceChange}
                                     />
-
-
                                 </FormControl>
-                            </div>
+
+
+                            </FormControl>
+
                             <Typography margin="normal" component="p" id="erreur">
                                 {this.state.erreurMsg}
                             </Typography>
@@ -316,8 +253,9 @@ class AddDisc extends React.Component {
                                 fullWidth
                                 variant="contained"
                                 color="primary">
-                                Add offer
+                                Modify offer
                                 <LibraryAdd style={{marginLeft:'20px'}}/>
+
                             </Button>
                         </form>
                     </Paper>
@@ -329,8 +267,8 @@ class AddDisc extends React.Component {
 
 }
 
-AddDisc.propTypes = {
+UpdateDisc.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(AddDisc);
+export default withStyles(styles)(UpdateDisc);

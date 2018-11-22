@@ -24,7 +24,6 @@ const styles = {
 
 function Header(props) {
     const { classes } = props;
-    console.log(props.token);
     return (
 
         <div className={classes.root}>
