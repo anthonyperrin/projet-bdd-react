@@ -192,7 +192,6 @@ class MakeOffer extends React.Component {
                     datafetched :true
                 }
             ))
-            .then(console.log(this.state));
 
     }
 

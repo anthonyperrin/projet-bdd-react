@@ -13,7 +13,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import DeleteForever from '@material-ui/icons/DeleteForever'
-import PanTool from '@material-ui/icons/PanToolTwoTone'
+import Gavel from '@material-ui/icons/Gavel'
 import LibraryMusic from '@material-ui/icons/LibraryMusic'
 
 
@@ -22,7 +22,6 @@ const styles = theme => ({
         marginTop: theme.spacing.unit * 3,
         padding: theme.spacing.unit,
         flexGrow: 1,
-        overflowX: 'auto',
         width: '100%',
     },
     align: {
@@ -113,10 +112,10 @@ class Indexadmin extends React.Component {
     };
 
     verifyAuth = () => {
-        // if (this.state.user.auth === false || this.state.user.Rank !== 100) {
-        //     alert('Don\'t have authorization to get in');
-        //     this.setRedirect();
-        // }
+        if (this.state.user.auth === false || this.state.user.Rank !== 100) {
+            alert('Don\'t have authorization to get in');
+            this.setRedirect();
+        }
     };
 
     doFilter = (e) => {
@@ -167,7 +166,6 @@ class Indexadmin extends React.Component {
     }
 
     HandleStateUpdate(json, id, rank) {
-        console.log(json)
         if (json.result !== null) {
             alert('User '+ id +' successfully updated to rank ' + rank +'.');
             this.setRedirect()
@@ -190,7 +188,7 @@ class Indexadmin extends React.Component {
                             Admin
                         </Typography>
                     </Grid>
-                    <Grid item className={classes.root}>
+                    <Grid item xs={10} className={classes.root}>
                         <Paper className={classes.root}>
                             <Table className={classes.table}>
                                 <TableHead>
@@ -207,17 +205,17 @@ class Indexadmin extends React.Component {
                                 </TableHead>
                                 <TableBody>
                                     {this.state.usersList.map(user => {
-                                        if (user.Id !== this.state.user.Id)
+                                        if (this.state.user.Rank === 100)
                                         return (
                                             <TableRow key={user.Id}>
                                                 <TableCell>
-                                                    <Button onClick={this.DeleteUser.bind(this, user)} >
+                                                    <Button disabled={(this.state.user.Id === user.Id)} onClick={this.DeleteUser.bind(this, user)} >
                                                         <DeleteForever style={{ color : 'red'}}/>
                                                     </Button>
-                                                    <Button accessibilityLabel="Change rank user" onClick={this.ChangeRankUser.bind(this, user)} >
-                                                        <PanTool/>
+                                                    <Button disabled={(this.state.user.Id === user.Id)} onClick={this.ChangeRankUser.bind(this, user)} >
+                                                        <Gavel/> Rank
                                                     </Button>
-                                                    <Button component={Link} to={`/userdiscs/${user.Id}`}>
+                                                    <Button disabled={(this.state.user.Id === user.Id)} component={Link} to={`/userdiscs/${user.Id}`}>
                                                         <LibraryMusic style={{color:'blue'}}/>
                                                     </Button>
                                                 </TableCell>

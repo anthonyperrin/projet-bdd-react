@@ -163,7 +163,6 @@ class UpdateDisc extends React.Component {
                     datafetched :true
                 }
             ))
-            .then(console.log(this.state));
 
     }
 
@@ -193,7 +192,6 @@ class UpdateDisc extends React.Component {
 
     handlePriceChange = event => {
         this.state.price = event.target.value;
-        console.log(this.state.disc);
     };
 
 

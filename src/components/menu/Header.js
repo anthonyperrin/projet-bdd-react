@@ -21,6 +21,9 @@ import GroupWork from '@material-ui/icons/GroupWork';
 import LibraryMusic from '@material-ui/icons/LibraryMusic';
 import {store} from '../../store/index';
 
+import Settings from '@material-ui/icons/Settings'
+import SupervisorAccount from '@material-ui/icons/SupervisorAccount'
+
 const styles = {
     root: {
         flexGrow: 1,
@@ -43,8 +46,8 @@ const styles = {
 class Header extends React.Component {
     state = {
         left: false,
-        user:{},
-        token : "",
+        user: {},
+        token: "",
         isUser: false,
         isChecked: false,
         coins: store.getState().state.coins,
@@ -62,7 +65,7 @@ class Header extends React.Component {
     };
 
     handleTokenAndUser = (thisToken, thisCoins, thisCoinsLocked) => {
-        if((thisToken !== this.state.token && !this.state.isChecked) || (this.state.isUser && this.state.coins !== thisCoins) || (this.state.isUser && this.state.coinsLocked !== thisCoinsLocked)){
+        if ((thisToken !== this.state.token && !this.state.isChecked) || (this.state.isUser && this.state.coins !== thisCoins) || (this.state.isUser && this.state.coinsLocked !== thisCoinsLocked)) {
 
             this.setState({
                 isChecked: true,
@@ -70,7 +73,7 @@ class Header extends React.Component {
                 coins: thisCoins,
                 coinsLocked: thisCoinsLocked,
             });
-            let header =new Headers({
+            let header = new Headers({
                 'x-access-token': thisToken
             });
             fetch('http://127.0.0.1:8081/api/auth/current', {
@@ -90,7 +93,11 @@ class Header extends React.Component {
 
     render() {
         const {classes} = this.props;
-        const sideList = (
+
+        let rightList = "";
+        let sideList;
+        this.handleTokenAndUser(store.getState().state.token, store.getState().state.coins, store.getState().state.coinsLocked);
+        sideList = (
             <div className={classes.list}>
                 <List>
                     <ListItem button key="offres" component={Link} to={"/offres"}>
@@ -98,17 +105,11 @@ class Header extends React.Component {
                         <ListItemText primary="Offres de disques"/>
                     </ListItem>
                 </List>
+                <Divider/>
                 <List>
                     <ListItem button key="artists" component={Link} to={"/artists"}>
                         <ListItemIcon><GroupWork/></ListItemIcon>
                         <ListItemText primary="Artists"/>
-                    </ListItem>
-                </List>
-                <Divider/>
-                <List>
-                    <ListItem button key="profile" component={Link} to={"/my_discs"}>
-                        <ListItemIcon><LibraryMusic/></ListItemIcon>
-                        <ListItemText primary="My items"/>
                     </ListItem>
                 </List>
                 <Divider/>
@@ -120,31 +121,37 @@ class Header extends React.Component {
                 </List>
                 <Divider/>
                 <List>
-                    <ListItem button key="Adminindex" component={Link} to={"/Indexadmin"}>
-                        <ListItemIcon><LibraryMusic/></ListItemIcon>
-                        <ListItemText primary="Admin panel"/>
+                    <ListItem button key="profile" component={Link} to={"/my_discs"}>
+                        <ListItemIcon><Settings/></ListItemIcon>
+                        <ListItemText primary="My items"/>
                     </ListItem>
                 </List>
-
-
+                <Divider/>
+                <List>
+                    <ListItem button key="Adminindex" component={Link} to={"/Indexadmin"}>
+                        <ListItemIcon> <SupervisorAccount/></ListItemIcon>
+                        <ListItemText primary="Admin panel"/>
+                    </ ListItem>
+                </List>
             </div>
-        );
-        let rightList = "";
-        this.handleTokenAndUser(store.getState().state.token, store.getState().state.coins, store.getState().state.coinsLocked);
-        if(store.getState().state.token === "" ){
+        )
+        if (store.getState().state.token === "") {
             rightList = (
                 <div>
-                    <Button color="inherit" component={Link} to={"/login"} className={classes.buttonLogin}>Login</Button>
-                    <Button color="secondary" component={Link} to={"/register"} variant="contained">Register</Button>
+                    <Button color="inherit" component={Link} to={"/login"}
+                            className={classes.buttonLogin}>Login</Button>
+                    <Button color="secondary" component={Link} to={"/register"}
+                            variant="contained">Register</Button>
                 </div>
 
             );
-        }else{
+        } else {
             rightList = (
                 <div>
                     <Button color="inherit">{store.getState().state.coins} $</Button>
-                    <Button color="inherit" >{store.getState().state.coinsLocked} $ Blocked</Button>
-                    <Button color="inherit" component={Link} to={"/profile"} className={classes.buttonLogin}>Profile</Button>
+                    <Button color="inherit">{store.getState().state.coinsLocked} $ Blocked</Button>
+                    <Button color="inherit" component={Link} to={"/profile"}
+                            className={classes.buttonLogin}>Profile</Button>
                     <Button color="secondary" component={Link} to={"/logout"} variant="contained">Log out</Button>
                 </div>
 
@@ -180,9 +187,15 @@ class Header extends React.Component {
     }
 }
 
-Header.propTypes = {
+Header
+    .propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Header);
+export default withStyles(styles)
+
+(
+    Header
+)
+;
 

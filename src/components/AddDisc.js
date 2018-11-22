@@ -201,7 +201,6 @@ class AddDisc extends React.Component {
 
     handleTitleChange = event => {
         this.state.title = event.target.value;
-        console.log(this.state.user);
     };
 
     handleDateChange = event => {

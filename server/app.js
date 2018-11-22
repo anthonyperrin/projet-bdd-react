@@ -46,7 +46,6 @@ sequelize
 
         AuthRouter.route('/register')
             .post(async (req, res) => {
-                console.log(req.body);
                 let account = await Auth.register(req);
                 res.json(checkAndChange(account));
             });
@@ -116,7 +115,6 @@ sequelize
             })
             //Update user with index
             .put(async (req, res) => {
-                console.log(req);
                 let user = await User.update(req.params.id, req.body);
                 res.json(checkAndChange(user));
             })

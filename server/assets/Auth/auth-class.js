@@ -36,7 +36,6 @@ let Auth = class {
                 }
             })
                 .then((user) => {
-                    console.log(user);
                     if (user != null){
                         next(new Error("Email already used. Please use another one to register."));
                     }else{

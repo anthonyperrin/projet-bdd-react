@@ -102,7 +102,6 @@ class ListeOffres extends React.Component {
         fetch('http://127.0.0.1:8081/api/disco')
             .then(res => res.json())
             .then(json => this.setState({listBuy: json.result,listBuyFiltered: json.result}))
-            .then(console.log(this.state))
     }
 
     afficherMsg = (msg) => {
@@ -139,7 +138,6 @@ class ListeOffres extends React.Component {
             fetch('http://127.0.0.1:8081/api/disco')
                 .then(res => res.json())
                 .then(json => this.setState({listBuy: json.result,listBuyFiltered: json.result}))
-                .then(console.log(this.state));
 
 
         }
@@ -149,7 +147,6 @@ class ListeOffres extends React.Component {
         fetch('http://127.0.0.1:8081/api/disco')
             .then(res => res.json())
             .then(json => this.setState({listBuy: json.result,listBuyFiltered: json.result}))
-            .then(console.log(this.state))
             .then(this.confListeDisc());
 
         this.state.user.Coins += buy.CoinLocked;

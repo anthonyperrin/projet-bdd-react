@@ -72,7 +72,7 @@ const styles = theme => ({
     },
     button: {
         padding: `${theme.spacing.unit}px`,
-        margin: `${theme.spacing.unit}px`,
+        marginTop: `${theme.spacing.unit}px`,
     }
 });
 
@@ -106,8 +106,8 @@ class Profile extends React.Component {
             Password: this.state.user.Password,
             Coins: this.state.user.Coins
         };
-
-        fetch('http://127.0.0.1:8081/api/user/update', {
+        console.log(user)
+        fetch('http://127.0.0.1:8081/api/user/' + user.Id, {
             method: 'PUT',
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(user)

@@ -13,7 +13,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import DeleteForever from '@material-ui/icons/DeleteForever'
-import PanTool from '@material-ui/icons/PanToolTwoTone'
+
 import LibraryMusic from '@material-ui/icons/LibraryMusic'
 
 
@@ -22,7 +22,6 @@ const styles = theme => ({
         marginTop: theme.spacing.unit * 3,
         padding: theme.spacing.unit,
         flexGrow: 1,
-        overflowX: 'auto',
         width: '100%',
     },
     align: {
@@ -150,7 +149,7 @@ class Userdiscs extends React.Component {
                             Disc of user {this.props.match.params.id}
                         </Typography>
                     </Grid>
-                    <Grid item className={classes.root}>
+                    <Grid item xs={10} className={classes.root}>
                         <Paper className={classes.root}>
                             <Table className={classes.table}>
                                 <TableHead>
