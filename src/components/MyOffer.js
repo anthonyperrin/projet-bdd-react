@@ -146,7 +146,7 @@ class ListeOffres extends React.Component {
     doFilter = (e) => {
         this.setState({
             listBuyFiltered: this.state.listBuy.filter(a =>
-                (a.Name.toLowerCase()).indexOf(e.target.value.toLowerCase()) >= 0
+                (a.disc.Name.toLowerCase()).indexOf(e.target.value.toLowerCase()) >= 0
             )
         });
     };
