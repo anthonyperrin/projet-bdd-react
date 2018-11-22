@@ -29,6 +29,7 @@ sequelize
         let ArtistRouter = express.Router();
         let DiscRouter = express.Router();
         let BuyRouter = express.Router();
+        let CoinRouter = express.Router();
 
         // SERVICES
         let Auth = require('./assets/Auth/auth-class');
@@ -37,6 +38,7 @@ sequelize
         let Artist = require('./assets/classes/artist-class');
         let Disc = require('./assets/classes/disc-class');
         let Buy = require('./assets/classes/buy-class');
+        let Coin = require('./assets/classes/coinlocked-class');
 
         const VerifyToken  = require('./assets/Auth/VerifyToken');
 
@@ -60,6 +62,12 @@ sequelize
             .get(async (req, res) => {
                 let account = await Auth.getCurrent(req.headers, res);
                 res.json(checkAndChange(account));
+            });
+
+        CoinRouter.route('/:id')
+            .get(async (req, res) => {
+                let coin = await Coin.getById(req.params.id);
+                res.json(checkAndChange(coin));
             });
 
         GenreRouter.route('/')
@@ -173,11 +181,19 @@ sequelize
             .get(async (req, res,) => {
                 let buys = await Buy.getAll(req.query.max);
                 res.json(checkAndChange(buys));
+            })
+            .post(async (req, res) => {
+                let buy = await Buy.add(req.body);
+                res.json(checkAndChange(buy));
             });
         BuyRouter.route('/:id')
         //Get disc by index
             .get(async (req, res) => {
                 let buy = await Buy.getById(req.params.id);
+                res.json(checkAndChange(buy));
+            })
+            .put(async (req, res) => {
+                let buy = await Buy.update(req.params.id, req.body);
                 res.json(checkAndChange(buy));
             });
 
@@ -187,6 +203,7 @@ sequelize
         app.use(config.rootApi + 'user/', UserRouter);
         app.use(config.rootApi + 'artist/', ArtistRouter);
         app.use(config.rootApi + 'buy/', BuyRouter);
+        app.use(config.rootApi + 'coin/', CoinRouter);
         app.listen(config.port, () => {
             console.log('Started on port ' + config.port)
         });

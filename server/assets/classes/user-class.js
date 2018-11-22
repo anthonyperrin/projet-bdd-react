@@ -31,16 +31,16 @@ let User = class {
 
     static update(user) {
         return new Promise((next) => {
-            if (user.id) {
+            if (user.Id) {
                 if (user) {
-                    users.findById(user.id)
+                    users.findById(user.Id)
                         .then((result) => {
                             if (!result)
                                 next(new Error('User not found.'));
                             else
                                 users.update(   {
                                     FirstName: user.FirstName,
-                                    Lastname: user.Lastname,
+                                    Lastname: user.LastName,
                                     Rank: user.Rank,
                                     Address1: user.Address1,
                                     Address2: user.Address2,
@@ -53,12 +53,12 @@ let User = class {
                                     Coins: user.Coins
                                 },{
                                     where: {
-                                        Id: user.id,
+                                        Id: user.Id,
 
                                     }
                                 })
                                     .then(() => {
-                                        users.findById(user.id)
+                                        users.findById(user.Id)
                                             .then((result) => next(result))
                                             .catch((err) => next(err.message))
                                     })

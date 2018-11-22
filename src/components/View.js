@@ -11,6 +11,9 @@ import Profile from "./Profile";
 import UpdateDisc from "./UpdateDisc";
 import LogOut from "./LogOut";
 import Indexadmin from "./Indexadmin";
+import MakeOffer from "./MakeOffer";
+import MyOffer from "./MyOffer";
+
 
 class View extends Component {
     render() {
@@ -25,6 +28,8 @@ class View extends Component {
                 <Route path={"/addDisc"} component={AddDisc} />
                 <Route path={"/profile"} component={Profile} />
                 <Route path={"/updatedisc/:id"} component={UpdateDisc}/>
+                <Route path={"/makeOffer/:id"} component={MakeOffer}/>
+                <Route path={"/myOffer"} component={MyOffer}/>
                 <Route path={"/logout"} component={LogOut} />
                 <Route path={"/Indexadmin"} component={Indexadmin} />
             </Switch>

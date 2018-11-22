@@ -8,6 +8,7 @@ import Paper from '@material-ui/core/Paper';
 import {Link, Redirect} from 'react-router-dom';
 import {store} from "../store";
 import {modCoins} from "../store/actions";
+import {modCoinsLocked} from "../store/actions";
 
 
 const styles = theme => ({
@@ -82,13 +83,15 @@ class Profile extends React.Component {
             user: {},
             token: store.getState().state.token,
             redirect: false,
+            isUser: false,
+            idUser: 0,
         };
     }
 
     handleAddCoins = () => {
         this.state.user.Coins += 500;
         let user = {
-            id: this.state.user.Id,
+            Id: this.state.user.Id,
             FirstName: this.state.user.FirstName,
             Lastname: this.state.user.Lastname,
             Rank: this.state.user.Rank,
@@ -110,11 +113,16 @@ class Profile extends React.Component {
         })
             .then(mss => mss.json())
             .then(mss => this.majCoins(mss));
+
+
     };
 
     majCoins = (data) => {
         store.dispatch(modCoins(data.result.Coins));
-        console.log(store.getState());
+    };
+
+    majCoinLocked = (data) => {
+        store.dispatch(modCoinsLocked(parseInt(data.result.CoinLocked)))
     };
 
     setRedirect = () => {
@@ -138,24 +146,45 @@ class Profile extends React.Component {
         })
             .then(res => res.json())
             .then(json => this.confUser(json))
+
+
+
     }
+
 
 
     confUser = (json) => {
         this.setState(
             {
                 user: json.result,
+                isUser: true
             }
         );
 
         this.verifyAuth();
     };
 
+    rendercoinlocked =() => {
+        if(this.state.isUser){
+            fetch('http://127.0.0.1:8081/api/coin/' + this.state.user.Id, {
+                method: 'GET',
+                headers: {"Content-Type": "application/json"}
+            })
+                .then(res => res.json())
+                .then( json => this.majCoinLocked(json))
+        }
+    }
     verifyAuth = () => {
         if (this.state.user.auth === false) {
             this.setRedirect();
         }else{
-            store.dispatch(modCoins(this.state.user.Coins))
+            store.dispatch(modCoins(this.state.user.Coins));
+            fetch('http://127.0.0.1:8081/api/coin/' + this.state.user.Id, {
+                method: 'GET',
+                headers: {"Content-Type": "application/json"}
+            })
+                .then(res => res.json())
+                .then( json => this.majCoinLocked(json))
         }
     };
 
@@ -165,6 +194,7 @@ class Profile extends React.Component {
             <React.Fragment>
                 <Typography>
                     {this.renderRedirect()}
+                    {this.rendercoinlocked()}
                 </Typography>
                 <main className={classes.layout}>
                     <Grid container xs={12}>
@@ -183,8 +213,18 @@ class Profile extends React.Component {
                                 component={Link} to={"/my_discs"}
                                 variant="contained"
                                 color="primary">
-                                My disc
+                                My discs
                             </Button>
+                            <Button
+                                type="submit"
+                                fullWidth
+                                className={classes.button}
+                                variant="contained"
+                                color="primary"
+                                component={Link} to={"/myOffer"}
+                                >
+                                My offers
+                        </Button>
                             <Button
                                 type="submit"
                                 fullWidth
@@ -195,6 +235,7 @@ class Profile extends React.Component {
                                 Add coins
 
                             </Button>
+
                         </Paper>
                     </Grid>
                 </main>

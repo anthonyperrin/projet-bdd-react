@@ -28,6 +28,7 @@ const Buy = sequelize.define('buy', {
 Buy.belongsTo(User, {foreignKey: 'Id_User'});
 Buy.belongsTo(Disc, {foreignKey: 'Id'});
 
+
 Buy.sync();
 
 module.exports = Buy;

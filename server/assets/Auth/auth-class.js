@@ -42,7 +42,7 @@ let Auth = class {
                     }else{
                         users.create({
                             FirstName: req.body.firstName,
-                            Lastname: req.body.lastName,
+                            LastName: req.body.lastName,
                             Email: req.body.email,
                             Rank: 0,
                             Pseudo: req.body.pseudo,
