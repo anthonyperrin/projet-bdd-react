@@ -15,6 +15,7 @@ import LibraryAdd from '@material-ui/icons/LibraryAdd';
 import Album from '@material-ui/icons/Album'
 import {store}from '../store/index';
 import {Redirect} from "react-router-dom";
+import {modCoins, modCoinsLocked} from "../store/actions";
 
 const styles = theme => ({
     typography: {
@@ -66,7 +67,7 @@ const styles = theme => ({
     }
 });
 
-class UpdateDisc extends React.Component {
+class MakeOffer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -91,11 +92,7 @@ class UpdateDisc extends React.Component {
         })
     };
 
-    setRedirectOffer = () => {
-        this.setState({
-            redirectOffer: true
-        })
-    };
+
 
     renderRedirectLogin = () => {
         if (this.state.redirectLogin) {
@@ -109,6 +106,10 @@ class UpdateDisc extends React.Component {
         }
     };
 
+    majCoinLocked = (data) => {
+        store.dispatch(modCoinsLocked(parseInt(data.result.CoinLocked)))
+    };
+
     afficherMsg = (msg) => {
         if(msg.status === "error"){
             this.setState({erreurMsg : msg.message});
@@ -118,7 +119,31 @@ class UpdateDisc extends React.Component {
                     erreurMsg : "You make an offer for this disc",
                     disc: msg.result
                 });
+            this.state.user.Coins -=  this.state.price;
+            store.dispatch(modCoins(this.state.user.Coins));
+            let user =this.state.user;
+            fetch('http://127.0.0.1:8081/api/user/' + this.state.user.Id, {
+
+                method: 'PUT',
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(user)
+            })
+                .then(rep => rep.json())
+                .then(this.suite(user))
+
+
+
         }
+    };
+    suite = (user) => {
+        fetch('http://127.0.0.1:8081/api/coin/' + this.state.user.Id, {
+
+            method: 'GET',
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(user)
+        })
+            .then(rep => rep.json())
+            .then( json => this.majCoinLocked(json));
     };
 
     handleSubmit = (event) => {
@@ -126,7 +151,7 @@ class UpdateDisc extends React.Component {
         if(this.state.user.Coins > this.state.price){
             let formData = {
                 Id:  this.state.disc.Id,
-                Id_User: this.state.disc.user.Id,
+                Id_User: this.state.user.Id,
                 CoinLocked: this.state.price
             };
             fetch('http://127.0.0.1:8081/api/buy/', {
@@ -135,12 +160,14 @@ class UpdateDisc extends React.Component {
                 body: JSON.stringify(formData)
             })
                 .then(rep => rep.json())
-                .then(json => this.afficherMsg(json))
-                .then(this.state.user.Coins -= formData.CoinLocked)
+                .then(json => this.afficherMsg(json));
+
+
         }else{
             let array = {status: "error",message: "You don't have enougth money"};
             this.afficherMsg(array);
         }
+
 
         //this.setRedirectOffer();
 
@@ -266,8 +293,8 @@ class UpdateDisc extends React.Component {
 
 }
 
-UpdateDisc.propTypes = {
+MakeOffer.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(UpdateDisc);
+export default withStyles(styles)(MakeOffer);

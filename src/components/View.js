@@ -11,6 +11,7 @@ import Profile from "./Profile";
 import UpdateDisc from "./UpdateDisc";
 import LogOut from "./LogOut";
 import MakeOffer from "./MakeOffer";
+import MyOffer from "./MyOffer";
 
 class View extends Component {
     render() {
@@ -26,6 +27,7 @@ class View extends Component {
                 <Route path={"/profile"} component={Profile} />
                 <Route path={"/updatedisc/:id"} component={UpdateDisc}/>
                 <Route path={"/makeOffer/:id"} component={MakeOffer}/>
+                <Route path={"/myOffer"} component={MyOffer}/>
                 <Route path={"/logout"} component={LogOut} />
             </Switch>
         );

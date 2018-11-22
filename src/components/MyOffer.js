@@ -16,7 +16,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import {Link} from 'react-router-dom';
 import ListItem from "@material-ui/core/ListItem/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon/ListItemIcon";
-import AttachMoney from '@material-ui/icons/AttachMoney';
 import PlusOne from '@material-ui/icons/PlusOne';
 import ListItemText from "@material-ui/core/ListItemText/ListItemText";
 import List from "@material-ui/core/List/List";
@@ -73,10 +72,8 @@ class ListeOffres extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            listGenre: [],
-            listGenreFiltered: [],
-            listDisc: [],
-            listDiscFiltered: [],
+            listBuy: [],
+            listBuyFiltered: [],
             token: store.getState().state.token,
             user: {},
             redirectLogin: false,
@@ -93,18 +90,18 @@ class ListeOffres extends React.Component {
         })
             .then(res => res.json())
             .then(json => this.confUser(json) );
-        fetch('http://127.0.0.1:8081/api/disc')
+        fetch('http://127.0.0.1:8081/api/buy')
             .then(res => res.json())
-            .then(json => this.setState({listDisc: json.result,listDiscFiltered: json.result}))
+            .then(json => this.setState({listBuy: json.result,listBuyFiltered: json.result}))
     }
 
     confListeDisc = () => {
         this.setState({
-            listDisc: this.state.listDisc.filter(a =>
-                (a.Id_User !== this.state.user.Id)
+            listBuy: this.state.listBuy(a =>
+                (a.Id_User === this.state.user.Id)
             ),
-            listDiscFiltered: this.state.listDisc.filter(a =>
-                (a.Id_User !== this.state.user.Id)
+            listBuyFiltered: this.state.listBuy.filter(a =>
+                (a.Id_User === this.state.user.Id)
             )
         });
 
@@ -140,7 +137,7 @@ class ListeOffres extends React.Component {
 
     doFilter = (e) => {
         this.setState({
-            listDiscFiltered: this.state.listDisc.filter(a =>
+            listBuyFiltered: this.state.listBuy.filter(a =>
                 (a.Name.toLowerCase()).indexOf(e.target.value.toLowerCase()) >= 0
             )
         });
@@ -193,43 +190,34 @@ class ListeOffres extends React.Component {
                 <Grid container className={classes.root} spacing={20} xs={10} direction="row"
                       alignItems="center">
                     {
-                        this.state.listDiscFiltered.map(disc => {
+                        this.state.listBuyFiltered.map(buy => {
                             return (
                                 <Grid item xs={12} md={4} lg={3}>
                                     <Card className={classes.displayCard}>
                                         <CardActionArea>
-                                            <Typography gutterBottom style={{color: disc.genre.colorCode}}>
-                                                {disc.genre.Name}
-                                            </Typography>
+
                                             <CardContent style={{ justifyContent:'left' }}>
                                                 <Grid item container xs={12}>
                                                     <Typography gutterBottom variant="h5" component="h3">
-                                                        {disc.Name}
+                                                        {buy.disc.Name}
                                                     </Typography>
                                                 </Grid>
                                                 <Grid item container xs={12}>
                                                     <Typography gutterBottom variant="h7" component="h4">
-                                                        {disc.artist.FirstName + ' ' + disc.artist.LastName}
                                                     </Typography>
                                                 </Grid>
                                             </CardContent>
                                         </CardActionArea>
                                         <div className={classes.align}>
                                             <Grid xs={12} md={6} item>
-                                                <CardActions>
-                                                    <Button component={Link} to={`/makeOffer/${disc.Id}`}
-                                                        variant="contained" size="small" style={{
-                                                        background: disc.genre.colorCode,
-                                                        color: 'white'
+                                                <Typography style={{marginTop: 20}} variant="h6">
+                                                    You want : {buy.disc.Price + '.00 $'}
+                                                </Typography>
 
-                                                    }}>
-                                                        Make an offer
-                                                    </Button>
-                                                </CardActions>
                                             </Grid>
                                             <Grid xs={12} md={6} item>
                                                 <Typography style={{marginTop: 20}} variant="h6">
-                                                    {disc.Price + '.00 $'}
+                                                    He offer : {buy.CoinLocked + '.00 $'}
                                                 </Typography>
                                             </Grid>
                                         </div>

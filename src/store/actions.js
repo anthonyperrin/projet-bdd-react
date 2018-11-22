@@ -11,3 +11,7 @@ export const deltoken = () => ({type:DEL_TOKEN}) ;
 export const EDIT_COIN = 'EDIT_COIN';
 
 export const modCoins = data => ({type: EDIT_COIN, value: data});
+
+export const EDIT_COINLOCKED = 'EDIT_COINLOCKED';
+
+export const modCoinsLocked = data => ({type: EDIT_COINLOCKED, value: data});

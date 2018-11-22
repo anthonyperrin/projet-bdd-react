@@ -1,10 +1,12 @@
 import {ADD_TOKEN} from './actions'
 import {DEL_TOKEN} from './actions'
 import {EDIT_COIN} from './actions'
+import {EDIT_COINLOCKED} from './actions'
 
 const initialState = {
     token: "",
-    coins: 0
+    coins: 0,
+    coinsLocked: 0,
 };
 
 export default function  (state = initialState, action){
@@ -19,10 +21,12 @@ export default function  (state = initialState, action){
             return state;
 
         case EDIT_COIN:
-            console.log(action, state.coins);
-            console.log(state.coins = action.value);
             state.coins = action.value;
-            console.log(state);
+            return state;
+
+        case EDIT_COINLOCKED:
+            state.coinsLocked = action.value;
+            console.log(state.coinsLocked, action.value);
             return state;
 
         default:

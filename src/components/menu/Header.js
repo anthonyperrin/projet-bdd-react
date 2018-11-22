@@ -47,7 +47,8 @@ class Header extends React.Component {
         token : "",
         isUser: false,
         isChecked: false,
-        coins: store.getState().state.token,
+        coins: store.getState().state.coins,
+        coinsLocked: store.getState().state.coinsLocked,
         isDifferent: false
     };
 
@@ -60,13 +61,14 @@ class Header extends React.Component {
         );
     };
 
-    handleTokenAndUser = (thisToken, thisCoins) => {
-        if((thisToken !== this.state.token && !this.state.isChecked) || (this.state.isUser && this.state.coins !== thisCoins)){
+    handleTokenAndUser = (thisToken, thisCoins, thisCoinsLocked) => {
+        if((thisToken !== this.state.token && !this.state.isChecked) || (this.state.isUser && this.state.coins !== thisCoins) || (this.state.isUser && this.state.coinsLocked !== thisCoinsLocked)){
 
             this.setState({
                 isChecked: true,
                 token: thisToken,
-                coins: thisCoins
+                coins: thisCoins,
+                coinsLocked: thisCoinsLocked,
             });
             let header =new Headers({
                 'x-access-token': thisToken
@@ -121,7 +123,7 @@ class Header extends React.Component {
             </div>
         );
         let rightList = "";
-        this.handleTokenAndUser(store.getState().state.token);
+        this.handleTokenAndUser(store.getState().state.token,store.getState().state.coins, store.getState().state.coinsLocked);
         if(store.getState().state.token === "" ){
             rightList = (
                 <div>
@@ -134,7 +136,7 @@ class Header extends React.Component {
             rightList = (
                 <div>
                     <Button color="inherit">{store.getState().state.coins} $</Button>
-                    <Button color="inherit" >0 $ Blocked</Button>
+                    <Button color="inherit" >{store.getState().state.coinsLocked} $ Blocked</Button>
                     <Button color="inherit" component={Link} to={"/profile"} className={classes.buttonLogin}>Profile</Button>
                     <Button color="secondary" component={Link} to={"/logout"} variant="contained">Log out</Button>
                 </div>
