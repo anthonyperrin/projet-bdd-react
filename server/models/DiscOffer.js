@@ -28,7 +28,7 @@ const DiscOffer = sequelize.define('discoffer', {
         lastViewed: {
             type: Sequelize.DATE
         },
-        CoinLocked: {
+        coinlocked: {
             type: Sequelize.INTEGER
         },
         vendeur: {

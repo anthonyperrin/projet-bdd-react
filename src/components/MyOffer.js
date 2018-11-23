@@ -122,11 +122,11 @@ class ListeOffres extends React.Component {
         }else if(msg.status === "success"){
             this.setState(
                 {
-                    erreurMsg : "The disc has been updated.",
+                    erreurMsg : "You decline the offer.",
                     disc: msg.result
                 });
 
-            buy.user.Coins += buy.CoinLocked;
+            buy.user.Coins += buy.coinlocked;
             fetch('http://127.0.0.1:8081/api/user/' + buy.user.Id, {
                 method: 'PUT',
                 headers: {"Content-Type": "application/json"},
@@ -137,10 +137,16 @@ class ListeOffres extends React.Component {
 
             fetch('http://127.0.0.1:8081/api/disco')
                 .then(res => res.json())
-                .then(json => this.setState({listBuy: json.result,listBuyFiltered: json.result}))
-
+                .then(json => this.setUpList(json));
 
         }
+    };
+
+    setUpList = (liste) => {
+        let firstList = liste.result.filter(a => a.user.Id === this.state.user.Id);
+        let dosList = liste.result.filter(a => a.user.Id === this.state.user.Id);
+        console.log(firstList, dosList);
+        this.setState({listBuy: firstList,listBuyFiltered: dosList});
     };
 
     afficherMessageBuyAccept = (msg, buy) => {
@@ -149,7 +155,7 @@ class ListeOffres extends React.Component {
             .then(json => this.setState({listBuy: json.result,listBuyFiltered: json.result}))
             .then(this.confListeDisc());
 
-        this.state.user.Coins += buy.CoinLocked;
+        this.state.user.Coins += buy.coinlocked;
         fetch('http://127.0.0.1:8081/api/user/' + this.state.user.Id, {
             method: 'PUT',
             headers: {"Content-Type": "application/json"},
@@ -282,11 +288,12 @@ class ListeOffres extends React.Component {
                                 <ListItemText primary="Add Disc"/>
                             </ListItem>
                         </List>
+                        <Typography margin="normal" component="p" id="erreur">
+                            {this.state.erreurMsg}
+                        </Typography>
                     </Paper>
                 </Grid>
-                <Typography margin="normal" component="p" id="erreur">
-                    {this.state.erreurMsg}
-                </Typography>
+
                 <Grid container className={classes.root} spacing={20} xs={10} direction="row"
                       alignItems="center">
                     {
@@ -327,6 +334,7 @@ class ListeOffres extends React.Component {
                                     </div>
                                 )
                             }
+
                             return (
                                 <Grid item xs={12} md={4} lg={3}>
                                     <Card className={classes.displayCard}>
@@ -347,7 +355,7 @@ class ListeOffres extends React.Component {
                                             </Grid>
                                             <Grid xs={12} md={6} item>
                                                 <Typography style={{marginTop: 20}} variant="h6">
-                                                    Offer : {buy.CoinLocked + '.00 $'}
+                                                    Offer : {buy.coinlocked + '.00 $'}
                                                 </Typography>
                                             </Grid>
                                         </div>

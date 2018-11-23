@@ -145,6 +145,7 @@ class MyDiscs extends React.Component {
 
     render() {
         const {classes} = this.props;
+
         return (
             <React.Fragment>
                 <Typography>
@@ -180,6 +181,7 @@ class MyDiscs extends React.Component {
                                   alignItems="center">
                                 {
                                     this.state.listDiscFiltered.map(disc => {
+
                                         return (
                                             <Grid item xs={12} md={4} lg={3}>
                                                 <Card className={classes.displayCard}>
