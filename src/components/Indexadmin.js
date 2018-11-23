@@ -118,10 +118,6 @@ class Indexadmin extends React.Component {
         }
     };
 
-    doFilter = (e) => {
-
-    };
-
     TransformToLevel(rank) {
         switch (rank) {
             case 100:
