@@ -70,7 +70,7 @@ class UpdateDisc extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            datateched : false,
+            datafetched : false,
             disc:{},
             title:'',
             year:'',
@@ -198,7 +198,6 @@ class UpdateDisc extends React.Component {
 
     render() {
         const {classes} = this.props;
-        const {disc} = this.state;
         return (
             <React.Fragment>
                 <CssBaseline/>

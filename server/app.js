@@ -186,7 +186,7 @@ sequelize
                 res.json(checkAndChange(disc));
             })
             .put(async (req, res) => {
-                let disc = await Disc.delete(req.params.id, req.body);
+                let disc = await Disc.update(req.params.id, req.body);
                 res.json(checkAndChange(disc));
             })
             .delete(async (req, res) => {
