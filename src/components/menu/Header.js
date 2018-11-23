@@ -20,6 +20,8 @@ import QueueMusic from '@material-ui/icons/QueueMusic';
 import GroupWork from '@material-ui/icons/GroupWork';
 import LibraryMusic from '@material-ui/icons/LibraryMusic';
 import {store} from '../../store/index';
+import PlusOne from '@material-ui/icons/PlusOne';
+
 
 import Settings from '@material-ui/icons/Settings'
 import SupervisorAccount from '@material-ui/icons/SupervisorAccount'
@@ -115,7 +117,7 @@ class Header extends React.Component {
                 <Divider/>
                 <List>
                     <ListItem button key="AddDisc" component={Link} to={"/AddDisc"}>
-                        <ListItemIcon><LibraryMusic/></ListItemIcon>
+                        <ListItemIcon><PlusOne/></ListItemIcon>
                         <ListItemText primary="Add disc"/>
                     </ListItem>
                 </List>
