@@ -110,7 +110,7 @@ class ListeOffres extends React.Component {
         }else if(msg.status === "success"){
             this.setState(
                 {
-                    erreurMsg : "The disc has been updated.",
+                    erreurMsg : "You accepted the offer.",
                     disc: msg.result
                 });
         }
@@ -197,6 +197,7 @@ class ListeOffres extends React.Component {
     };
 
     confListeDisc = () => {
+        console.log(this.state);
         this.setState({
 
             listBuy: this.state.listBuy.filter(a =>

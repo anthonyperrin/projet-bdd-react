@@ -96,7 +96,7 @@ let Disc = class {
                         })
                         .catch((err) => next(err.message))
                 } else {
-                    next(new Error('New artist is undefined.'));
+                    next(new Error('Disc is undefined.'));
                 }
             } else {
                 next(new Error('Id is undefined.'));
