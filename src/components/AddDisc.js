@@ -16,7 +16,7 @@ import LibraryAdd from '@material-ui/icons/LibraryAdd';
 import Album from '@material-ui/icons/Album'
 import {store}from '../store/index';
 import {Redirect} from "react-router-dom";
-const config = require('config.json');
+const config = require('./config.json');
 
 const styles = theme => ({
     typography: {
