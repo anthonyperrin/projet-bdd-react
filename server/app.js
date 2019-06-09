@@ -15,7 +15,7 @@ sequelize
     .then(() => {
         console.log('Connection has been established successfully.');
         const app = express();
-        var allowedOrigins = ['http://127.0.0.1:3000'];
+        
         app.use(cors());
 
         app.use(morgan);
