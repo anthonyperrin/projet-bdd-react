@@ -13,7 +13,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import DeleteForever from '@material-ui/icons/DeleteForever'
-
+const config = require('./config.json');
 import LibraryMusic from '@material-ui/icons/LibraryMusic'
 
 
@@ -65,6 +65,7 @@ class Userdiscs extends React.Component {
             token: store.getState().state.token,
             redirect: false,
             discList: [],
+            ip: config.ip
         };
     }
 
@@ -72,12 +73,12 @@ class Userdiscs extends React.Component {
         let header = new Headers({
             'x-access-token': this.state.token
         });
-        fetch('http://127.0.0.1:8081/api/auth/current', {
+        fetch('http://' + this.state.ip + ':8081/api/auth/current', {
             headers: header
         })
             .then(res => res.json())
             .then(json => this.confUser(json))
-        fetch('http://127.0.0.1:8081/api/disc')
+        fetch('http://' + this.state.ip + ':8081/api/disc')
             .then(res => res.json())
             .then(json => this.setState(
                 {
@@ -119,7 +120,7 @@ class Userdiscs extends React.Component {
 
     DeleteDisc(disc) {
         const data = this.state.discList.filter(i => i.Id === disc.Id)
-        fetch('http://127.0.0.1:8081/api/disc/' + data[0].Id, {
+        fetch('http:/' + this.state.ip + ':8081/api/disc/' + data[0].Id, {
             method: 'DELETE'
         })
             .then(res => res.json())

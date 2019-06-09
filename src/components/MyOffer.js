@@ -21,7 +21,7 @@ import ListItemText from "@material-ui/core/ListItemText/ListItemText";
 import List from "@material-ui/core/List/List";
 import {store}from '../store/index';
 import {Redirect} from "react-router-dom";
-
+const config = require('./config.json');
 
 const styles = theme => ({
     root: {
@@ -85,7 +85,8 @@ class ListeOffres extends React.Component {
             token: store.getState().state.token,
             user: {},
             redirectLogin: false,
-            userBuyer: {}
+            userBuyer: {},
+            ip: config.ip
         };
     }
 
@@ -94,12 +95,12 @@ class ListeOffres extends React.Component {
         let header =new Headers({
             'x-access-token': store.getState().state.token
         });
-        fetch('http://127.0.0.1:8081/api/auth/current', {
+        fetch('http://' + this.state.ip + ':8081/api/auth/current', {
             headers: header
         })
             .then(res => res.json())
             .then(json => this.confUser(json));
-        fetch('http://127.0.0.1:8081/api/disco')
+        fetch('http://' + this.state.ip + ':8081/api/disco')
             .then(res => res.json())
             .then(json => this.setState({listBuy: json.result,listBuyFiltered: json.result}))
     }
@@ -127,7 +128,7 @@ class ListeOffres extends React.Component {
                 });
 
             buy.user.Coins += buy.coinlocked;
-            fetch('http://127.0.0.1:8081/api/user/' + buy.user.Id, {
+            fetch('http://' + this.state.ip + ':8081/api/user/' + buy.user.Id, {
                 method: 'PUT',
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(buy.user)
@@ -135,7 +136,7 @@ class ListeOffres extends React.Component {
                 .then(rep => rep.json())
                 .then(json => this.afficherMsg(json));
 
-            fetch('http://127.0.0.1:8081/api/disco')
+            fetch('http://' + this.state.ip + ':8081/api/disco')
                 .then(res => res.json())
                 .then(json => this.setUpList(json));
 
@@ -150,13 +151,13 @@ class ListeOffres extends React.Component {
     };
 
     afficherMessageBuyAccept = (msg, buy) => {
-        fetch('http://127.0.0.1:8081/api/disco')
+        fetch('http://' + this.state.ip + ':8081/api/disco')
             .then(res => res.json())
             .then(json => this.setState({listBuy: json.result,listBuyFiltered: json.result}))
             .then(this.confListeDisc());
 
         this.state.user.Coins += buy.coinlocked;
-        fetch('http://127.0.0.1:8081/api/user/' + this.state.user.Id, {
+        fetch('http://' + this.state.ip + ':8081/api/user/' + this.state.user.Id, {
             method: 'PUT',
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(this.state.user)
@@ -170,7 +171,7 @@ class ListeOffres extends React.Component {
 
     handleDecline = (buy) => {
         //Ajout coins autre user
-        fetch('http://127.0.0.1:8081/api/buy/' + buy.Id, {
+        fetch('http://' + this.state.ip + ':8081/api/buy/' + buy.Id, {
             method: 'DELETE',
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(buy.user)
@@ -184,7 +185,7 @@ class ListeOffres extends React.Component {
 
     handleAccept = (buy) => {
         buy.Status = 1;
-        fetch('http://127.0.0.1:8081/api/buy/' + buy.Id, {
+        fetch('http://' + this.state.ip + ':8081/api/buy/' + buy.Id, {
             method: 'PUT',
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(buy)

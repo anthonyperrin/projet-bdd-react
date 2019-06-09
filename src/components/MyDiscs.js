@@ -22,7 +22,7 @@ import List from "@material-ui/core/List/List";
 import {store} from "../store";
 import Avatar from "@material-ui/core/Avatar/Avatar";
 import Album from "@material-ui/core/SvgIcon/SvgIcon";
-
+const config = require('./config.json');
 
 const styles = theme => ({
     root: {
@@ -78,6 +78,7 @@ class MyDiscs extends React.Component {
             user: {},
             token: store.getState().state.token,
             redirect: false,
+            ip: config.ip
         };
     }
 
@@ -94,7 +95,7 @@ class MyDiscs extends React.Component {
     };
 
     componentWillMount() {
-        fetch('http://127.0.0.1:8081/api/disc')
+        fetch('http://' + this.state.ip + ':8081/api/disc')
             .then(res => res.json())
             .then(json => this.setState(
                 {
@@ -104,7 +105,7 @@ class MyDiscs extends React.Component {
         let header = new Headers({
             'x-access-token': this.state.token
         });
-        fetch('http://127.0.0.1:8081/api/auth/current', {
+        fetch('http://' + this.state.ip + ':8081/api/auth/current', {
             headers: header
         })
             .then(res => res.json())

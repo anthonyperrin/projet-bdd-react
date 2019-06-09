@@ -9,7 +9,7 @@ import {Link, Redirect} from 'react-router-dom';
 import {store} from "../store";
 import {modCoins} from "../store/actions";
 import {modCoinsLocked} from "../store/actions";
-
+const config = require('./config.json');
 
 const styles = theme => ({
     root: {
@@ -86,6 +86,7 @@ class Profile extends React.Component {
             redirect: false,
             isUser: false,
             idUser: 0,
+            ip: config.ip
         };
     }
 
@@ -107,7 +108,7 @@ class Profile extends React.Component {
             Coins: this.state.user.Coins
         };
         console.log(user)
-        fetch('http://127.0.0.1:8081/api/user/' + user.Id, {
+        fetch('http://' + this.state.ip + ':8081/api/user/' + user.Id, {
             method: 'PUT',
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(user)
@@ -142,7 +143,7 @@ class Profile extends React.Component {
         let header = new Headers({
             'x-access-token': this.state.token
         });
-        fetch('http://127.0.0.1:8081/api/auth/current', {
+        fetch('http://' + this.state.ip + ':8081/api/auth/current', {
             headers: header
         })
             .then(res => res.json())
@@ -169,7 +170,7 @@ class Profile extends React.Component {
 
     rendercoinlocked =() => {
         if(this.state.isUser){
-            fetch('http://127.0.0.1:8081/api/coin/' + this.state.user.Id, {
+            fetch('http://' + this.state.ip + ':8081/api/coin/' + this.state.user.Id, {
                 method: 'GET',
                 headers: {"Content-Type": "application/json"}
             })
@@ -182,7 +183,7 @@ class Profile extends React.Component {
             this.setRedirect();
         }else{
             store.dispatch(modCoins(this.state.user.Coins));
-            fetch('http://127.0.0.1:8081/api/coin/' + this.state.user.Id, {
+            fetch('http://' + this.state.ip + ':8081/api/coin/' + this.state.user.Id, {
                 method: 'GET',
                 headers: {"Content-Type": "application/json"}
             })

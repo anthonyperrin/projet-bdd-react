@@ -15,6 +15,7 @@ import LibraryAdd from '@material-ui/icons/LibraryAdd';
 import Album from '@material-ui/icons/Album'
 import {store}from '../store/index';
 import {Redirect} from "react-router-dom";
+const config = require('./config.json');
 
 const styles = theme => ({
     typography: {
@@ -82,7 +83,8 @@ class UpdateDisc extends React.Component {
             user: {},
             token: store.getState().state.token,
             artist: {},
-            genre: {}
+            genre: {},
+            ip: config.ip
         }
     }
     setRedirectLogin = () => {
@@ -134,7 +136,7 @@ class UpdateDisc extends React.Component {
             Id_Artist: this.state.disc.Id_Artist,
             Id_Genre: this.state.disc.Id_Genre
         };
-        fetch('http://127.0.0.1:8081/api/disc/' + this.state.disc.Id, {
+        fetch('http://' + this.state.ip + ':8081/api/disc/' + this.state.disc.Id, {
             method: 'PUT',
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(formData)
@@ -150,12 +152,12 @@ class UpdateDisc extends React.Component {
         let header =new Headers({
             'x-access-token': this.state.token
         });
-        fetch('http://127.0.0.1:8081/api/auth/current', {
+        fetch('http://' + this.state.ip + ':8081/api/auth/current', {
             headers: header
         })
             .then(res => res.json())
             .then(json => this.confUser(json) );
-        fetch('http://127.0.0.1:8081/api/disc/' + this.props.match.params.id)
+        fetch('http://' + this.state.ip + ':8081/api/disc/' + this.props.match.params.id)
             .then(res => res.json())
             .then(json => this.setState(
                 {

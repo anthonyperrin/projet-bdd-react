@@ -11,7 +11,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Redirect } from 'react-router-dom'
-
+const config = require('./config.json');
 
 const styles = theme => ({
     layout: {
@@ -53,7 +53,8 @@ class Register extends React.Component {
 
     state = {
         redirect: false,
-        erreurMsg : ""
+        erreurMsg : "",
+        ip: config.ip
     };
 
     setRedirect = () => {
@@ -91,7 +92,7 @@ class Register extends React.Component {
         };
 
         if (password === password2) {
-            fetch('http://127.0.0.1:8081/api/auth/register', {
+            fetch('http://' + this.state.ip + ':8081/api/auth/register', {
                 method: 'POST',
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(formData)
