@@ -14,6 +14,7 @@ import {Link, Redirect} from 'react-router-dom'
 import store from '../store/index'
 import {addtoken, modCoinsLocked} from '../store/actions'
 import {modCoins} from '../store/actions'
+const config = require('./config.json');
 
 const styles = theme => ({
     layout: {
@@ -59,7 +60,8 @@ class Login extends React.Component {
     state = {
         redirect: false,
         erreurMsg : "",
-        token : ""
+        token : "",
+        ip: config.ip
     };
 
     setRedirect = () => {
@@ -108,7 +110,7 @@ class Login extends React.Component {
             email: data.get('email')
         };
 
-            fetch('http://127.0.0.1:8081/api/auth/login', {
+            fetch('http://' + this.state.ip + ':8081/api/auth/login', {
                 method: 'POST',
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(formData)

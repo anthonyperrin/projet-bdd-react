@@ -16,6 +16,7 @@ import Album from '@material-ui/icons/Album'
 import {store}from '../store/index';
 import {Redirect} from "react-router-dom";
 import {modCoins, modCoinsLocked} from "../store/actions";
+const config = require('./config.json');
 
 const styles = theme => ({
     typography: {
@@ -83,7 +84,8 @@ class MakeOffer extends React.Component {
             user: {},
             token: store.getState().state.token,
             artist: {},
-            genre: {}
+            genre: {},
+            ip: config.ip
         }
     }
     setRedirectLogin = () => {
@@ -122,7 +124,7 @@ class MakeOffer extends React.Component {
             this.state.user.Coins -=  this.state.price;
             store.dispatch(modCoins(this.state.user.Coins));
             let user =this.state.user;
-            fetch('http://127.0.0.1:8081/api/user/' + this.state.user.Id, {
+            fetch('http://' + this.state.ip + ':8081/api/user/' + this.state.user.Id, {
 
                 method: 'PUT',
                 headers: {"Content-Type": "application/json"},
@@ -136,7 +138,7 @@ class MakeOffer extends React.Component {
         }
     };
     suite = (user) => {
-        fetch('http://127.0.0.1:8081/api/coin/' + this.state.user.Id, {
+        fetch('http://' + this.state.ip + ':8081/api/coin/' + this.state.user.Id, {
 
             method: 'GET',
             headers: {"Content-Type": "application/json"},
@@ -154,7 +156,7 @@ class MakeOffer extends React.Component {
                 Id_User: this.state.user.Id,
                 CoinLocked: this.state.price
             };
-            fetch('http://127.0.0.1:8081/api/buy/', {
+            fetch('http://' + this.state.ip + ':8081/api/buy/', {
                 method: 'POST',
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(formData)
@@ -179,12 +181,12 @@ class MakeOffer extends React.Component {
         let header =new Headers({
             'x-access-token': this.state.token
         });
-        fetch('http://127.0.0.1:8081/api/auth/current', {
+        fetch('http://' + this.state.ip + ':8081/api/auth/current', {
             headers: header
         })
             .then(res => res.json())
             .then(json => this.confUser(json) );
-        fetch('http://127.0.0.1:8081/api/disc/' + this.props.match.params.id)
+        fetch('http://' + this.state.ip + ':8081/api/disc/' + this.props.match.params.id)
             .then(res => res.json())
             .then(json => this.setState(
                 {

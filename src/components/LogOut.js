@@ -13,6 +13,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import {Link, Redirect} from 'react-router-dom'
 import store from '../store/index'
 import {deltoken} from '../store/actions'
+const config = require('./config.json');
 
 const styles = theme => ({
     layout: {
@@ -59,6 +60,7 @@ class Login extends React.Component {
         redirect: false,
         token : store.getState().state.token,
         user: {},
+        ip: config.ip
     };
 
     setRedirect = () => {
@@ -78,7 +80,7 @@ class Login extends React.Component {
         let header =new Headers({
             'x-access-token': this.state.token
         });
-        fetch('http://127.0.0.1:8081/api/auth/current', {
+        fetch('http://' + this.state.ip + ':8081/api/auth/current', {
             headers: header
         })
             .then(res => res.json())

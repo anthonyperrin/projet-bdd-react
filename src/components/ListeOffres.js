@@ -22,7 +22,7 @@ import ListItemText from "@material-ui/core/ListItemText/ListItemText";
 import List from "@material-ui/core/List/List";
 import {store}from '../store/index';
 import {Redirect} from "react-router-dom";
-
+const config = require('./config.json');
 
 const styles = theme => ({
     root: {
@@ -80,6 +80,7 @@ class ListeOffres extends React.Component {
             token: store.getState().state.token,
             user: {},
             redirectLogin: false,
+            ip: config.ip
         };
     }
 
@@ -88,12 +89,12 @@ class ListeOffres extends React.Component {
         let header =new Headers({
             'x-access-token': store.getState().state.token
         });
-        fetch('http://127.0.0.1:8081/api/auth/current', {
+        fetch('http://' + this.state.ip + ':8081/api/auth/current', {
             headers: header
         })
             .then(res => res.json())
             .then(json => this.confUser(json) );
-        fetch('http://127.0.0.1:8081/api/disc')
+        fetch('http://' + this.state.ip + ':8081/api/disc')
             .then(res => res.json())
             .then(json => this.setState({listDisc: json.result,listDiscFiltered: json.result}))
     }

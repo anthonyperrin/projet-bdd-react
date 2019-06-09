@@ -15,7 +15,7 @@ import TableRow from '@material-ui/core/TableRow';
 import DeleteForever from '@material-ui/icons/DeleteForever'
 import Gavel from '@material-ui/icons/Gavel'
 import LibraryMusic from '@material-ui/icons/LibraryMusic'
-
+const config = require('./config.json');
 
 const styles = theme => ({
     root: {
@@ -66,6 +66,7 @@ class Indexadmin extends React.Component {
             redirect: false,
             usersList : [],
             discList : [],
+            ip: config.ip
         };
     }
 
@@ -73,12 +74,12 @@ class Indexadmin extends React.Component {
         let header = new Headers({
             'x-access-token': this.state.token
         });
-        fetch('http://127.0.0.1:8081/api/auth/current', {
+        fetch('http://' + this.state.ip + ':8081/api/auth/current', {
             headers: header
         })
             .then(res => res.json())
             .then(json => this.confUser(json))
-        fetch('http://127.0.0.1:8081/api/user')
+        fetch('http://' + this.state.ip + ':8081/api/user')
             .then(res => res.json())
             .then(json => this.setState(
                 {
@@ -132,7 +133,7 @@ class Indexadmin extends React.Component {
 
     DeleteUser(user) {
         const data = this.state.usersList.filter(i=> i.Id === user.Id)
-        fetch('http://127.0.0.1:8081/api/user/' + data[0].Id, {
+        fetch('http://' + this.state.ip + ':8081/api/user/' + data[0].Id, {
             method :'DELETE'
         })
             .then(res => res.json())
@@ -152,7 +153,7 @@ class Indexadmin extends React.Component {
         let newRank;
         const data = this.state.usersList.filter(i=> i.Id === user.Id)
         user.Rank === 0 ? user.Rank = 100 : user.Rank = 0
-        fetch('http://127.0.0.1:8081/api/user/' + data[0].Id, {
+        fetch('http://' + this.state.ip + ':8081/api/user/' + data[0].Id, {
             method: 'PUT',
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(user)

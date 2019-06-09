@@ -6,6 +6,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Paper from "@material-ui/core/Paper/Paper";
 import Input from "@material-ui/core/Input/Input";
+const config = require('./config.json');
 
 const styles = theme => ({
     root: {
@@ -36,11 +37,12 @@ class Artists extends React.Component {
         this.state = {
             listArtists: [],
             listArtistsFiltered: [],
+            ip: config.ip
         };
     };
 
     componentWillMount() {
-        fetch('http://192.168.0.25:8081/api/artist')
+        fetch('http://' + this.state.ip + ':8081/api/artist')
             .then(res => res.json())
             .then(json => this.setState({
                 listArtists: json.result,
