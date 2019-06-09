@@ -40,7 +40,7 @@ class Artists extends React.Component {
     };
 
     componentWillMount() {
-        fetch('http://127.0.0.1:8081/api/artist')
+        fetch('http://192.168.0.25:8081/api/artist')
             .then(res => res.json())
             .then(json => this.setState({
                 listArtists: json.result,
