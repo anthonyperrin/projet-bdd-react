@@ -2,7 +2,7 @@
   "rootApi": "/api/",
   "port": 8081,
   "database": {
-    "host": "192.168.0.25",
+    "host": "localhost",
     "database": "disc",
     "user": "antoine",
     "password": "password"
