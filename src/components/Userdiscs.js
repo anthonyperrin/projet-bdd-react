@@ -12,7 +12,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import DeleteForever from '@material-ui/icons/DeleteForever'
+import DeleteForever from '@material-ui/icons/DeleteForever';
 const config = require('./config.json');
 import LibraryMusic from '@material-ui/icons/LibraryMusic'
 
