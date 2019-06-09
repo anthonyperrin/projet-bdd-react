@@ -16,6 +16,7 @@ import LibraryAdd from '@material-ui/icons/LibraryAdd';
 import Album from '@material-ui/icons/Album'
 import {store}from '../store/index';
 import {Redirect} from "react-router-dom";
+import Config from 'Config';
 
 const styles = theme => ({
     typography: {
@@ -84,6 +85,7 @@ class AddDisc extends React.Component {
             erreurMsg:"",
             user: {},
             token: store.getState().state.token,
+            ip: Config.getIp()
         }
     }
     setRedirectLogin = () => {
@@ -132,7 +134,7 @@ class AddDisc extends React.Component {
             Id_Artist: this.state.artist,
             Id_Genre: this.state.genre
         };
-        fetch('http://127.0.0.1:8081/api/disc/', {
+        fetch('http://' + this.state.ip + ':8081/api/disc/', {
             method: 'POST',
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(formData)
@@ -147,14 +149,14 @@ class AddDisc extends React.Component {
 
 
     componentWillMount() {
-        fetch('http://127.0.0.1:8081/api/artist')
+        fetch('http://' + this.state.ip + ':8081/api/artist')
             .then(res => res.json())
             .then(json => this.setState(
                 {
                     listArtists: json.result,
                 }
             ));
-        fetch('http://127.0.0.1:8081/api/genre')
+        fetch('http://' + this.state.ip + ':8081/api/genre')
             .then(res => res.json())
             .then(json => this.setState(
                 {
@@ -164,7 +166,7 @@ class AddDisc extends React.Component {
         let header =new Headers({
             'x-access-token': this.state.token
         });
-        fetch('http://127.0.0.1:8081/api/auth/current', {
+        fetch('http://' + this.state.ip + ':8081/api/auth/current', {
             headers: header
         })
             .then(res => res.json())
