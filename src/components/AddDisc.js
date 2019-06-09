@@ -16,7 +16,7 @@ import LibraryAdd from '@material-ui/icons/LibraryAdd';
 import Album from '@material-ui/icons/Album'
 import {store}from '../store/index';
 import {Redirect} from "react-router-dom";
-import Config from 'Config';
+const config = require('config');
 
 const styles = theme => ({
     typography: {
@@ -85,7 +85,7 @@ class AddDisc extends React.Component {
             erreurMsg:"",
             user: {},
             token: store.getState().state.token,
-            ip: Config.getIp()
+            ip: config.ip
         }
     }
     setRedirectLogin = () => {
