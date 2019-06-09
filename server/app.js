@@ -16,19 +16,7 @@ sequelize
         console.log('Connection has been established successfully.');
         const app = express();
         var allowedOrigins = ['http://127.0.0.1:3000'];
-        app.use(cors({
-            origin: function(origin, callback){    // allow requests with no origin 
-            // (like mobile apps or curl requests)
-            if(!origin) return callback(null, true);
-
-            if(allowedOrigins.indexOf(origin) === -1){
-                var msg = 'The CORS policy for this site does not ' +
-                    'allow access from the specified Origin.';
-                 return callback(new Error(msg), false);
-            }    
-                return callback(null, true);
-                }
-            }));
+        app.use(cors());
 
         app.use(morgan);
         app.use(bodyParser.json());
@@ -242,6 +230,7 @@ sequelize
         app.use(config.rootApi + 'coin/', CoinRouter);
         app.listen(config.port, () => {
             console.log('Started on port ' + config.port)
+            console.log('CORS-enabled web server listening on port 8081')
         });
     })
     .catch(err => {
