@@ -102,10 +102,10 @@ class ListeOffres extends React.Component {
     confListeDisc = () => {
         this.setState({
             listDisc: this.state.listDisc.filter(a =>
-                (a.Id_User !== this.state.user.Id)
+                (a.Id_User !== this.state.user.Id && a.Status === 0)
             ),
             listDiscFiltered: this.state.listDisc.filter(a =>
-                (a.Id_User !== this.state.user.Id)
+                (a.Id_User !== this.state.user.Id && a.Status === 0)
             )
         });
 

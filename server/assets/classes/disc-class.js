@@ -80,7 +80,9 @@ let Disc = class {
                             else
                                 discs.update(   {
                                     Name: disc.Name,
-                                    Price: disc.Price
+                                    Price: disc.Price,
+                                    Id_User: disc.Id_User,
+                                    Status: disc.Status
                                 },{
                                     where: {
                                         Id: id,
@@ -104,6 +106,7 @@ let Disc = class {
         });
 
     }
+
 
     static delete(id) {
         return new Promise((next) => {

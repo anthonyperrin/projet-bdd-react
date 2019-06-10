@@ -28,6 +28,9 @@ const Disc = sequelize.define('disc', {
         },
         lastViewed: {
             type: Sequelize.DATE
+        },
+        Status: {
+            type: Sequelize.TINYINT
         }
     },
     {

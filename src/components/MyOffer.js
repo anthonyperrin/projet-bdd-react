@@ -86,7 +86,8 @@ class ListeOffres extends React.Component {
             user: {},
             redirectLogin: false,
             userBuyer: {},
-            ip: config.ip
+            ip: config.ip,
+            disc: {}
         };
     }
 
@@ -164,7 +165,8 @@ class ListeOffres extends React.Component {
         })
             .then(rep => rep.json())
             .then(json => this.afficherMsg(json))
-            .then(this.confListeDisc())
+            .then(this.confListeDisc(buy))
+
 
 
     };
@@ -191,10 +193,32 @@ class ListeOffres extends React.Component {
             body: JSON.stringify(buy)
         })
             .then(rep => rep.json())
-            .then(json => this.afficherMessageBuyAccept(json, buy));
+            .then(json => this.afficherMessageBuyAccept(json, buy))
+            .then(this.changeruser(buy));
 
+    };
 
-
+    changeruser = (buy) => {
+        let formData = {
+            Name: this.state.disc.Name,
+            Id_User: buy.Id_User,
+            ReleaseYear: this.state.disc.ReleaseYear,
+            Price: parseInt(this.state.price),
+            nbViews: 0,
+            Id_Artist: this.state.disc.Id_Artist,
+            Id_Genre: this.state.disc.Id_Genre,
+            Status: 1
+        };
+        console.log("rtuioghrtoispjvf,gdiojbiop");
+        console.log(formData);
+        fetch('http://' + this.state.ip + ':8081/api/disc/' + buy.Id, {
+            method: 'PUT',
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(formData)
+        })
+            .then(res => res.json())
+            .then(json => this.setState({disc: json.result})
+            )
     };
 
     confListeDisc = () => {
@@ -209,6 +233,7 @@ class ListeOffres extends React.Component {
                 (a.vendeur === this.state.user.Id)
             )
         });
+
 
     };
 
