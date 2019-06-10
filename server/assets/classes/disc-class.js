@@ -78,23 +78,43 @@ let Disc = class {
                             if (!result)
                                 next(new Error('Disc not found.'));
                             else
-                                discs.update(   {
-                                    Name: disc.Name,
-                                    Price: disc.Price,
-                                    Id_User: disc.Id_User,
-                                    Status: disc.Status
-                                },{
-                                    where: {
-                                        Id: id,
+                                if(disc.Prics != null){
+                                    discs.update(   {
+                                        Name: disc.Name,
+                                        Price: disc.Price,
+                                        Id_User: disc.Id_User,
+                                        Status: disc.Status
+                                    },{
+                                        where: {
+                                            Id: id,
 
-                                    }
-                                })
-                                    .then(() => {
-                                        discs.findById(id)
-                                            .then((result) => next(result))
-                                            .catch((err) => next(err.message))
+                                        }
                                     })
-                                    .catch((err) => next(err.message))
+                                        .then(() => {
+                                            discs.findById(id)
+                                                .then((result) => next(result))
+                                                .catch((err) => next(err.message))
+                                        })
+                                        .catch((err) => next(err.message))
+                                }else{
+                                    discs.update(   {
+                                        Name: disc.Name,
+                                        Id_User: disc.Id_User,
+                                        Status: disc.Status
+                                    },{
+                                        where: {
+                                            Id: id,
+
+                                        }
+                                    })
+                                        .then(() => {
+                                            discs.findById(id)
+                                                .then((result) => next(result))
+                                                .catch((err) => next(err.message))
+                                        })
+                                        .catch((err) => next(err.message))
+                                }
+                                
                         })
                         .catch((err) => next(err.message))
                 } else {

@@ -186,31 +186,16 @@ class ListeOffres extends React.Component {
     };
 
     handleAccept = (buy) => {
-        buy.Status = 1;
-        fetch('http://' + this.state.ip + ':8081/api/buy/' + buy.Id, {
-            method: 'PUT',
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify(buy)
-        })
-            .then(rep => rep.json())
-            .then(json => this.afficherMessageBuyAccept(json, buy))
-            .then(this.changeruser(buy));
-
-    };
-
-    changeruser = (buy) => {
+        console.log(buy);
         let formData = {
-            Name: this.state.disc.Name,
-            Id_User: buy.Id_User,
-            ReleaseYear: this.state.disc.ReleaseYear,
-            Price: parseInt(this.state.price),
-            nbViews: 0,
-            Id_Artist: this.state.disc.Id_Artist,
-            Id_Genre: this.state.disc.Id_Genre,
-            Status: 1
+            Id_User: buy.acheteur,
+            Status: 1,
+            Price: buy.Price,
+            Name: buy.Name
         };
         console.log("rtuioghrtoispjvf,gdiojbiop");
         console.log(formData);
+
         fetch('http://' + this.state.ip + ':8081/api/disc/' + buy.Id, {
             method: 'PUT',
             headers: {"Content-Type": "application/json"},
@@ -219,7 +204,18 @@ class ListeOffres extends React.Component {
             .then(res => res.json())
             .then(json => this.setState({disc: json.result})
             )
+        buy.Status = 1;
+        fetch('http://' + this.state.ip + ':8081/api/buy/' + buy.Id, {
+            method: 'PUT',
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(buy)
+        })
+            .then(rep => rep.json())
+            .then(json => this.afficherMessageBuyAccept(json, buy))
+
+
     };
+
 
     confListeDisc = () => {
         console.log(this.state);
