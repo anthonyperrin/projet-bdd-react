@@ -201,7 +201,7 @@ class ListeOffres extends React.Component {
     changeruser = (buy) => {
         let formData = {
             Name: this.state.disc.Name,
-            Id_User: this.state.buy.Id_User,
+            Id_User: buy.Id_User,
             ReleaseYear: this.state.disc.ReleaseYear,
             Price: parseInt(this.state.price),
             nbViews: 0,
